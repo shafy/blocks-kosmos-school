@@ -1,0 +1,93 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "RigidBody",
+"class": "BuildingBlock",
+"language": "GDScript",
+"path": "res://scripts/building_block.gd"
+}, {
+"base": "Node",
+"class": "GaussSolver",
+"language": "GDScript",
+"path": "res://scripts/gauss_solver.gd"
+}, {
+"base": "BuildingBlock",
+"class": "Junction",
+"language": "GDScript",
+"path": "res://scripts/junction.gd"
+}, {
+"base": "Resistor",
+"class": "Lamp",
+"language": "GDScript",
+"path": "res://scenes/lamp.gd"
+}, {
+"base": "ImmediateGeometry",
+"class": "LineRenderer",
+"language": "GDScript",
+"path": "res://LineRenderer/LineRenderer.gd"
+}, {
+"base": "BuildingBlock",
+"class": "Resistor",
+"language": "GDScript",
+"path": "res://scripts/resistor.gd"
+}, {
+"base": "Node",
+"class": "Schematic",
+"language": "GDScript",
+"path": "res://scripts/schematic.gd"
+}, {
+"base": "BuildingBlock",
+"class": "VoltageSource",
+"language": "GDScript",
+"path": "res://scripts/voltage_source.gd"
+}, {
+"base": "Spatial",
+"class": "WireGenerator",
+"language": "GDScript",
+"path": "res://scripts/wire_generator.gd"
+} ]
+_global_script_class_icons={
+"BuildingBlock": "",
+"GaussSolver": "",
+"Junction": "",
+"Lamp": "",
+"LineRenderer": "",
+"Resistor": "",
+"Schematic": "",
+"VoltageSource": "",
+"WireGenerator": ""
+}
+
+[application]
+
+config/name="Lab Kits"
+run/main_scene="res://main.tscn"
+
+[autoload]
+
+vr="*res://OQ_Toolkit/vr_autoload.gd"
+
+[gdnative]
+
+singletons=[ "res://addons/godot_ovrmobile/godot_ovrmobile.gdnlib" ]
+
+[global]
+
+msaa=true
+texture=false
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+quality/filters/msaa=2
+environment/default_environment="res://default_env.tres"
