@@ -128,13 +128,6 @@ func loop_current_method():
 			
 			prev_prev_element_index = prev_element_index
 			prev_element_index = next_element_index
-		
-#		if (i == all_blocks.size()):
-#			i = 1
-#		else:
-#			i += 1
-	
-	#define_loop_directions()
 	
 	# define elements that superimpose on each other
 	find_superpositions()
@@ -154,58 +147,36 @@ func loop_current_method():
 				print("J ", current_el)
 			
 	print("Ab ", Ab)
+	
 	# 6) solve the resulting system
-	var solutions = gauss_solver.solve(Ab)
-	print("solutions:", solutions)
+	var loop_current_solutions = gauss_solver.solve(Ab)
+	print("solutions:", loop_current_solutions)
 	
 	# 7) solve for element currents and voltages using Ohm's Law
+	calculate_element_attributes(loop_current_solutions)
 		
-
-# makes a custom deep copy. if object type doesnt match, returns an empty variable
-#func deep_copy(obj: Object) -> Object:
-#	var new_obj
-#	if obj is VoltageSource:
-#		new_obj = VoltageSource.new()
-#		new_obj.potential = obj.potential
-#		new_obj.loop_number = obj.loop_number
-#	elif obj is Resistor:
-#		new_obj = Resistor.new()
-#		new_obj.resistance = obj.resistance
-#		new_obj.loop_number = obj.loop_number
-#		new_obj.superposition = obj.superposition
-#	elif obj is Junction:
-#		new_obj = Junction.new()
-#		new_obj.loop_number = obj.loop_number
-#
-#	return new_obj
 		
-
-#func define_loop_directions():
-#	# loops can have direction a or b
-#	# the first loop has dirction a and is the reference value
-#	loop_directions.append("a")
-#
-#	# if loop starts out from positiv pole of voltage source, it's a
-#	# else it's b
-##	for i in range(loops_array.size()):
-##		if 
-#
-#	# get the first resistor in the first loop
-#	var first_loop_first_resistor
-#	for element in loops_array[0]:
-#		if element is Resistor:
-#			first_loop_first_resistor = element;
-#			break;
-#
-#	# therefore we skip the first loop here
-#	for i in range(1, loops_array.size()):
-#		for element in loops_array[i]:
-#			if element is Resistor:
-#				if element == first_loop_first_resistor:
-#					loop_directions.append("a")
-#				else:
-#					loop_directions.append("b")
-	
+# finds currents and voltages for all elements in the circuit based on
+# the previously calculated loop currents
+func calculate_element_attributes(loop_currents: Array):
+	for i in range(loops_array.size()):
+		for k in range (loops_array[i].size()):
+			var element = loops_array[i][k]
+			if element is Resistor:
+				var loop_current = 0.0
+				if element.superposition["connections"].empty():
+					loop_current = loop_currents[i]
+				else:
+					# else if element is superimposed
+					for c in element.superposition["connections"]:
+						loop_current += loop_currents[c]
+				
+				element.current = loop_current
+				element.potential = element.resistance * loop_current
+				
+				print("element.resistance: ", element.resistance)
+				print("element.current: ", element.current)
+				print("element.potential: ", element.potential)
 
 # loop through all loops and mark superpositions
 func find_superpositions():
@@ -237,16 +208,8 @@ func find_superpositions():
 							else:
 								# different direction
 								element1.superposition["direction"] = "different"
-							
-#							if !direction_checked:
-#								# check direction of loops, make sure they go both
-#								# in the same (else our calculations won't work later)
-#								if loop1[y-1] == loop2[yy-1] and loop1[y-2] == loop2[yy-2]: 
-#									print("time to invert")
-#									# we invert it after looping through loop2 is done
-#									direction_checked = true
-				
-	
+
+
 # returns next element index based on connections array
 func get_next_element(prev_index: int, prev_prev_index: int) -> Dictionary:
 	# randomize order so we don't end up going down same paths
@@ -348,10 +311,6 @@ func add_loop(new_loop: Array):
 	if loops_array.empty():
 		loops_array.append(new_loop)
 		unique_elements = new_loop.size()
-		# count unique elements without counting junctions
-#		for element in new_loop:
-#			if !(element is Junction):
-#				unique_elements += 1
 		return
 	
 	
@@ -370,11 +329,3 @@ func add_loop(new_loop: Array):
 			if (loop_unique):
 				loops_array.append(new_loop)
 				loop_unique = false
-	
-	
-# finds a block_type in all_blocks and returns index or -1
-#func find_block(block_type) -> int:
-#	for i in range(all_blocks.size()):
-#		if all_blocks[i] is block_type:
-#			return i
-#	return -1
