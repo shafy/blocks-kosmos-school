@@ -12,7 +12,11 @@ var Ab = []
 var gauss_solver = GaussSolver.new()
 
 func _ready():
-	pass
+	var power_button = get_node("/root/Main/PowerButton")
+	if power_button:
+		power_button.connect("button_pressed", self, "_on_PowerButton_button_pressed")
+	else:
+		print("Didn't find PowerButton in /root/Main/Powerbutton")
 	# just test values, delete later
 #	var voltage_source1 = VoltageSource.new()
 #	var voltage_source2 = VoltageSource.new()
@@ -50,6 +54,11 @@ func _ready():
 #	]
 	
 	#loop_current_method()
+
+
+func _on_PowerButton_button_pressed():
+	loop_current_method()
+
 
 # updates the schematic with newly added or removed connections
 func update_schematic(_building_block1: BuildingBlock, _ai1: String, _building_block2: BuildingBlock, _ai2: String, _schematic_action: String):
@@ -102,6 +111,9 @@ func loop_current_method():
 	# 5) write Kirchhoffs' Voltage Law equations for each loop
 	# 6) solve the resulting system
 	# 7) solve for element currents and voltages using Ohm's Law
+	
+	if all_blocks.empty() or connections.empty():
+		return
 	
 	# initiliaze
 	loops_array.clear()
