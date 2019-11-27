@@ -3,7 +3,7 @@ extends Node
 # the schematic representation and logic of th circuit
 class_name Schematic
 
-var all_blocks = {}
+var all_blocks = []
 var block_passes = {}
 var connections = []
 var loops_array = []
@@ -12,44 +12,83 @@ var Ab = []
 var gauss_solver = GaussSolver.new()
 
 func _ready():
+	pass
 	# just test values, delete later
-	var voltage_source1 = VoltageSource.new()
-	var voltage_source2 = VoltageSource.new()
-	var resistor1 = Resistor.new()
-	var resistor2 = Resistor.new()
-	var resistor3 = Resistor.new()
-	var junction1 = Junction.new()
-	var junction2 = Junction.new()
+#	var voltage_source1 = VoltageSource.new()
+#	var voltage_source2 = VoltageSource.new()
+#	var resistor1 = Resistor.new()
+#	var resistor2 = Resistor.new()
+#	var resistor3 = Resistor.new()
+#	var junction1 = Junction.new()
+#	var junction2 = Junction.new()
 	
-	voltage_source1.potential = 5.0
-	voltage_source2.potential = 2.0
-	resistor1.resistance = 2000.0
-	resistor2.resistance = 2000.0
-	resistor3.resistance = 1000.0 # this is the superimposed one
+#	voltage_source1.potential = 5.0
+#	voltage_source2.potential = 2.0
+#	resistor1.resistance = 2000.0
+#	resistor2.resistance = 2000.0
+#	resistor3.resistance = 1000.0 # this is the superimposed one
 	
-	all_blocks = {
-		1: voltage_source1,
-		2: voltage_source2,
-		3: resistor1,
-		4: resistor2,
-		5: resistor3,
-		6: junction1,
-		7: junction2
-	}
+#	all_blocks = [
+#		voltage_source1,
+#		voltage_source2,
+#		resistor1,
+#		resistor2,
+#		resistor3,
+#		junction1,
+#		junction2
+#	]
 	
-	connections = [
-		[1, 3, "p"],
-		[3, 6],
-		[6, 4],
-		[6, 5],
-		[5, 7],
-		[7, 1, "n"],
-		[4, 2, "p"],
-		[2, 7, "n"]
-	]
+#	connections = [
+#		[{"block_index": 2}, {"block_index": 5}],
+#		[{"block_index": 5}, {"block_index": 3}],
+#		[{"block_index": 5}, {"block_index": 4}],
+#		[{"block_index": 4}, {"block_index": 6}],
+#		[{"block_index": 0, "additional_info": "p"}, {"block_index": 2}],
+#		[{"block_index": 0, "additional_info": "n"}, {"block_index": 6}],
+#		[{"block_index": 1, "additional_info": "p"}, {"block_index": 1}],
+#		[{"block_index": 1, "additional_info": "n"}, {"block_index": 6}],
+#	]
 	
-	loop_current_method()
+	#loop_current_method()
 
+# updates the schematic with newly added or removed connections
+func update_schematic(_building_block1: BuildingBlock, _ai1: String, _building_block2: BuildingBlock, _ai2: String, _schematic_action: String):
+	# add blocks
+	add_new_block(_building_block1)
+	add_new_block(_building_block2)
+		
+	# add connection
+	# get indicies to use for connections
+	var block1index = all_blocks.find(_building_block1)
+	var block2index = all_blocks.find(_building_block2)
+	
+	connections.append([
+		{"block_index": block1index, "additional_info": _ai1},
+		{"block_index": block2index, "additional_info": _ai2}
+		])
+	
+	print("all_blocks: ", all_blocks)
+	print("connections: ", connections)
+
+
+func add_new_block(block: BuildingBlock):
+	if !all_blocks.has(block):
+		# doesn't exist, add
+		# it's a voltage source and there's no voltage source otherwise, add to first position
+		if block is VoltageSource and !(all_blocks is VoltageSource):
+			all_blocks.push_front(block)
+		else:
+			all_blocks.append(block)
+
+# checks if block already in dictionary
+#func find_value_in_dictionary(dict: Dictionary, val) -> int:
+#	var i = 0
+#	for k in dict:
+#		if dict[k] == val:
+#			return i
+#		i += 1
+#
+#	return -1
 
 func loop_current_method():
 	# we're doing circuit analysis using the loop current method (https://en.wikipedia.org/wiki/Mesh_analysis)
@@ -72,10 +111,10 @@ func loop_current_method():
 	# 4) stop process when all elements have been included at least once
 
 	# always start with the first element (which should be a VoltageSource)
-	var starting_element = all_blocks[1]
+	var starting_element = all_blocks[0]
 	# we also make sure the second element is the same for all loops, so they all go in the same direction
 	# (makes things easier)
-	var second_element_dict = get_next_element(1, 0)
+	var second_element_dict = get_next_element(0, -1)
 	var second_element_index = second_element_dict["next_element_index"]
 	var second_element_additional_info = second_element_dict["additional_info"]
 	
@@ -90,7 +129,7 @@ func loop_current_method():
 		loop.append(second_element)
 		
 		var prev_element_index = second_element_index
-		var prev_prev_element_index = 1
+		var prev_prev_element_index = 0
 		
 		# get next element using connections dict
 		for y in range(connections.size()):
@@ -218,15 +257,15 @@ func get_next_element(prev_index: int, prev_prev_index: int) -> Dictionary:
 	var additional_info = ""
 	var next_element_index = -1
 	for i in range(connections.size()):
-		if connections[i][0] == prev_index and connections[i][1] != prev_prev_index:
-			next_element_index = connections[i][1]
-			if connections[i].size() > 2:
-				additional_info = connections[i][2]
+		if connections[i][0]["block_index"] == prev_index and connections[i][1]["block_index"] != prev_prev_index:
+			next_element_index = connections[i][1]["block_index"]
+			if connections[i][1].has("additional_info"):
+				additional_info = connections[i][1]["additional_info"]
 			break
-		elif connections[i][1] == prev_index and connections[i][0] != prev_prev_index:
-			next_element_index = connections[i][0]
-			if connections[i].size() > 2:
-				additional_info = connections[i][2]
+		elif connections[i][1]["block_index"] == prev_index and connections[i][0]["block_index"] != prev_prev_index:
+			next_element_index = connections[i][0]["block_index"]
+			if connections[i][0].has("additional_info"):
+				additional_info = connections[i][0]["additional_info"]
 			break
 	
 	return {"next_element_index": next_element_index, "additional_info": additional_info}

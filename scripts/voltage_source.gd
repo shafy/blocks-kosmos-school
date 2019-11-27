@@ -3,7 +3,8 @@ extends BuildingBlock
 class_name VoltageSource
 
 # in volts
-var potential := 0.0
+export var potential := 0.0
+
 var superposition := {"connections": [], "direction": ""}
 var connection_side: = ""
 
