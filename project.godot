@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "RigidBody",
+"base": "GrabbableRigidBody",
 "class": "BuildingBlock",
 "language": "GDScript",
 "path": "res://scripts/building_block.gd"
@@ -18,6 +18,11 @@ _global_script_classes=[ {
 "class": "GaussSolver",
 "language": "GDScript",
 "path": "res://scripts/gauss_solver.gd"
+}, {
+"base": "RigidBody",
+"class": "GrabbableRigidBody",
+"language": "GDScript",
+"path": "res://scripts/grabbable_rigid_body.gd"
 }, {
 "base": "BuildingBlock",
 "class": "Junction",
@@ -44,6 +49,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/schematic.gd"
 }, {
+"base": "Spatial",
+"class": "Tablet",
+"language": "GDScript",
+"path": "res://scripts/tablet.gd"
+}, {
 "base": "BuildingBlock",
 "class": "VoltageSource",
 "language": "GDScript",
@@ -57,11 +67,13 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "BuildingBlock": "",
 "GaussSolver": "",
+"GrabbableRigidBody": "",
 "Junction": "",
 "Lamp": "",
 "LineRenderer": "",
 "Resistor": "",
 "Schematic": "",
+"Tablet": "",
 "VoltageSource": "",
 "WireGenerator": ""
 }

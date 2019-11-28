@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/Feature_RigidBodyGrab.tscn" type="PackedScene" id=2]
@@ -14,6 +14,10 @@
 [ext_resource path="res://scenes/battery.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scenes/junction.tscn" type="PackedScene" id=13]
 [ext_resource path="res://scripts/button.gd" type="Script" id=14]
+[ext_resource path="res://materials/charcoal.tres" type="Material" id=15]
+[ext_resource path="res://scripts/tablet.gd" type="Script" id=16]
+
+[sub_resource type="CubeMesh" id=7]
 
 [sub_resource type="Environment" id=1]
 background_energy = 0.0
@@ -48,6 +52,24 @@ script = ExtResource( 8 )
 [node name="Feature_ControllerModel_Left" parent="OQ_ARVROrigin/OQ_LeftController" instance=ExtResource( 7 )]
 
 [node name="Feature_RigidBodyGrab" parent="OQ_ARVROrigin/OQ_LeftController" instance=ExtResource( 2 )]
+
+[node name="Tablet" type="Spatial" parent="OQ_ARVROrigin/OQ_LeftController"]
+transform = Transform( 0.866025, -0.17101, 0.469846, 0, 0.939693, 0.34202, -0.5, -0.296198, 0.813798, -0.052, 0.086, -0.059 )
+script = ExtResource( 16 )
+tablet_item_scenes = [ ExtResource( 9 ) ]
+
+[node name="TabletMesh" type="MeshInstance" parent="OQ_ARVROrigin/OQ_LeftController/Tablet"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.005, 0, 0, 0 )
+mesh = SubResource( 7 )
+material/0 = ExtResource( 15 )
+
+[node name="Positions" type="Spatial" parent="OQ_ARVROrigin/OQ_LeftController/Tablet"]
+transform = Transform( 1, 0, 0, 0, 1, 1.49012e-08, 0, -1.49012e-08, 1, 0, 0, 0 )
+
+[node name="Pos 1" type="Spatial" parent="OQ_ARVROrigin/OQ_LeftController/Tablet/Positions"]
+transform = Transform( 1, -1.49012e-08, -5.96046e-08, -5.96046e-08, 1, 1.63913e-07, 1.19209e-07, 1.63913e-07, 1, -0.0517306, 0.0644302, 0.0225714 )
+
+[node name="TabletItems" type="Spatial" parent="OQ_ARVROrigin/OQ_LeftController/Tablet"]
 
 [node name="OQ_RightController" parent="OQ_ARVROrigin" instance=ExtResource( 4 )]
 

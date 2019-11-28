@@ -3,7 +3,7 @@ extends Spatial
 class_name WireGenerator
 
 enum State {OFF, ON}
-var current_state = State.ON
+var current_state = State.OFF
 var point1: Vector3
 var point2: Vector3
 var point1_set = false
