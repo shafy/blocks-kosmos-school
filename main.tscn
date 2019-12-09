@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/Feature_RigidBodyGrab.tscn" type="PackedScene" id=2]
@@ -16,10 +16,11 @@
 [ext_resource path="res://scripts/button.gd" type="Script" id=14]
 [ext_resource path="res://materials/charcoal.tres" type="Material" id=15]
 [ext_resource path="res://scripts/tablet.gd" type="Script" id=16]
+[ext_resource path="res://scenes/lamp_mini.tscn" type="PackedScene" id=17]
 
-[sub_resource type="CubeMesh" id=7]
+[sub_resource type="CubeMesh" id=1]
 
-[sub_resource type="Environment" id=1]
+[sub_resource type="Environment" id=2]
 background_energy = 0.0
 ambient_light_color = Color( 0.8, 0.698039, 0.698039, 1 )
 ambient_light_energy = 0.0
@@ -28,20 +29,39 @@ glow_intensity = 0.1
 glow_bloom = 1.0
 glow_blend_mode = 1
 
-[sub_resource type="CubeMesh" id=2]
+[sub_resource type="CubeMesh" id=3]
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="SpatialMaterial" id=4]
 albedo_color = Color( 0.133333, 0.0352941, 0.0352941, 1 )
 metallic_specular = 0.0
 
-[sub_resource type="BoxShape" id=4]
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 1.21592, 0.079503, 1 )
 
-[sub_resource type="SphereMesh" id=5]
+[sub_resource type="SphereMesh" id=6]
 
-[sub_resource type="SphereShape" id=6]
+[sub_resource type="SphereShape" id=7]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 8 )
+
+[node name="Tablet" type="Spatial" parent="."]
+transform = Transform( 0.866025, -0.17101, 0.469846, 0, 0.939693, 0.34202, -0.5, -0.296198, 0.813798, -0.37538, 0.998466, -0.686098 )
+script = ExtResource( 16 )
+tablet_item_scenes = [ ExtResource( 17 ) ]
+
+[node name="TabletMesh" type="MeshInstance" parent="Tablet"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.005, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 15 )
+
+[node name="Positions" type="Spatial" parent="Tablet"]
+transform = Transform( 1, 0, 0, 0, 1, 1.49012e-08, 0, -1.49012e-08, 1, 0, 0, 0 )
+
+[node name="Pos 1" type="Spatial" parent="Tablet/Positions"]
+transform = Transform( 1, -1.49012e-08, -5.96046e-08, -5.96046e-08, 1, 1.63913e-07, 1.19209e-07, 1.63913e-07, 1, -0.0517306, 0.0644302, 0.0225714 )
+
+[node name="TabletItems" type="Spatial" parent="Tablet"]
 
 [node name="OQ_ARVROrigin" parent="." instance=ExtResource( 5 )]
 
@@ -53,24 +73,6 @@ script = ExtResource( 8 )
 
 [node name="Feature_RigidBodyGrab" parent="OQ_ARVROrigin/OQ_LeftController" instance=ExtResource( 2 )]
 
-[node name="Tablet" type="Spatial" parent="OQ_ARVROrigin/OQ_LeftController"]
-transform = Transform( 0.866025, -0.17101, 0.469846, 0, 0.939693, 0.34202, -0.5, -0.296198, 0.813798, -0.052, 0.086, -0.059 )
-script = ExtResource( 16 )
-tablet_item_scenes = [ ExtResource( 9 ) ]
-
-[node name="TabletMesh" type="MeshInstance" parent="OQ_ARVROrigin/OQ_LeftController/Tablet"]
-transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.005, 0, 0, 0 )
-mesh = SubResource( 7 )
-material/0 = ExtResource( 15 )
-
-[node name="Positions" type="Spatial" parent="OQ_ARVROrigin/OQ_LeftController/Tablet"]
-transform = Transform( 1, 0, 0, 0, 1, 1.49012e-08, 0, -1.49012e-08, 1, 0, 0, 0 )
-
-[node name="Pos 1" type="Spatial" parent="OQ_ARVROrigin/OQ_LeftController/Tablet/Positions"]
-transform = Transform( 1, -1.49012e-08, -5.96046e-08, -5.96046e-08, 1, 1.63913e-07, 1.19209e-07, 1.63913e-07, 1, -0.0517306, 0.0644302, 0.0225714 )
-
-[node name="TabletItems" type="Spatial" parent="OQ_ARVROrigin/OQ_LeftController/Tablet"]
-
 [node name="OQ_RightController" parent="OQ_ARVROrigin" instance=ExtResource( 4 )]
 
 [node name="Feature_ControllerModel_Right" parent="OQ_ARVROrigin/OQ_RightController" instance=ExtResource( 6 )]
@@ -81,7 +83,7 @@ transform = Transform( 1, -1.49012e-08, -5.96046e-08, -5.96046e-08, 1, 1.63913e-
 transform = Transform( 1, 0, 0, 0, 0.69393, 0.720043, 0, -0.720043, 0.69393, 0, 0, 0 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 1 )
+environment = SubResource( 2 )
 
 [node name="Schematic" type="Node" parent="."]
 script = ExtResource( 11 )
@@ -104,12 +106,11 @@ mode = 3
 
 [node name="Table" type="MeshInstance" parent="Table"]
 transform = Transform( 1.20349, 0, 0, 0, 0.0794896, 0, 0, 0, 0.973417, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = SubResource( 3 )
+mesh = SubResource( 3 )
+material/0 = SubResource( 4 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Table"]
-transform = Transform( 1.203, 0, 0, 0, 0.079, 0, 0, 0, 0.973, 0, 0, 0 )
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 
 [node name="Battery" parent="." instance=ExtResource( 12 )]
 transform = Transform( 0.0969922, 0, 0.995285, 0, 1, 0, -0.995285, 0, 0.0969922, -0.530562, 0.792319, -0.636888 )
@@ -125,7 +126,7 @@ script = ExtResource( 14 )
 
 [node name="MeshInstance" type="MeshInstance" parent="PowerButton"]
 transform = Transform( 0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0 )
-mesh = SubResource( 5 )
+mesh = SubResource( 6 )
 material/0 = null
 
 [node name="ButtonArea" type="Area" parent="PowerButton"]
@@ -133,4 +134,4 @@ collision_mask = 2
 
 [node name="CollisionShape" type="CollisionShape" parent="PowerButton/ButtonArea"]
 transform = Transform( 0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0 )
-shape = SubResource( 6 )
+shape = SubResource( 7 )

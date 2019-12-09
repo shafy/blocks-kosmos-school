@@ -2,6 +2,10 @@ extends RigidBody
 
 class_name GrabbableRigidBody
 
+signal grab_started
+signal grab_ended
+
+
 var target_node = null;
 var delta_orientation = Basis();
 var delta_position = Vector3();
@@ -16,6 +20,8 @@ func grab_init(node):
 	var node_basis = node.get_global_transform().basis;
 	is_grabbed = true
 	
+	emit_signal("grab_started")
+	
 	#delta_position = get_global_transform().origin - node.get_global_transform().origin;
 	#delta_position = node_basis.xform_inv(delta_position);
 	
@@ -24,7 +30,7 @@ func grab_init(node):
 func grab_release(node):
 	is_grabbed = false
 	target_node = null
-	pass;
+	emit_signal("grab_ended")
 
 
 func orientation_follow(state, current_basis : Basis, target_basis : Basis):

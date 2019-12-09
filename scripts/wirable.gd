@@ -18,7 +18,7 @@ func _ready():
 	connect("wire_tapped", wire_generator, "_on_Wirable_wire_tapped")
 
 func _on_Wirable_area_entered(area):
-	if !(parent_building_block is BuildingBlock) or parent_building_block.is_mini:
+	if !(parent_building_block is BuildingBlock):
 		return
 	
 	# check if it's a left or right controller

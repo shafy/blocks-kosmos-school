@@ -41,8 +41,9 @@ func _ready():
 		tablet_items.add_child(current_item)
 		current_item.transform.origin = positions_array[i].transform.origin
 		
+		print("current_item: ", current_item)
 		# resize
-		current_item.make_mini()
+		#current_item.make_mini()
 		
 		
 		

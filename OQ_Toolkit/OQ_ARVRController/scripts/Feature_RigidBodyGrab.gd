@@ -59,10 +59,15 @@ func start_grab_velocity(grabbable_rigid_body: GrabbableRigidBody):
 	# parent to main
 	var node_parent = grabbable_rigid_body.get_parent()
 	
+	var temp_global_pos = grabbable_rigid_body.global_transform.origin
+	
 	node_parent.remove_child(grabbable_rigid_body)
 	main_node.add_child(grabbable_rigid_body)
 	
+	grabbable_rigid_body.global_transform.origin = temp_global_pos
+	
 	held_object = grabbable_rigid_body
+	#
 	held_object.grab_init(self)
 
 
