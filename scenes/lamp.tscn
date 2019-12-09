@@ -26,7 +26,6 @@ extents = Vector3( 0.0979001, 0.100467, 0.102399 )
 extents = Vector3( 0.0160285, 0.0189025, 0.0158023 )
 
 [node name="Lamp" type="RigidBody"]
-gravity_scale = 0.0
 contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 1 )

@@ -73,6 +73,7 @@ func _process(delta):
 			scaling_up = false
 			start_time = 0.0
 			is_max = true
+			switch_to_maxi()
 
 
 func _on_Mini_body_entered(body):
@@ -92,3 +93,17 @@ func maximize():
 	
 	# scale up
 	ready_to_scale = true
+
+
+func switch_to_maxi():
+	# instance maxi node
+	var main_node = get_node("/root/Main")
+	var new_maxi = maxi_scene.instance()
+	main_node.add_child(new_maxi)
+	
+	# set to correct position and rotation
+	new_maxi.transform.origin = transform.origin
+	new_maxi.rotation = rotation
+	
+	# destroy this node
+	queue_free()
