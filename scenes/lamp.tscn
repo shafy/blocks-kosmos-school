@@ -1,7 +1,12 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/lamp.gd" type="Script" id=1]
 [ext_resource path="res://scripts/wirable.gd" type="Script" id=2]
+[ext_resource path="res://materials/black_plastic.tres" type="Material" id=3]
+[ext_resource path="res://meshes/light_bulb_base.mesh" type="ArrayMesh" id=4]
+[ext_resource path="res://materials/bright_metal.tres" type="Material" id=5]
+[ext_resource path="res://materials/dark_grey_wood.tres" type="Material" id=6]
+[ext_resource path="res://materials/yellow_lamp.tres" type="Material" id=7]
 
 [sub_resource type="CapsuleMesh" id=1]
 
@@ -17,12 +22,10 @@ emission_on_uv2 = false
 flags_transparent = true
 albedo_color = Color( 0.85098, 0.807843, 0.807843, 0.380392 )
 
-[sub_resource type="CubeMesh" id=4]
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 0.0979001, 0.073929, 0.052452 )
 
 [sub_resource type="BoxShape" id=6]
-extents = Vector3( 0.0979001, 0.100467, 0.102399 )
-
-[sub_resource type="BoxShape" id=5]
 extents = Vector3( 0.0160285, 0.0189025, 0.0158023 )
 
 [node name="Lamp" type="RigidBody"]
@@ -42,24 +45,27 @@ visible = false
 mesh = SubResource( 1 )
 material/0 = SubResource( 3 )
 
-[node name="LampHolder" type="MeshInstance" parent="."]
-transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
-mesh = SubResource( 4 )
-material/0 = null
-
 [node name="CollisionShape" type="CollisionShape" parent="."]
-shape = SubResource( 6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.065148, 0 )
+shape = SubResource( 5 )
 
 [node name="Wireable1" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.132, 0.0766744, 0 )
 script = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Wireable1"]
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="Wireable2" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.117, 0.0766744, 0 )
 script = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Wireable2"]
-shape = SubResource( 5 )
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = ExtResource( 4 )
+material/0 = ExtResource( 6 )
+material/1 = ExtResource( 3 )
+material/2 = ExtResource( 5 )
+material/3 = ExtResource( 7 )

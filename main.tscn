@@ -92,12 +92,10 @@ script = ExtResource( 11 )
 
 [node name="Lamp" parent="." instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0107625, 0.823495, -1.0175 )
-gravity_scale = 1.0
 resistance = 20.0
 
 [node name="Lamp2" parent="." instance=ExtResource( 9 )]
 transform = Transform( 0.536842, -0.00261557, -0.843679, 0.00175021, 0.999996, -0.00198652, 0.843681, -0.000410186, 0.536844, 0.532147, 0.788573, -0.661208 )
-gravity_scale = 1.0
 resistance = 10.0
 
 [node name="Table" type="RigidBody" parent="."]

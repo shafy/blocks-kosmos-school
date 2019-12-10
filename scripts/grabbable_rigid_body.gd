@@ -20,7 +20,7 @@ func grab_init(node):
 	var node_basis = node.get_global_transform().basis;
 	is_grabbed = true
 	
-	emit_signal("grab_started")
+	#emit_signal("grab_started")
 	
 	#delta_position = get_global_transform().origin - node.get_global_transform().origin;
 	#delta_position = node_basis.xform_inv(delta_position);
@@ -30,7 +30,7 @@ func grab_init(node):
 func grab_release(node):
 	is_grabbed = false
 	target_node = null
-	emit_signal("grab_ended")
+	#emit_signal("grab_ended")
 
 
 func orientation_follow(state, current_basis : Basis, target_basis : Basis):

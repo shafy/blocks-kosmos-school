@@ -30,14 +30,14 @@ func _ready():
 	# get nodes and apply the scale factor
 	mesh_node = get_node(mesh_node_path)
 	
-	if mesh_node:
+	if mesh_node and mini_scale_factor != 0.0:
 		mesh_initial_scale = mesh_node.scale
 		mesh_maxi_scale = mesh_initial_scale / mini_scale_factor
 	else:
 		print("No Mesh node assigned")
 
 	collision_shape_node = get_node(collision_shape_node_path)
-	if collision_shape_node:
+	if collision_shape_node and mini_scale_factor != 0.0:
 		collision_shape_node_shape = collision_shape_node.get_shape()
 		collision_shape_initial_extents = collision_shape_node_shape.get_extents()
 		collision_shape_maxi_extents = collision_shape_initial_extents / mini_scale_factor
@@ -61,9 +61,9 @@ func _process(delta):
 
 
 		if mesh_node:
-			mesh_node.scale = temp_scale_mesh
+			mesh_node.set_scale(temp_scale_mesh)
 
-		if collision_shape_node:
+		if collision_shape_node_shape:
 			collision_shape_node_shape.set_extents(temp_extents_collision_shape)
 
 		start_time += delta
@@ -77,9 +77,8 @@ func _process(delta):
 
 
 func _on_Mini_body_entered(body):
-	if body.name != "Table": return
-	
-	maximize()
+	if body.name == "Table":
+		maximize()
 
 func grab_init(node):
 	.grab_init(node)
@@ -107,3 +106,4 @@ func switch_to_maxi():
 	
 	# destroy this node
 	queue_free()
+
