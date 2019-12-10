@@ -19,6 +19,7 @@ var collision_shape_mini_scale : Vector3
 
 
 export(float) var mini_scale_factor
+export(Vector3) var extents_initial
 export(NodePath) var mesh_node_path
 export(NodePath) var collision_shape_node_path
 
@@ -39,8 +40,10 @@ func _ready():
 	collision_shape_node = get_node(collision_shape_node_path)
 	if collision_shape_node and mini_scale_factor != 0.0:
 		collision_shape_node_shape = collision_shape_node.get_shape()
-		collision_shape_initial_extents = collision_shape_node_shape.get_extents()
-		collision_shape_maxi_extents = collision_shape_initial_extents / mini_scale_factor
+		
+		# we have to set extents initially else they keep getting bigger with each respawn (same resource used)
+		collision_shape_node_shape.set_extents(extents_initial)
+		collision_shape_maxi_extents = extents_initial / mini_scale_factor
 	else:
 		print("No CollisionShape node assigned")
 
@@ -57,7 +60,7 @@ func _process(delta):
 		lerp_weight = start_time / expand_speed
 
 		var temp_scale_mesh = lerp(mesh_initial_scale, mesh_maxi_scale, lerp_weight)
-		var temp_extents_collision_shape = lerp(collision_shape_initial_extents, collision_shape_maxi_extents, lerp_weight)
+		var temp_extents_collision_shape = lerp(extents_initial, collision_shape_maxi_extents, lerp_weight)
 
 
 		if mesh_node:
@@ -106,4 +109,9 @@ func switch_to_maxi():
 	
 	# destroy this node
 	queue_free()
+	
+	# respawn this mini on the tablet
+	var tablet = get_node("/root/Main/Tablet")
+	tablet.refresh()
+	
 

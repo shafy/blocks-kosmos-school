@@ -23,13 +23,16 @@ func _ready():
 	else:
 		positions_array = positions.get_children()
 	
-		
-	# load all tablet item scenes so they can be instanced later
-#	for i in range(tablet_item_paths.size()):
-#		print("tablet_item_paths[i]: ", tablet_item_paths[i])
-		#tablet_item_scenes.append(load(tablet_item_paths[i]))
+	refresh()
 	
-	# assign tablet_item_scenes to the positions and resize them
+
+func refresh():
+	# destroy all items
+	var tablet_items_children = tablet_items.get_children()
+	for i in range(tablet_items_children.size()):
+		tablet_items_children[i].queue_free()
+	
+	# instance tablet items
 	for i in range(tablet_item_scenes.size()):
 		# instance a new item
 		var current_item = tablet_item_scenes[i].instance()
