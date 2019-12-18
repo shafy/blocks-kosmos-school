@@ -29,14 +29,21 @@ size = Vector2( 0.01, 1 )
 
 [node name="OQ_UILabel" type="Spatial"]
 script = ExtResource( 1 )
-text = "I am a Label"
+text = "Wire Mode"
+size_scale = 0.5
 
 [node name="Viewport" type="Viewport" parent="."]
 size = Vector2( 512, 256 )
+transparent_bg = true
 hdr = false
 usage = 0
 
-[node name="CenterContainer" type="CenterContainer" parent="Viewport"]
+[node name="ColorRect" type="ColorRect" parent="Viewport"]
+margin_right = 40.0
+margin_bottom = 40.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="CenterContainer" type="CenterContainer" parent="Viewport/ColorRect"]
 margin_right = 512.0
 margin_bottom = 256.0
 theme = ExtResource( 2 )
@@ -44,7 +51,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Viewport/CenterContainer"]
+[node name="Label" type="Label" parent="Viewport/ColorRect/CenterContainer"]
 margin_left = 25.0
 margin_top = 75.0
 margin_right = 486.0

@@ -10,8 +10,8 @@ export var billboard = false;
 
 
 
-onready var ui_label : Label = $Viewport/CenterContainer/Label
-onready var ui_container : CenterContainer = $Viewport/CenterContainer
+onready var ui_label : Label = $Viewport/ColorRect/CenterContainer/Label
+onready var ui_container : CenterContainer = $Viewport/ColorRect/CenterContainer
 onready var ui_viewport : Viewport = $Viewport
 var ui_mesh : PlaneMesh = null;
 

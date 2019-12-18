@@ -4,6 +4,10 @@ var last_log_pos = 0;
 var log_label : Label = null;
 var scroll : ScrollContainer = null;
 
+#var vertices = Performance.get_monitor(Performance.RENDER_VERTICES_IN_FRAME)
+#vr.log_info("yolo")
+#vr.log_info(vertices)
+
 func _ready():
 	
 	$OQ_UI2DCanvas.find_node("ReferenceRect", true, false).visible = true;

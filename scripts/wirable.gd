@@ -4,6 +4,7 @@ extends Area
 signal wire_tapped
 
 var parent_building_block
+var is_wired := false
 
 export(String) var polarity
 
@@ -18,7 +19,12 @@ func _ready():
 	connect("wire_tapped", wire_generator, "_on_Wirable_wire_tapped")
 
 func _on_Wirable_area_entered(area):
+	
 	if !(parent_building_block is BuildingBlock):
+		return
+	
+	# don't add wire if already wired
+	if is_wired:
 		return
 	
 	# check if it's a left or right controller
@@ -27,4 +33,4 @@ func _on_Wirable_area_entered(area):
 		var area_parent_parent = area_parent.get_parent()
 		if (area_parent_parent):
 			if (area_parent_parent.name == "OQ_LeftController" or area_parent_parent.name == "OQ_RightController"):
-				emit_signal("wire_tapped", global_transform.origin, parent_building_block, polarity)
+				emit_signal("wire_tapped", self, parent_building_block, polarity)

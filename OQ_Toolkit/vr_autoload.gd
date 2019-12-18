@@ -19,12 +19,13 @@ func _init_vr_log():
 		_log_buffer.append([0, "", 0]);
 		
 func _append_to_log(type, message):
-	if _log_buffer_index >= 0 && _log_buffer[_log_buffer_index][1] == message:
+	var message_string = str(message)
+	if _log_buffer_index >= 0 && _log_buffer[_log_buffer_index][1] == message_string:
 		_log_buffer[_log_buffer_index][2] += 1;
 	else:
 		_log_buffer_index = (_log_buffer_index+1) % _log_buffer.size();
 		_log_buffer[_log_buffer_index][0] = type;
-		_log_buffer[_log_buffer_index][1] = message;
+		_log_buffer[_log_buffer_index][1] = message_string;
 		_log_buffer[_log_buffer_index][2] = 1;
 		_log_buffer_count = min(_log_buffer_count+1, _log_buffer.size());
 
@@ -255,7 +256,7 @@ var oculus_mobile_settings_cache = {
 	"tracking_space" : ovrVrApiTypes.OvrTrackingSpace.VRAPI_TRACKING_SPACE_LOCAL_FLOOR,
 	"default_layer_color_scale" : Color(1.0, 1.0, 1.0, 1.0),
 	"extra_latency_mode" : ovrVrApiTypes.OvrExtraLatencyMode.VRAPI_EXTRA_LATENCY_MODE_ON,
-	"foveation_level" : FoveatedRenderingLevel.Off,
+	"foveation_level" : FoveatedRenderingLevel.Low,
 	"swap_interval" : 1,
 	"clock_levels_cpu" : 2,
 	"clock_levels_gpu" : 2,
