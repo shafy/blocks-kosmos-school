@@ -30,6 +30,9 @@ func _ready():
 	point1_set = false
 	
 	rng = RandomNumberGenerator.new()
+	# randomize multiplicator
+	randomize()
+	multiplicator_array.shuffle()
 
 
 func _physics_process(delta):
@@ -95,11 +98,10 @@ func create_wire_segment(start_point: Vector3, end_point: Vector3):
 
 # called after a raycast has been executed
 func handle_raycast_result(result: Dictionary):
-	
 	# if it hit nothing, add a short wire segment
 	if result.empty():
 		if (temp_mode):
-			point_temp = point1 + (point1.direction_to(point_temp) * 0.05)
+			point_temp = point1 + (point1.direction_to(point_temp) * 0.08)
 			create_wire_segment(point1, point_temp)
 			point1 = point_temp
 			temp_mode = false
@@ -134,12 +136,11 @@ func handle_raycast_result(result: Dictionary):
 	else:
 		# in this case the next object is really close, so move angle of ray cast by random angle
 		# and make a new ray cast
-		var random_angle = rng.randf_range(15.0, 25.0)
+		var random_angle = rng.randf_range(25.0, 35.0)
 		
-		multiplicator_array.shuffle()
 		var rotated_vec = direction_to_vector.rotated(Vector3(0,1,0), multiplicator_array[0] * random_angle * PI / 180)
 		
-		point_temp = point1 + (rotated_vec * dist * 2)
+		point_temp = point1 + (rotated_vec * dist * 5)
 		
 		temp_mode = true
 	
