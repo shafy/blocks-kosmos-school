@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/Feature_RigidBodyGrab.tscn" type="PackedScene" id=2]
@@ -11,7 +11,9 @@
 [ext_resource path="res://scenes/lamp.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/wire_generator.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scripts/schematic.gd" type="Script" id=11]
-[ext_resource path="res://scripts/button.gd" type="Script" id=14]
+[ext_resource path="res://scripts/placer_system.gd" type="Script" id=12]
+[ext_resource path="res://scripts/button_wire_mode.gd" type="Script" id=13]
+[ext_resource path="res://scripts/button_general.gd" type="Script" id=14]
 [ext_resource path="res://materials/charcoal.tres" type="Material" id=15]
 [ext_resource path="res://scripts/tablet.gd" type="Script" id=16]
 [ext_resource path="res://scenes/lamp_mini.tscn" type="PackedScene" id=17]
@@ -70,7 +72,7 @@ material/0 = ExtResource( 15 )
 
 [node name="WireModeButton" type="Spatial" parent="Tablet"]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, 0.0576039, -0.0746571, -8.9407e-08 )
-script = ExtResource( 14 )
+script = ExtResource( 13 )
 
 [node name="OQ_UILabel" parent="Tablet/WireModeButton" instance=ExtResource( 21 )]
 transform = Transform( -0.25, 1.11759e-08, -3.27826e-07, 1.11759e-08, 0.25, 1.3411e-07, 8.9407e-08, 3.72529e-08, -1, -2.98023e-08, 1.19209e-07, 0.00762111 )
@@ -107,14 +109,14 @@ transform = Transform( 1, -1.49012e-08, -5.96046e-08, -5.96046e-08, 1, 1.63913e-
 [node name="Feature_ControllerModel_Left" parent="OQ_ARVROrigin/OQ_LeftController" instance=ExtResource( 7 )]
 
 [node name="Feature_RigidBodyGrab" parent="OQ_ARVROrigin/OQ_LeftController" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.010972, -0.0302491, -0.0242082 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.010972, -0.0302491, -0.035073 )
 
 [node name="OQ_RightController" parent="OQ_ARVROrigin" instance=ExtResource( 4 )]
 
 [node name="Feature_ControllerModel_Right" parent="OQ_ARVROrigin/OQ_RightController" instance=ExtResource( 6 )]
 
 [node name="Feature_RigidBodyGrab" parent="OQ_ARVROrigin/OQ_RightController" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00979018, -0.0271364, -0.0206787 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00979018, -0.0271364, -0.031482 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.69393, 0.720043, 0, -0.720043, 0.69393, 0, 0, 0 )
@@ -171,3 +173,6 @@ bake_extents = Vector3( 7.5379, 1.74037, 6.87336 )
 light_data = SubResource( 8 )
 
 [node name="Wire" type="Spatial" parent="."]
+
+[node name="PlacerSystem" type="Node" parent="."]
+script = ExtResource( 12 )

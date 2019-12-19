@@ -1,5 +1,9 @@
 extends Spatial
 
+# general button logic
+class_name ButtonGeneral
+
+
 signal button_pressed
 
 

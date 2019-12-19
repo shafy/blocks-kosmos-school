@@ -5,9 +5,11 @@ class_name WireGenerator
 var is_on := false
 var raycast := false
 var temp_mode := false
+var has_ghost_wire := false
 var point1: Vector3
 var point2: Vector3
 var point_temp: Vector3
+var point1_wire_node: Node
 var point2_object: Node
 var point1_set = false
 var schematic
@@ -17,6 +19,9 @@ var point1_collision_mask
 var wire_radius := 0.004 
 var rng
 var multiplicator_array = [-1, 1]
+var hand_area: Area
+var ghost_wire_mesh
+var ghost_wire_parent
 
 func _ready():
 	schematic = get_node("/root/Main/Schematic")
@@ -35,6 +40,11 @@ func _ready():
 	multiplicator_array.shuffle()
 
 
+func _process(delta):
+	if has_ghost_wire:
+		handle_ghost_wire_pos()
+
+
 func _physics_process(delta):
 	if (raycast):
 		# get space state
@@ -50,7 +60,7 @@ func _physics_process(delta):
 		handle_raycast_result(result)
 
 # creat a wire point - if it created the second point, then it also draws the wire
-func create_wire_point(wire_node: Node, building_block: BuildingBlock, additional_info: String):
+func create_wire_point(wire_node: Node, building_block: BuildingBlock, touching_area: Area, additional_info: String):
 	var new_point = wire_node.global_transform.origin
 	
 	if !point1_set:
@@ -59,6 +69,13 @@ func create_wire_point(wire_node: Node, building_block: BuildingBlock, additiona
 		building_block1 = building_block
 		additional_info1 = additional_info
 		point1_collision_mask = wire_node.collision_mask
+		
+		# show connection bubble
+		wire_node.show_connection_bubbles(true)
+		# save for later
+		point1_wire_node = wire_node
+		
+		create_ghost_wire(touching_area)
 	else:
 		if point1 == new_point:
 			return
@@ -68,9 +85,12 @@ func create_wire_point(wire_node: Node, building_block: BuildingBlock, additiona
 		raycast()
 		update_schematic(building_block1, additional_info1, building_block, additional_info, "add")
 		point1_set = false
+		point1_wire_node.show_connection_bubbles(false)
+		point1_wire_node = null
+		delete_ghost_wire()
 	
 	# mark as wired
-	wire_node.is_wired = true
+	wire_node.set_wired(true)
 
 # cast ray to see if there's an obstacle in the direct line between points
 func raycast():
@@ -82,6 +102,12 @@ func create_wire_segment(start_point: Vector3, end_point: Vector3):
 	# create new MeshInstance with Cylinder, and size it accordingly
 	var mesh_instance = MeshInstance.new()
 	mesh_instance.mesh = CylinderMesh.new()
+	mesh_instance.rotate_x(90 * PI/180)
+	
+	# we have a parent because it will make things easier with look_at later on
+	# (because the cylinder's top is now aligned with the parents z axis)
+	var parent_node = Spatial.new()
+	parent_node.add_child(mesh_instance)
 	
 	# resize
 	var length = (end_point - start_point).length() / 2
@@ -90,11 +116,10 @@ func create_wire_segment(start_point: Vector3, end_point: Vector3):
 	# reposition and rotate
 	var mid_point_vector = start_point.linear_interpolate(end_point, 0.5)
 	
-	mesh_instance.look_at_from_position(mid_point_vector, end_point, Vector3(0, 0, 1))
-	mesh_instance.rotate_y(90 * PI/180)
+	parent_node.look_at_from_position(mid_point_vector, end_point, Vector3(0, 0, 1))
 	
 	# add to scene
-	add_child(mesh_instance)
+	add_child(parent_node)
 
 # called after a raycast has been executed
 func handle_raycast_result(result: Dictionary):
@@ -152,13 +177,54 @@ func update_schematic(_building_block1: BuildingBlock, _ai1: String, _building_b
 	schematic.update_schematic(_building_block1, _ai1, _building_block2, _ai2, _schematic_action)
 
 # signal is emittd by wirable.gd
-func _on_Wirable_wire_tapped(wire_node: Node, building_block: BuildingBlock, additional_info: String):
+func _on_Wirable_wire_tapped(wire_node: Node, building_block: BuildingBlock, touching_area: Area, additional_info: String):
 	# only create new wire point if WireGenerator is ON
 	if is_on:
-		create_wire_point(wire_node, building_block, additional_info)
+		create_wire_point(wire_node, building_block, touching_area, additional_info)
 
 
 func _on_WireModeButton_button_pressed():
 	# toggle
 	is_on = !is_on
 	vr.log_info("is_on: " + str(is_on))
+
+
+# creates a ghost wire that follows hand during wire creation process
+# it takes the touching hands area as argument
+func create_ghost_wire(touching_area: Area):
+	hand_area = touching_area
+	
+	# create new MeshInstance with Cylinder, and size it accordingly
+	ghost_wire_mesh = MeshInstance.new()
+	ghost_wire_mesh.mesh = CylinderMesh.new()
+	ghost_wire_mesh.rotate_x(90 * PI/180)
+	
+	ghost_wire_parent = Spatial.new()
+	ghost_wire_parent.add_child(ghost_wire_mesh)
+	
+	handle_ghost_wire_pos()
+	
+	# add to scene
+	add_child(ghost_wire_parent)
+	
+	has_ghost_wire = true
+
+
+func delete_ghost_wire():
+	has_ghost_wire = false
+	ghost_wire_parent.queue_free()
+
+
+func handle_ghost_wire_pos():
+	var hand_position = hand_area.global_transform.origin
+	
+	# resize
+	var length = ((hand_position - point1).length() / 2) - 0.03
+	ghost_wire_mesh.scale = Vector3(wire_radius, length, wire_radius)
+	
+	# reposition and rotate
+	
+	var mid_point_vector = point1.linear_interpolate(hand_position, 0.5)
+	
+	ghost_wire_parent.look_at_from_position(mid_point_vector, hand_position, Vector3(0, 0, 1))
+	#ghost_wire_mesh.rotate_y(90 * PI/180)

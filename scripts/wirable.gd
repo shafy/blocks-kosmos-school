@@ -7,6 +7,8 @@ var parent_building_block
 var is_wired := false
 
 export(String) var polarity
+export(Array, NodePath) var placer_bubble_node_paths
+export(Array, NodePath) var connection_bubble_node_paths
 
 func _ready():
 	parent_building_block = get_parent()
@@ -17,6 +19,9 @@ func _ready():
 	connect("area_entered", self, "_on_Wirable_area_entered")
 	var wire_generator = get_node("/root/Main/WireGenerator")
 	connect("wire_tapped", wire_generator, "_on_Wirable_wire_tapped")
+	
+	# don't show per default
+	show_connection_bubbles(false)
 
 func _on_Wirable_area_entered(area):
 	
@@ -33,4 +38,19 @@ func _on_Wirable_area_entered(area):
 		var area_parent_parent = area_parent.get_parent()
 		if (area_parent_parent):
 			if (area_parent_parent.name == "OQ_LeftController" or area_parent_parent.name == "OQ_RightController"):
-				emit_signal("wire_tapped", self, parent_building_block, polarity)
+				emit_signal("wire_tapped", self, parent_building_block, area, polarity)
+
+
+func set_wired(_wired):
+	is_wired = _wired
+	
+	# also activate or deactivate placer bubbles
+	for bubble_path in placer_bubble_node_paths:
+		var temp_node = get_node(bubble_path)
+		temp_node.set_active(!_wired)
+
+
+func show_connection_bubbles(_show):
+	for bubble_path in connection_bubble_node_paths:
+		var temp_node = get_node(bubble_path)
+		temp_node.visible = _show
