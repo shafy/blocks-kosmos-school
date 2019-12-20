@@ -1,4 +1,4 @@
-extends ButtonGeneral
+extends ButtonPressable
 
 
 class_name ButtonWireMode
@@ -10,7 +10,8 @@ func _ready():
 	pass
 
 # overriding the parent function
-func button_press():
-	.button_press()
+func button_press(other_area: Area):
+	.button_press(other_area)
+	
 	# toggle WirePlug Bubbles
 	placer_system_node.toggle_bubbles("WirePlugBubble")

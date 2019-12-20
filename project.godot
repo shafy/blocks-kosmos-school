@@ -15,11 +15,11 @@ _global_script_classes=[ {
 "path": "res://scripts/building_block.gd"
 }, {
 "base": "Spatial",
-"class": "ButtonGeneral",
+"class": "ButtonPressable",
 "language": "GDScript",
-"path": "res://scripts/button_general.gd"
+"path": "res://scripts/button_pressable.gd"
 }, {
-"base": "ButtonGeneral",
+"base": "ButtonPressable",
 "class": "ButtonWireMode",
 "language": "GDScript",
 "path": "res://scripts/button_wire_mode.gd"
@@ -86,7 +86,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "BuildingBlock": "",
-"ButtonGeneral": "",
+"ButtonPressable": "",
 "ButtonWireMode": "",
 "GaussSolver": "",
 "GrabbableRigidBody": "",

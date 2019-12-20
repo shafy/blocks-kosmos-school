@@ -59,6 +59,7 @@ func _physics_process(delta):
 		raycast = false
 		handle_raycast_result(result)
 
+
 # creat a wire point - if it created the second point, then it also draws the wire
 func create_wire_point(wire_node: Node, building_block: BuildingBlock, touching_area: Area, additional_info: String):
 	var new_point = wire_node.global_transform.origin
@@ -80,6 +81,10 @@ func create_wire_point(wire_node: Node, building_block: BuildingBlock, touching_
 		if point1 == new_point:
 			return
 		
+		# don't allow to wire block to itself
+		if point1_wire_node.parent == wire_node.parent:
+			return
+		
 		point2 = new_point
 		point2_object = wire_node
 		raycast()
@@ -91,6 +96,7 @@ func create_wire_point(wire_node: Node, building_block: BuildingBlock, touching_
 	
 	# mark as wired
 	wire_node.set_wired(true)
+
 
 # cast ray to see if there's an obstacle in the direct line between points
 func raycast():
@@ -120,6 +126,7 @@ func create_wire_segment(start_point: Vector3, end_point: Vector3):
 	
 	# add to scene
 	add_child(parent_node)
+
 
 # called after a raycast has been executed
 func handle_raycast_result(result: Dictionary):
@@ -186,7 +193,6 @@ func _on_Wirable_wire_tapped(wire_node: Node, building_block: BuildingBlock, tou
 func _on_WireModeButton_button_pressed():
 	# toggle
 	is_on = !is_on
-	vr.log_info("is_on: " + str(is_on))
 
 
 # creates a ghost wire that follows hand during wire creation process
