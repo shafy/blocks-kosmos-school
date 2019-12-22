@@ -8,6 +8,7 @@ viewport_path = NodePath("Viewport")
 
 [sub_resource type="SpatialMaterial" id=2]
 resource_local_to_scene = true
+flags_transparent = true
 flags_unshaded = true
 params_cull_mode = 2
 albedo_texture = SubResource( 1 )
@@ -29,39 +30,38 @@ size = Vector2( 0.01, 1 )
 
 [node name="OQ_UILabel" type="Spatial"]
 script = ExtResource( 1 )
-text = "Wire Mode"
-size_scale = 0.5
+text = ""
 
 [node name="Viewport" type="Viewport" parent="."]
 size = Vector2( 512, 256 )
 transparent_bg = true
+msaa = 2
 hdr = false
 usage = 0
 
 [node name="ColorRect" type="ColorRect" parent="Viewport"]
-margin_right = 40.0
-margin_bottom = 40.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="CenterContainer" type="CenterContainer" parent="Viewport/ColorRect"]
-margin_right = 512.0
-margin_bottom = 256.0
+margin_right = 260.0
+margin_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="Viewport/ColorRect/CenterContainer"]
-margin_left = 25.0
-margin_top = 75.0
-margin_right = 486.0
-margin_bottom = 180.0
-text = "I Am a Label
-I Will get autoresized during runtime
-"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_left = 41.0
+margin_right = 218.0
+margin_bottom = 33.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Put some text"
+align = 1
+valign = 1
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( -1, -1.50996e-07, -6.60024e-15, 0, -4.37114e-08, 1, -1.50996e-07, 1, 4.37114e-08, 0, 0, 0 )

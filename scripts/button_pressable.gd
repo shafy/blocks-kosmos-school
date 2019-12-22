@@ -8,6 +8,7 @@ signal button_pressed
 var touching := false
 var at_default_pos := true
 var triggering := false
+var is_on := false
 var hand_area: Area
 var button_half_length_vector
 var hand_pos: Vector3
@@ -21,8 +22,12 @@ onready var initial_pos_local: = get_transform().origin
 onready var initial_pos_global: = get_global_transform().origin
 onready var button_forward_vector_norm = get_transform().basis.z.normalized()
 onready var z_scale = scale.z
+onready var button_mesh := $MeshInstance
 
 export var press_distance := 0.008
+export(Material) var off_material
+export(Material) var on_material
+export var on_on_start := false
 
 
 func _ready():
@@ -31,6 +36,11 @@ func _ready():
 	$ButtonArea.connect("area_exited", self, "_on_ButtonArea_area_exited")
 	
 	button_half_length_vector = initial_pos_local + button_forward_vector_norm * z_scale / 2
+	
+	# switch to correct material
+	if (on_on_start):
+		is_on = true
+	switch_mat(is_on)
 
 
 func _process(delta):
@@ -88,5 +98,13 @@ func _on_ButtonArea_area_exited(area):
 
 
 func button_press(other_area: Area):
+	is_on = !is_on
+	switch_mat(is_on)
 	emit_signal("button_pressed")
 
+
+func switch_mat(_is_on):
+	if _is_on:
+		button_mesh.set_material_override(on_material)
+	else:
+		button_mesh.set_material_override(off_material)
