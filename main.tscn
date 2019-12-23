@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/Feature_RigidBodyGrab.tscn" type="PackedScene" id=2]
@@ -20,6 +20,8 @@
 [ext_resource path="res://meshes/table.mesh" type="ArrayMesh" id=18]
 [ext_resource path="res://materials/dark_grey_wood.tres" type="Material" id=19]
 [ext_resource path="res://table.png" type="Texture" id=20]
+[ext_resource path="res://scripts/button_wire_mode.gd" type="Script" id=21]
+[ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=22]
 [ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=23]
 
 [sub_resource type="CubeMesh" id=1]
@@ -65,6 +67,15 @@ material/0 = ExtResource( 15 )
 
 [node name="WireModeButton" parent="Tablet" instance=ExtResource( 13 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, 0.052441, -0.0632514, 0.00800005 )
+script = ExtResource( 21 )
+
+[node name="OQ_UILabel2" parent="Tablet/WireModeButton" instance=ExtResource( 22 )]
+transform = Transform( -0.288362, 1.49012e-08, -3.57628e-07, 3.72529e-09, 0.328175, -3.27826e-07, 1.19209e-07, -1.19209e-07, -1, 8.9407e-08, 0, 0.00830704 )
+text = "Wire Mode"
+resize_mode = 1
+font_size_multiplier = 3.0
+font_color = Color( 0.156863, 0.141176, 0.141176, 1 )
+background_color = Color( 0, 0, 0, 0 )
 
 [node name="Positions" type="Spatial" parent="Tablet"]
 transform = Transform( 1, 0, 0, 0, 1, 1.49012e-08, 0, -1.49012e-08, 1, 0, 0, 0 )

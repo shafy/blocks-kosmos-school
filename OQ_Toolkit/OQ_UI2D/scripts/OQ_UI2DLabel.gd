@@ -16,11 +16,12 @@ onready var ui_label : Label = $Viewport/ColorRect/CenterContainer/Label
 onready var ui_container : CenterContainer = $Viewport/ColorRect/CenterContainer
 onready var ui_color_rect : CenterContainer = $Viewport/ColorRect
 onready var ui_viewport : Viewport = $Viewport
+onready var mesh_instance : MeshInstance = $MeshInstance
 var ui_mesh : PlaneMesh = null;
 
 func _ready():
-	ui_mesh = $MeshInstance.mesh;
-	ui_label.set_text(text);
+	ui_mesh = mesh_instance.mesh;
+	set_label_text(text)
 	
 	match resize_mode:
 		ResizeModes.AUTO_RESIZE:
@@ -29,10 +30,12 @@ func _ready():
 			resize_fixed()
 	
 	if (billboard):
-		$MeshInstance.mesh.surface_get_material(0).set_billboard_mode(SpatialMaterial.BILLBOARD_FIXED_Y);
+		mesh_instance.mesh.surface_get_material(0).set_billboard_mode(SpatialMaterial.BILLBOARD_FIXED_Y);
 	
 	ui_label.add_color_override("font_color", font_color)
 	ui_color_rect.color = background_color
+	
+	mesh_instance.mesh.surface_get_material(0).set_feature(SpatialMaterial.FEATURE_TRANSPARENT, true)
 	
 	#if (line_to_parent):
 		#var p = get_parent();
@@ -40,7 +43,6 @@ func _ready():
 		#var center = (global_transform.origin + p.global_transform.origin) * 0.5;
 		#$LineMesh.global_transform.origin = center;
 		#$LineMesh.look_at_from_position()
-		
 
 
 func resize_auto():
@@ -72,6 +74,9 @@ func resize_fixed():
 	ui_color_rect.set_size(new_size)
 	ui_container.set_size(new_size)
 
-	if new_size.length() < ui_container.get_size().length():
+	if new_size.x < ui_container.get_size().x or new_size.y < ui_container.get_size().y:
 		print("Your labels text is too large and therefore might look weird. Consider decreasing the font_size_multiplier.")
 	
+
+func set_label_text(t: String):
+	ui_label.set_text(t)

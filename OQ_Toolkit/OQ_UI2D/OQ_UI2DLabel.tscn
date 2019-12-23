@@ -1,14 +1,12 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_UI2D/scripts/OQ_UI2DLabel.gd" type="Script" id=1]
-[ext_resource path="res://OQ_Toolkit/OQ_UI2D/theme/oq_ui2d_standard.theme" type="Theme" id=2]
 
 [sub_resource type="ViewportTexture" id=1]
 viewport_path = NodePath("Viewport")
 
 [sub_resource type="SpatialMaterial" id=2]
 resource_local_to_scene = true
-flags_transparent = true
 flags_unshaded = true
 params_cull_mode = 2
 albedo_texture = SubResource( 1 )
@@ -43,25 +41,14 @@ usage = 0
 color = Color( 0, 0, 0, 1 )
 
 [node name="CenterContainer" type="CenterContainer" parent="Viewport/ColorRect"]
-margin_right = 260.0
-margin_bottom = 33.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_right = 40.0
+margin_bottom = 40.0
 
 [node name="Label" type="Label" parent="Viewport/ColorRect/CenterContainer"]
-margin_left = 41.0
-margin_right = 218.0
-margin_bottom = 33.0
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Put some text"
-align = 1
-valign = 1
+margin_top = 13.0
+margin_right = 89.0
+margin_bottom = 27.0
+text = "Text Text Text"
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( -1, -1.50996e-07, -6.60024e-15, 0, -4.37114e-08, 1, -1.50996e-07, 1, 4.37114e-08, 0, 0, 0 )
