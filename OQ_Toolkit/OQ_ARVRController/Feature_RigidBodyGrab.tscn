@@ -1,24 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/scripts/Feature_RigidBodyGrab.gd" type="Script" id=1]
-[ext_resource path="res://materials/green_wood.tres" type="Material" id=2]
 
 [sub_resource type="SphereShape" id=1]
-margin = 0.001
-radius = 0.0149247
-
-[sub_resource type="SphereMesh" id=2]
+radius = 0.1
 
 [node name="Feature_RigidBodyGrab" type="Spatial"]
 script = ExtResource( 1 )
 
 [node name="GrabArea" type="Area" parent="."]
-collision_layer = 2
 
 [node name="CollisionShape" type="CollisionShape" parent="GrabArea"]
 shape = SubResource( 1 )
-
-[node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 0.015, 0, 0, 0, 0.015, 0, 0, 0, 0.015, 0, 0, 0 )
-mesh = SubResource( 2 )
-material/0 = ExtResource( 2 )

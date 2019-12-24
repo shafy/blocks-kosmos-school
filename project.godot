@@ -32,7 +32,7 @@ _global_script_classes=[ {
 "base": "RigidBody",
 "class": "GrabbableRigidBody",
 "language": "GDScript",
-"path": "res://scripts/grabbable_rigid_body.gd"
+"path": "res://OQ_Toolkit/OQ_ARVRController/scripts/grabbable_rigid_body.gd"
 }, {
 "base": "BuildingBlock",
 "class": "Junction",
@@ -42,12 +42,7 @@ _global_script_classes=[ {
 "base": "Resistor",
 "class": "Lamp",
 "language": "GDScript",
-"path": "res://scenes/lamp.gd"
-}, {
-"base": "ImmediateGeometry",
-"class": "LineRenderer",
-"language": "GDScript",
-"path": "res://LineRenderer/LineRenderer.gd"
+"path": "res://scripts/lamp.gd"
 }, {
 "base": "Spatial",
 "class": "PlacerBubble",
@@ -92,7 +87,6 @@ _global_script_class_icons={
 "GrabbableRigidBody": "",
 "Junction": "",
 "Lamp": "",
-"LineRenderer": "",
 "PlacerBubble": "",
 "PlacerSystem": "",
 "Resistor": "",
@@ -1164,7 +1158,7 @@ scene={
 "materials/storage": 0,
 "meshes/compress": true,
 "meshes/ensure_tangents": true,
-"meshes/light_baking": 0,
+"meshes/light_baking": 2,
 "meshes/lightmap_texel_size": 0.1,
 "meshes/storage": 1,
 "nodes/custom_script": "",

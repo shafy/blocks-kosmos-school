@@ -82,7 +82,7 @@ func create_wire_point(wire_node: Node, building_block: BuildingBlock, touching_
 			return
 		
 		# don't allow to wire block to itself
-		if point1_wire_node.parent == wire_node.parent:
+		if point1_wire_node.get_parent() == wire_node.get_parent():
 			return
 		
 		point2 = new_point

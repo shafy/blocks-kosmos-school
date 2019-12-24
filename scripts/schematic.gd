@@ -12,11 +12,11 @@ var Ab = []
 var gauss_solver = GaussSolver.new()
 
 func _ready():
-	var power_button = get_node("/root/Main/PowerButton")
-	if power_button:
-		power_button.connect("button_pressed", self, "_on_PowerButton_button_pressed")
-	else:
-		print("Didn't find PowerButton in /root/Main/Powerbutton")
+#	var power_button = get_node("/root/Main/PowerButton")
+#	if power_button:
+#		power_button.connect("button_pressed", self, "_on_PowerButton_button_pressed")
+#	else:
+#		print("Didn't find PowerButton in /root/Main/Powerbutton")
 	# just test values, delete later
 #	var voltage_source1 = VoltageSource.new()
 #	var voltage_source2 = VoltageSource.new()
@@ -54,6 +54,7 @@ func _ready():
 #	]
 	
 	#loop_current_method()
+	pass
 
 
 func _on_PowerButton_button_pressed():
@@ -78,6 +79,9 @@ func update_schematic(_building_block1: BuildingBlock, _ai1: String, _building_b
 	
 	print("all_blocks: ", all_blocks)
 	print("connections: ", connections)
+	
+	# run loop
+	loop_current_method()
 
 
 func add_new_block(block: BuildingBlock):
@@ -126,6 +130,7 @@ func loop_current_method():
 	var starting_element = all_blocks[0]
 	# we also make sure the second element is the same for all loops, so they all go in the same direction
 	# (makes things easier)
+	
 	var second_element_dict = get_next_element(0, -1)
 	var second_element_index = second_element_dict["next_element_index"]
 	var second_element_additional_info = second_element_dict["additional_info"]
@@ -134,51 +139,63 @@ func loop_current_method():
 	
 	# here we save if second element is connected to first voltage sources positiv or negative side
 	starting_element.connection_side = second_element_additional_info
-	
-	while unique_elements != all_blocks.size():
-		var loop = []
-		loop.append(starting_element)
-		loop.append(second_element)
-		
-		var prev_element_index = second_element_index
-		var prev_prev_element_index = 0
-		
-		# get next element using connections dict
-		for y in range(connections.size()):
-			var next_element_dict = get_next_element(prev_element_index, prev_prev_element_index)
-			var next_element_index = next_element_dict["next_element_index"]
-			var additional_info = next_element_dict["additional_info"]
+	# we need this because the loop finding process (get_next_element()) is probablistic
+	var fail_safe_count = 0
+	if all_blocks.size() > 2:
+		while unique_elements != all_blocks.size() and fail_safe_count < 100:
+			fail_safe_count += 1
 			
-			if next_element_index == -1:
-				print("Element not found in connections array")
-				break
+			var loop = []
+			loop.append(starting_element)
+			loop.append(second_element)
 			
-			var next_element = all_blocks[next_element_index]
+			var prev_element_index = second_element_index
+			var prev_prev_element_index = 0
 			
-			# 2b) if loop has no more connections, discard
-			if (!next_element):
-				break
-			
-			# 2b) if loop comes back to a point other than starting point, discard
-			if loop.find(next_element) > 0:
-				break
-			
-			# 2a) if loop comes to starting point, finish this loop
-			if (loop.find(next_element) == 0):
-				if !(next_element is Junction):
-					add_loop(loop)
-				break
-			
-			# if it's a voltage source, save connection side (positive or negative)
-			if next_element is VoltageSource:
-				next_element.connection_side = additional_info
-					
-			# if all good, append to loop
-			loop.append(next_element)
-			
-			
-			prev_prev_element_index = prev_element_index
-			prev_element_index = next_element_index
+			# get next element using connections dict
+			for y in range(connections.size()):
+				var next_element_dict = get_next_element(prev_element_index, prev_prev_element_index)
+				var next_element_index = next_element_dict["next_element_index"]
+				var additional_info = next_element_dict["additional_info"]
+				
+				if next_element_index == -1:
+					# no next element found
+					break
+				
+				var next_element = all_blocks[next_element_index]
+				
+				# 2b) if loop has no more connections, discard
+				if (!next_element):
+					break
+				
+				# 2b) if loop comes back to a point other than starting point, discard
+				if loop.find(next_element) > 0:
+					break
+				
+				# 2a) if loop comes to starting point, finish this loop
+				if (loop.find(next_element) == 0):
+					if !(next_element is Junction):
+						add_loop(loop)
+					break
+				
+				# if it's a voltage source, save connection side (positive or negative)
+				if next_element is VoltageSource:
+					next_element.connection_side = additional_info
+						
+				# if all good, append to loop
+				loop.append(next_element)
+				
+				
+				prev_prev_element_index = prev_element_index
+				prev_element_index = next_element_index
+	else:
+		# in this case there are only two elements in the circuit
+		# check if their connnected in a closed loop
+		if connections.size() == 2:
+			var loop = []
+			loop.append(starting_element)
+			loop.append(second_element)
+			add_loop(loop)
 	
 	# define elements that superimpose on each other
 	find_superpositions()
@@ -224,6 +241,9 @@ func calculate_element_attributes(loop_currents: Array):
 				
 				element.current = loop_current
 				element.potential = element.resistance * loop_current
+				
+				if element is Lamp:
+					element.update_light()
 				
 				print("element.resistance: ", element.resistance)
 				print("element.current: ", element.current)
