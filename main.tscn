@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -12,8 +12,7 @@
 [ext_resource path="res://scenes/wire_generator.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scripts/schematic.gd" type="Script" id=11]
 [ext_resource path="res://scripts/placer_system.gd" type="Script" id=12]
-[ext_resource path="res://scenes/button_pressable.tscn" type="PackedScene" id=13]
-[ext_resource path="res://scripts/button_pressable.gd" type="Script" id=14]
+[ext_resource path="res://OQ_Toolkit/OQ_Buttons/OQ_ButtonPressable.tscn" type="PackedScene" id=13]
 [ext_resource path="res://materials/charcoal.tres" type="Material" id=15]
 [ext_resource path="res://scripts/tablet.gd" type="Script" id=16]
 [ext_resource path="res://meshes/light_bulb_base.mesh" type="ArrayMesh" id=17]
@@ -79,6 +78,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.58018, 0 )
 visible = false
 bake_extents = Vector3( 7.5379, 1.74037, 6.87336 )
 light_data = SubResource( 1 )
+
+[node name="ObjectRemoverSystem" type="Node" parent="."]
 
 [node name="PlacerSystem" type="Node" parent="."]
 script = ExtResource( 12 )
@@ -175,7 +176,6 @@ material/0 = ExtResource( 19 )
 [node name="PowerButton" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.419509, 0.910404, -0.41626 )
 visible = false
-script = ExtResource( 14 )
 
 [node name="MeshInstance" type="MeshInstance" parent="PowerButton"]
 transform = Transform( 0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0 )

@@ -1,5 +1,7 @@
 extends Spatial
 
+class_name RigidBodyGrab
+
 var controller : ARVRController = null;
 var grab_area : Area = null;
 var held_object = null;

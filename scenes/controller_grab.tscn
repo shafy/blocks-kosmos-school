@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://OQ_Toolkit/OQ_ARVRController/scripts/Feature_RigidBodyGrab.gd" type="Script" id=1]
+[ext_resource path="res://scripts/rigid_body_grab_removable.gd" type="Script" id=1]
 [ext_resource path="res://materials/green_wood.tres" type="Material" id=2]
 
 [sub_resource type="SphereShape" id=1]
@@ -9,7 +9,7 @@ radius = 0.0149247
 
 [sub_resource type="SphereMesh" id=2]
 
-[node name="Feature_RigidBodyGrab" type="Spatial"]
+[node name="ControllerGrab" type="Spatial"]
 script = ExtResource( 1 )
 
 [node name="GrabArea" type="Area" parent="."]
