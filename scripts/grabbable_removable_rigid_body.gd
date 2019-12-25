@@ -4,9 +4,17 @@ extends GrabbableRigidBody
 # to be used together with ObjectRemoveSystem
 class_name GrabbableRemovableRigidBody
 
-var remove_mode := true
+var remove_mode := false
 
 export var is_removable := true
+
+func _ready():
+	var object_remover_system_node = get_node("/root/Main/ObjectRemoverSystem")
+	object_remover_system_node.connect("remove_mode_toggled", self, "_on_Object_Remover_System_remove_mode_toggled")
+
+
+func _on_Object_Remover_System_remove_mode_toggled():
+	remove_mode = !remove_mode
 
 
 # override from GrabbableRigidBody

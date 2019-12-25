@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://OQ_Toolkit/OQ_Buttons/scripts/OQ_ButtonPressable.gd"
 }, {
 "base": "ButtonPressable",
+"class": "ButtonRemoveMode",
+"language": "GDScript",
+"path": "res://scripts/button_remove_mode.gd"
+}, {
+"base": "ButtonPressable",
 "class": "ButtonWireMode",
 "language": "GDScript",
 "path": "res://scripts/button_wire_mode.gd"
@@ -48,6 +53,11 @@ _global_script_classes=[ {
 "class": "Lamp",
 "language": "GDScript",
 "path": "res://scripts/lamp.gd"
+}, {
+"base": "Node",
+"class": "ObjectRemoverSystem",
+"language": "GDScript",
+"path": "res://scripts/object_remover_system.gd"
 }, {
 "base": "Spatial",
 "class": "PlacerBubble",
@@ -97,12 +107,14 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "BuildingBlock": "",
 "ButtonPressable": "",
+"ButtonRemoveMode": "",
 "ButtonWireMode": "",
 "GaussSolver": "",
 "GrabbableRemovableRigidBody": "",
 "GrabbableRigidBody": "",
 "Junction": "",
 "Lamp": "",
+"ObjectRemoverSystem": "",
 "PlacerBubble": "",
 "PlacerSystem": "",
 "Resistor": "",

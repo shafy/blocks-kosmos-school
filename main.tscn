@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://scripts/schematic.gd" type="Script" id=11]
 [ext_resource path="res://scripts/placer_system.gd" type="Script" id=12]
 [ext_resource path="res://OQ_Toolkit/OQ_Buttons/OQ_ButtonPressable.tscn" type="PackedScene" id=13]
+[ext_resource path="res://scripts/object_remover_system.gd" type="Script" id=14]
 [ext_resource path="res://materials/charcoal.tres" type="Material" id=15]
 [ext_resource path="res://scripts/tablet.gd" type="Script" id=16]
 [ext_resource path="res://meshes/light_bulb_base.mesh" type="ArrayMesh" id=17]
@@ -28,6 +29,8 @@
 [ext_resource path="res://materials/yellow_lamp.tres" type="Material" id=27]
 [ext_resource path="res://scenes/battery.tscn" type="PackedScene" id=28]
 [ext_resource path="res://materials/green_wood.tres" type="Material" id=29]
+[ext_resource path="res://scripts/button_remove_mode.gd" type="Script" id=30]
+[ext_resource path="res://materials/bronce_cover.tres" type="Material" id=31]
 
 [sub_resource type="BakedLightmapData" id=1]
 bounds = AABB( -7.5379, -1.74037, -6.87336, 15.0758, 3.48075, 13.7467 )
@@ -80,6 +83,7 @@ bake_extents = Vector3( 7.5379, 1.74037, 6.87336 )
 light_data = SubResource( 1 )
 
 [node name="ObjectRemoverSystem" type="Node" parent="."]
+script = ExtResource( 14 )
 
 [node name="PlacerSystem" type="Node" parent="."]
 script = ExtResource( 12 )
@@ -106,6 +110,20 @@ on_material = ExtResource( 29 )
 [node name="OQ_UILabel2" parent="Tablet/WireModeButton" instance=ExtResource( 22 )]
 transform = Transform( -0.288362, 1.49012e-08, -3.57628e-07, 3.72529e-09, 0.328175, -3.27826e-07, 1.19209e-07, -1.19209e-07, -1, 8.9407e-08, 0, 0.00830704 )
 text = "Wire Mode"
+resize_mode = 1
+font_size_multiplier = 3.0
+font_color = Color( 0.156863, 0.141176, 0.141176, 1 )
+background_color = Color( 0, 0, 0, 0 )
+
+[node name="RemoveModeButton" parent="Tablet" instance=ExtResource( 13 )]
+transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 5.96046e-08, 1, -0.0259074, -0.0632513, 0.00800005 )
+script = ExtResource( 30 )
+off_material = ExtResource( 31 )
+on_material = ExtResource( 29 )
+
+[node name="OQ_UILabel2" parent="Tablet/RemoveModeButton" instance=ExtResource( 22 )]
+transform = Transform( -0.288362, 1.49012e-08, -3.57628e-07, 3.72529e-09, 0.328175, -3.27826e-07, 1.19209e-07, -1.19209e-07, -1, 8.9407e-08, 0, 0.00830704 )
+text = "Remove Mode"
 resize_mode = 1
 font_size_multiplier = 3.0
 font_color = Color( 0.156863, 0.141176, 0.141176, 1 )
