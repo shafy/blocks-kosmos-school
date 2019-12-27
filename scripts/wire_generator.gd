@@ -6,6 +6,7 @@ var is_on := false
 var raycast := false
 var temp_mode := false
 var has_ghost_wire := false
+var new_wire := true
 var point1: Vector3
 var point2: Vector3
 var point_temp: Vector3
@@ -22,6 +23,10 @@ var multiplicator_array = [-1, 1]
 var hand_area: Area
 var ghost_wire_mesh
 var ghost_wire_parent
+var wire_segments_parent : Spatial
+
+onready var wire_script = load("scripts/wire.gd")
+onready var outline_bubble_mat = load("materials/light_red_transparent.tres")
 
 func _ready():
 	schematic = get_node("/root/Main/Schematic")
@@ -60,6 +65,14 @@ func _physics_process(delta):
 		handle_raycast_result(result)
 
 
+func _on_Wire_Segment_wire_segment_removed(exited_wire_parent: Spatial):
+	# user deletes only one segment, but the whole wire needs to go
+	# delete all segments related to that segment
+	exited_wire_parent.queue_free()
+	
+	# also update schematic
+	pass
+
 # creat a wire point - if it created the second point, then it also draws the wire
 func create_wire_point(wire_node: Node, building_block: BuildingBlock, touching_area: Area, additional_info: String):
 	var new_point = wire_node.global_transform.origin
@@ -87,6 +100,7 @@ func create_wire_point(wire_node: Node, building_block: BuildingBlock, touching_
 		
 		point2 = new_point
 		point2_object = wire_node
+		new_wire = true
 		raycast()
 		update_schematic(building_block1, additional_info1, building_block, additional_info, "add")
 		point1_set = false
@@ -105,27 +119,60 @@ func raycast():
 
 # draws a segment of the wire (wire can be only one segment long)
 func create_wire_segment(start_point: Vector3, end_point: Vector3):
+	
+	if new_wire:
+		wire_segments_parent = Spatial.new()
+		add_child(wire_segments_parent)
+		new_wire = false
+	
+	# create a new rigidbody
+	var rb = RigidBody.new()
+	rb.mode = RigidBody.MODE_STATIC
+	rb.set_script(wire_script)
+	rb.connect("wire_segment_removed", self, "_on_Wire_Segment_wire_segment_removed")
+
+	# TODO: add collision make and layer it doesn't collide with building blocks
+	
 	# create new MeshInstance with Cylinder, and size it accordingly
 	var mesh_instance = MeshInstance.new()
 	mesh_instance.mesh = CylinderMesh.new()
 	mesh_instance.rotate_x(90 * PI/180)
 	
-	# we have a parent because it will make things easier with look_at later on
-	# (because the cylinder's top is now aligned with the parents z axis)
-	var parent_node = Spatial.new()
-	parent_node.add_child(mesh_instance)
+	# create new collisionshape
+	var collision_shape = CollisionShape.new()
+	collision_shape.shape = CylinderShape.new()
+	collision_shape.rotate_x(90 * PI/180)
+	
+	# create outline bubble
+	var outline_bubble_mesh = MeshInstance.new()
+	outline_bubble_mesh.mesh = CylinderMesh.new()
+	outline_bubble_mesh.rotate_x(90 * PI/180)
+	# name is important here
+	outline_bubble_mesh.name = "OutlineBubble"
+	outline_bubble_mesh.material_override = outline_bubble_mat
 	
 	# resize
 	var length = (end_point - start_point).length() / 2
 	mesh_instance.scale = Vector3(wire_radius, length, wire_radius)
 	
+	collision_shape.shape.radius = wire_radius
+	collision_shape.shape.height = (end_point - start_point).length()
+	
+	# slightly bigger
+	outline_bubble_mesh.scale = Vector3(wire_radius + 0.002, length + 0.002, wire_radius + 0.002)
+	
+	# add all as children to rigid body
+	rb.add_child(mesh_instance)
+	rb.add_child(collision_shape)
+	rb.add_child(outline_bubble_mesh)
+	
 	# reposition and rotate
 	var mid_point_vector = start_point.linear_interpolate(end_point, 0.5)
 	
-	parent_node.look_at_from_position(mid_point_vector, end_point, Vector3(0, 0, 1))
+	rb.look_at_from_position(mid_point_vector, end_point, Vector3(0, 0, 1))
 	
 	# add to scene
-	add_child(parent_node)
+	wire_segments_parent.add_child(rb)
 
 
 # called after a raycast has been executed

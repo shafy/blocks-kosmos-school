@@ -32,14 +32,8 @@ func start_grab_velocity(grabbable_rigid_body: GrabbableRigidBody):
 	if grabbable_rigid_body.is_grabbed:
 		return
 	
-	# parent to main
-	var node_parent = grabbable_rigid_body.get_parent()
-	
 	var temp_global_pos = grabbable_rigid_body.global_transform.origin
 	var temp_rotation = grabbable_rigid_body.global_transform.basis
-	
-	node_parent.remove_child(grabbable_rigid_body)
-	main_node.add_child(grabbable_rigid_body)
 	
 	grabbable_rigid_body.global_transform.origin = temp_global_pos
 	grabbable_rigid_body.global_transform.basis = temp_rotation
@@ -74,7 +68,8 @@ func grab():
 	if len(bodies) > 0:
 		for body in bodies:
 			if body is GrabbableRigidBody:
-				grabbable_rigid_body = body
+					if body.is_grabbable:
+						grabbable_rigid_body = body
 
 	if grabbable_rigid_body:
 		if (grab_type == GRABTYPE_VELOCITY): start_grab_velocity(grabbable_rigid_body)

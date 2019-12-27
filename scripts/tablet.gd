@@ -37,7 +37,7 @@ func refresh():
 		# instance a new item
 		var current_item = tablet_item_scenes[i].instance()
 		
-		if !(current_item is BuildingBlock):
+		if !(current_item is Mini):
 			print("Make sure that item is a BuildingBlock for Tablet")
 			return
 		

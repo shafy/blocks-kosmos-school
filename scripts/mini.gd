@@ -1,4 +1,8 @@
-extends BuildingBlock
+extends GrabbableRigidBody
+
+
+class_name Mini
+
 
 var is_max := false
 var scaling_up := false
@@ -27,6 +31,9 @@ export(PackedScene) var maxi_scene
 
 func _ready():
 	connect("body_entered", self, "_on_Mini_body_entered")
+	
+	var object_remover_system_node = get_node("/root/Main/ObjectRemoverSystem")
+	object_remover_system_node.connect("remove_mode_toggled", self, "_on_Object_Remover_System_remove_mode_toggled")
 	
 	# get nodes and apply the scale factor
 	mesh_node = get_node(mesh_node_path)
@@ -79,9 +86,14 @@ func _process(delta):
 			switch_to_maxi()
 
 
+func _on_Object_Remover_System_remove_mode_toggled():
+	is_grabbable = !is_grabbable
+
+
 func _on_Mini_body_entered(body):
 	if body.name == "Table":
 		maximize()
+
 
 func grab_init(node):
 	.grab_init(node)
@@ -104,8 +116,8 @@ func switch_to_maxi():
 	main_node.add_child(new_maxi)
 	
 	# set to correct position and rotation
-	new_maxi.transform.origin = transform.origin
-	new_maxi.rotation = rotation
+	new_maxi.transform.origin = global_transform.origin
+	new_maxi.transform.basis = global_transform.basis
 	
 	# destroy this node
 	queue_free()

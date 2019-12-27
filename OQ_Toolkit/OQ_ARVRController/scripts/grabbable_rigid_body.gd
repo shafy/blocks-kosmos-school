@@ -12,6 +12,8 @@ var delta_orientation = Basis();
 var delta_position = Vector3();
 var is_grabbed := false
 
+export var is_grabbable := true
+
 
 func grab_init(node):
 	target_node = node
