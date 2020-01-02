@@ -70,10 +70,9 @@ func _physics_process(delta):
 
 func _on_Wire_Segment_wire_segment_removed(exited_wire_parent: Spatial) -> void:
 	# user deletes only one segment, but the whole wire needs to go
+	
 	if !exited_wire_parent.being_removed:
 		exited_wire_parent.being_removed = true
-		exited_wire_parent.wire_node_1.set_wired(false)
-		exited_wire_parent.wire_node_2.set_wired(false)
 		exited_wire_parent.queue_free()
 
 
@@ -303,3 +302,14 @@ func handle_ghost_wire_pos():
 	
 	ghost_wire_parent.look_at_from_position(mid_point_vector, hand_position, Vector3(0, 0, 1))
 	#ghost_wire_mesh.rotate_y(90 * PI/180)
+
+
+# deletes wire parent (including wire segments)
+func delete_wire(connection_id : String):
+	# wires must be children of WireGenerator
+	var all_wires = get_children()
+	
+	for w in all_wires:
+		if w.connection_id == connection_id:
+			w.being_removed = true
+			w.queue_free()

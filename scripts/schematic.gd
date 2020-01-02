@@ -17,6 +17,8 @@ var alphanumeric_array = [
 	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
 ]
 
+onready var wire_generator = get_node("/root/Main/WireGenerator")
+
 func _ready():
 #	var power_button = get_node("/root/Main/PowerButton")
 #	if power_button:
@@ -77,10 +79,11 @@ func remove_block(current_block : BuildingBlock) -> void:
 	all_blocks.remove(current_block_index)
 	
 	# remove its connections
-	var result_connections = find_connections_by_block(current_block_index)
+	var result_connections = find_connections_by_block(current_block)
 	
 	for conn in result_connections:
 		remove_connection(conn[2])
+		wire_generator.delete_wire(conn[2])
 	
 	# re-calculate
 	loop_current_method()
@@ -94,8 +97,8 @@ func add_blocks(_building_block1: BuildingBlock, _ai1: String, _building_block2:
 		
 	# add connection
 	# get indicies to use for connections
-	var block1index = all_blocks.find(_building_block1)
-	var block2index = all_blocks.find(_building_block2)
+#	var block1index = all_blocks.find(_building_block1)
+#	var block2index = all_blocks.find(_building_block2)
 	
 	# generate random alphanumeric string as connection id
 	var random_id := gen_random_connection_id()
@@ -105,8 +108,8 @@ func add_blocks(_building_block1: BuildingBlock, _ai1: String, _building_block2:
 		random_id = gen_random_connection_id()
 	
 	connections.append([
-		{"block_index": block1index, "additional_info": _ai1},
-		{"block_index": block2index, "additional_info": _ai2},
+		{"block": _building_block1, "additional_info": _ai1},
+		{"block": _building_block2, "additional_info": _ai2},
 		random_id
 		])
 	
@@ -140,16 +143,16 @@ func remove_connection(connection_id : String) -> void:
 		connections.remove(connection_index)
 	
 		# also remove block(s) that don't have a connection anymore from all_blocks
-		var temp_index = removed_connection[0]["block_index"]
+		var block1 = removed_connection[0]["block"]
+		var block2 = removed_connection[1]["block"]
 		
-		if !block_has_connection(temp_index):
+		if !block_has_connection(block1):
+			var temp_index = all_blocks.find(block1)
 			if temp_index != -1:
 				all_blocks.remove(temp_index)
 		
-		# find new index because it might have shifted from removing the previous one
-		var block2 = all_blocks[removed_connection[1]["block_index"]]
-		temp_index = all_blocks.find(block2)
-		if temp_index != -1 and !block_has_connection(temp_index):
+		if !block_has_connection(block2):
+			var temp_index = all_blocks.find(block2)
 			if temp_index != -1:
 				all_blocks.remove(temp_index)
 	
@@ -176,22 +179,22 @@ func find_connection_by_id(connection_id : String) -> int:
 	return -1
 
 
-func find_connections_by_block(current_block_index : int) -> Array:
+func find_connections_by_block(current_block : BuildingBlock) -> Array:
 	var return_array := []
 	
 	for i in range(connections.size()):
-		if connections[i][0]["block_index"] == current_block_index:
+		if connections[i][0]["block"] == current_block:
 			return_array.append(connections[i])
 		
-		if connections[i][1]["block_index"] == current_block_index:
+		if connections[i][1]["block"] == current_block:
 			return_array.append(connections[i])
 	
 	return return_array
 	
-# checks if this block has min 1 connection based on its index
-func block_has_connection(block_index : int) -> bool:
+# checks if this block has min 1 connection
+func block_has_connection(current_block : BuildingBlock) -> bool:
 	for c in connections:
-		if c[0]["block_index"] == block_index or c[1]["block_index"]:
+		if c[0]["block"] == current_block or c[1]["block"] == current_block:
 			return true
 	
 	return false
@@ -235,11 +238,9 @@ func loop_current_method():
 	# we also make sure the second element is the same for all loops, so they all go in the same direction
 	# (makes things easier)
 	
-	var second_element_dict = get_next_element(0, -1)
-	var second_element_index = second_element_dict["next_element_index"]
+	var second_element_dict = get_next_element(starting_element, null)
+	var second_element = second_element_dict["next_element"]
 	var second_element_additional_info = second_element_dict["additional_info"]
-	
-	var second_element = all_blocks[second_element_index]
 	
 	# here we save if second element is connected to first voltage sources positiv or negative side
 	starting_element.connection_side = second_element_additional_info
@@ -253,24 +254,23 @@ func loop_current_method():
 			loop.append(starting_element)
 			loop.append(second_element)
 			
-			var prev_element_index = second_element_index
-			var prev_prev_element_index = 0
+			var prev_element = second_element
+			var prev_prev_element = null
 			
 			# get next element using connections dict
 			for y in range(connections.size()):
-				var next_element_dict = get_next_element(prev_element_index, prev_prev_element_index)
-				var next_element_index = next_element_dict["next_element_index"]
+				var next_element_dict = get_next_element(prev_element, prev_prev_element)
+				var next_element = next_element_dict["next_element"]
 				var additional_info = next_element_dict["additional_info"]
 				
-				if next_element_index == -1:
+				# 2b) if loop has no more connections, discard
+				if !next_element:
 					# no next element found
 					break
 				
-				var next_element = all_blocks[next_element_index]
+				#var next_element = all_blocks[next_element_index]
 				
-				# 2b) if loop has no more connections, discard
-				if (!next_element):
-					break
+				
 				
 				# 2b) if loop comes back to a point other than starting point, discard
 				if loop.find(next_element) > 0:
@@ -290,8 +290,8 @@ func loop_current_method():
 				loop.append(next_element)
 				
 				
-				prev_prev_element_index = prev_element_index
-				prev_element_index = next_element_index
+				prev_prev_element = prev_element
+				prev_element = next_element
 	else:
 		# in this case there are only two elements in the circuit
 		# check if their connnected in a closed loop
@@ -397,26 +397,26 @@ func find_superpositions():
 								element1.superposition["direction"] = "different"
 
 
-# returns next element index based on connections array
-func get_next_element(prev_index: int, prev_prev_index: int) -> Dictionary:
+# returns next element based on connections array
+func get_next_element(prev_block: BuildingBlock, prev_prev_block: BuildingBlock) -> Dictionary:
 	# randomize order so we don't end up going down same paths
 	randomize()
 	connections.shuffle()
 	var additional_info = ""
-	var next_element_index = -1
+	var next_element_block = null
 	for i in range(connections.size()):
-		if connections[i][0]["block_index"] == prev_index and connections[i][1]["block_index"] != prev_prev_index:
-			next_element_index = connections[i][1]["block_index"]
+		if connections[i][0]["block"] == prev_block and connections[i][1]["block"] != prev_prev_block:
+			next_element_block = connections[i][1]["block"]
 			if connections[i][1].has("additional_info"):
 				additional_info = connections[i][1]["additional_info"]
 			break
-		elif connections[i][1]["block_index"] == prev_index and connections[i][0]["block_index"] != prev_prev_index:
-			next_element_index = connections[i][0]["block_index"]
+		elif connections[i][1]["block"] == prev_block and connections[i][0]["block"] != prev_prev_block:
+			next_element_block = connections[i][0]["block"]
 			if connections[i][0].has("additional_info"):
 				additional_info = connections[i][0]["additional_info"]
 			break
 	
-	return {"next_element_index": next_element_index, "additional_info": additional_info}
+	return {"next_element": next_element_block, "additional_info": additional_info}
 	
 		
 # writes Kirchhoff's Voltage Law equations for loops in loops_array
