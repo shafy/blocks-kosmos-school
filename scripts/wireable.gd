@@ -1,5 +1,9 @@
 extends Area
+
+
 # allows the object to be connected to by a wire
+class_name Wireable
+
 
 signal wire_tapped
 

@@ -3,11 +3,18 @@ extends GrabbableRemovableRigidBody
 # fundamental buildingblock class from which all other (e.g. lamps, voltage sources) inherit
 class_name BuildingBlock
 
+
+signal block_deleted
+
 onready var outline_bubble_mesh := $OutlineBubble
 
 func _ready():
 	# hide outlien bubble to start with
 	outline_bubble_mesh.visible = false
+
+
+func _exit_tree():
+	emit_signal("block_deleted", self)
 
 
 # overriding this function from the parent GrabbableRemovableRigidBody

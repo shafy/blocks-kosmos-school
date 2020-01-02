@@ -15,6 +15,7 @@ var point2_object: Node
 var point1_set = false
 var schematic
 var building_block1
+var building_block2
 var additional_info1
 var point1_collision_mask
 var wire_radius := 0.004 
@@ -24,8 +25,10 @@ var hand_area: Area
 var ghost_wire_mesh
 var ghost_wire_parent
 var wire_segments_parent : Spatial
+var current_connection_id : String
 
-onready var wire_script = load("scripts/wire.gd")
+onready var wire_segment_script = load("scripts/wire_segment.gd")
+onready var wire_parent_script = load("scripts/wire_parent.gd")
 onready var outline_bubble_mat = load("materials/light_red_transparent.tres")
 
 func _ready():
@@ -65,13 +68,18 @@ func _physics_process(delta):
 		handle_raycast_result(result)
 
 
-func _on_Wire_Segment_wire_segment_removed(exited_wire_parent: Spatial):
+func _on_Wire_Segment_wire_segment_removed(exited_wire_parent: Spatial) -> void:
 	# user deletes only one segment, but the whole wire needs to go
-	# delete all segments related to that segment
-	exited_wire_parent.queue_free()
-	
-	# also update schematic
-	pass
+	if !exited_wire_parent.being_removed:
+		exited_wire_parent.being_removed = true
+		exited_wire_parent.wire_node_1.set_wired(false)
+		exited_wire_parent.wire_node_2.set_wired(false)
+		exited_wire_parent.queue_free()
+
+
+func _on_Wire_Parent_wire_parent_removed(connection_id: String) -> void:
+	schematic_remove_connection(connection_id)
+
 
 # creat a wire point - if it created the second point, then it also draws the wire
 func create_wire_point(wire_node: Node, building_block: BuildingBlock, touching_area: Area, additional_info: String):
@@ -98,14 +106,15 @@ func create_wire_point(wire_node: Node, building_block: BuildingBlock, touching_
 		if point1_wire_node.get_parent() == wire_node.get_parent():
 			return
 		
+		building_block2 = building_block
 		point2 = new_point
 		point2_object = wire_node
 		new_wire = true
+		current_connection_id = schematic_add_blocks(building_block1, additional_info1, building_block2, additional_info)
 		raycast()
-		update_schematic(building_block1, additional_info1, building_block, additional_info, "add")
 		point1_set = false
 		point1_wire_node.show_connection_bubbles(false)
-		point1_wire_node = null
+		#point1_wire_node = null
 		delete_ghost_wire()
 	
 	# mark as wired
@@ -122,13 +131,18 @@ func create_wire_segment(start_point: Vector3, end_point: Vector3):
 	
 	if new_wire:
 		wire_segments_parent = Spatial.new()
+		wire_segments_parent.set_script(wire_parent_script)
+		wire_segments_parent.connection_id = current_connection_id
+		wire_segments_parent.wire_node_1 = point1_wire_node
+		wire_segments_parent.wire_node_2 = point2_object
+		wire_segments_parent.connect("wire_parent_removed", self, "_on_Wire_Parent_wire_parent_removed")
 		add_child(wire_segments_parent)
 		new_wire = false
 	
 	# create a new rigidbody
 	var rb = RigidBody.new()
 	rb.mode = RigidBody.MODE_STATIC
-	rb.set_script(wire_script)
+	rb.set_script(wire_segment_script)
 	rb.connect("wire_segment_removed", self, "_on_Wire_Segment_wire_segment_removed")
 
 	# TODO: add collision make and layer it doesn't collide with building blocks
@@ -227,9 +241,17 @@ func handle_raycast_result(result: Dictionary):
 
 
 # update the schematic with this new connection
-func update_schematic(_building_block1: BuildingBlock, _ai1: String, _building_block2: BuildingBlock, _ai2: String, _schematic_action: String):
-	schematic.update_schematic(_building_block1, _ai1, _building_block2, _ai2, _schematic_action)
+func schematic_add_blocks(_building_block1: BuildingBlock, _ai1: String, _building_block2: BuildingBlock, _ai2: String) -> String:
+	var connection_id = schematic.add_blocks(_building_block1, _ai1, _building_block2, _ai2)
+	schematic.loop_current_method()
+	
+	return connection_id
 
+
+func schematic_remove_connection(connection_id : String):
+	schematic.remove_connection(connection_id)
+	schematic.loop_current_method()
+	
 # signal is emittd by wirable.gd
 func _on_Wirable_wire_tapped(wire_node: Node, building_block: BuildingBlock, touching_area: Area, additional_info: String):
 	# only create new wire point if WireGenerator is ON

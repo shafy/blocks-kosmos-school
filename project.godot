@@ -104,15 +104,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/voltage_source.gd"
 }, {
-"base": "BuildingBlock",
-"class": "Wire",
-"language": "GDScript",
-"path": "res://scripts/wire.gd"
-}, {
 "base": "Spatial",
 "class": "WireGenerator",
 "language": "GDScript",
 "path": "res://scripts/wire_generator.gd"
+}, {
+"base": "Spatial",
+"class": "WireParent",
+"language": "GDScript",
+"path": "res://scripts/wire_parent.gd"
+}, {
+"base": "BuildingBlock",
+"class": "WireSegment",
+"language": "GDScript",
+"path": "res://scripts/wire_segment.gd"
+}, {
+"base": "Area",
+"class": "Wireable",
+"language": "GDScript",
+"path": "res://scripts/wireable.gd"
 } ]
 _global_script_class_icons={
 "BuildingBlock": "",
@@ -134,8 +144,10 @@ _global_script_class_icons={
 "Schematic": "",
 "Tablet": "",
 "VoltageSource": "",
-"Wire": "",
-"WireGenerator": ""
+"WireGenerator": "",
+"WireParent": "",
+"WireSegment": "",
+"Wireable": ""
 }
 
 [application]

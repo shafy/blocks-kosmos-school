@@ -10,6 +10,12 @@ var loops_array = []
 var unique_elements = 0
 var Ab = []
 var gauss_solver = GaussSolver.new()
+var rng = RandomNumberGenerator.new()
+var alphanumeric_array = [
+	"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
+	"o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+]
 
 func _ready():
 #	var power_button = get_node("/root/Main/PowerButton")
@@ -57,12 +63,31 @@ func _ready():
 	pass
 
 
-func _on_PowerButton_button_pressed():
+func _on_Building_Block_block_deleted(current_block : BuildingBlock) -> void:
+	remove_block(current_block)
+
+
+func remove_block(current_block : BuildingBlock) -> void:
+	var current_block_index = all_blocks.find(current_block)
+	
+	if current_block_index == -1:
+		return
+	
+	# remove this block from schematic
+	all_blocks.remove(current_block_index)
+	
+	# remove its connections
+	var result_connections = find_connections_by_block(current_block_index)
+	
+	for conn in result_connections:
+		remove_connection(conn[2])
+	
+	# re-calculate
 	loop_current_method()
 
 
-# updates the schematic with newly added or removed connections
-func update_schematic(_building_block1: BuildingBlock, _ai1: String, _building_block2: BuildingBlock, _ai2: String, _schematic_action: String):
+# add new blocks to schematic and returns connection id
+func add_blocks(_building_block1: BuildingBlock, _ai1: String, _building_block2: BuildingBlock, _ai2: String) -> String:
 	# add blocks
 	add_new_block(_building_block1)
 	add_new_block(_building_block2)
@@ -72,19 +97,27 @@ func update_schematic(_building_block1: BuildingBlock, _ai1: String, _building_b
 	var block1index = all_blocks.find(_building_block1)
 	var block2index = all_blocks.find(_building_block2)
 	
+	# generate random alphanumeric string as connection id
+	var random_id := gen_random_connection_id()
+	
+	# check if random_id already exists in connections array before appending
+	while find_connection_by_id(random_id) != -1:
+		random_id = gen_random_connection_id()
+	
 	connections.append([
 		{"block_index": block1index, "additional_info": _ai1},
-		{"block_index": block2index, "additional_info": _ai2}
+		{"block_index": block2index, "additional_info": _ai2},
+		random_id
 		])
 	
+	print("ADDED")
 	print("all_blocks: ", all_blocks)
 	print("connections: ", connections)
 	
-	# run loop
-	loop_current_method()
+	return random_id
 
 
-func add_new_block(block: BuildingBlock):
+func add_new_block(block: BuildingBlock) -> void:
 	if !all_blocks.has(block):
 		# doesn't exist, add
 		# it's a voltage source and there's no voltage source otherwise, add to first position
@@ -92,6 +125,77 @@ func add_new_block(block: BuildingBlock):
 			all_blocks.push_front(block)
 		else:
 			all_blocks.append(block)
+		
+		# connect to deletion signal
+		block.connect("block_deleted", self, "_on_Building_Block_block_deleted")
+
+
+# removes connection from schematic
+func remove_connection(connection_id : String) -> void:
+	# find connection index
+	var removed_connection
+	var connection_index = find_connection_by_id(connection_id)
+	if connection_index != -1:
+		removed_connection = connections[connection_index]
+		connections.remove(connection_index)
+	
+		# also remove block(s) that don't have a connection anymore from all_blocks
+		var temp_index = removed_connection[0]["block_index"]
+		
+		if !block_has_connection(temp_index):
+			if temp_index != -1:
+				all_blocks.remove(temp_index)
+		
+		# find new index because it might have shifted from removing the previous one
+		var block2 = all_blocks[removed_connection[1]["block_index"]]
+		temp_index = all_blocks.find(block2)
+		if temp_index != -1 and !block_has_connection(temp_index):
+			if temp_index != -1:
+				all_blocks.remove(temp_index)
+	
+	print("REMOVED")
+	print("all_blocks: ", all_blocks)
+	print("connections: ", connections)
+
+
+func gen_random_connection_id() -> String:
+	var random_id : String
+	for n in range (9):
+		rng.randomize()
+		var random_n = rng.randi_range(0, alphanumeric_array.size() - 1)
+		random_id += alphanumeric_array[random_n]
+	
+	return random_id
+
+
+func find_connection_by_id(connection_id : String) -> int:
+	for i in range(connections.size()):
+		if connections[i][2] == connection_id:
+			return i
+	
+	return -1
+
+
+func find_connections_by_block(current_block_index : int) -> Array:
+	var return_array := []
+	
+	for i in range(connections.size()):
+		if connections[i][0]["block_index"] == current_block_index:
+			return_array.append(connections[i])
+		
+		if connections[i][1]["block_index"] == current_block_index:
+			return_array.append(connections[i])
+	
+	return return_array
+	
+# checks if this block has min 1 connection based on its index
+func block_has_connection(block_index : int) -> bool:
+	for c in connections:
+		if c[0]["block_index"] == block_index or c[1]["block_index"]:
+			return true
+	
+	return false
+
 
 # checks if block already in dictionary
 #func find_value_in_dictionary(dict: Dictionary, val) -> int:
@@ -221,9 +325,21 @@ func loop_current_method():
 	print("solutions:", loop_current_solutions)
 	
 	# 7) solve for element currents and voltages using Ohm's Law
+	clear_block_attributes()
 	calculate_element_attributes(loop_current_solutions)
-		
-		
+
+
+# resets block attributes
+func clear_block_attributes():
+	for b in all_blocks:
+		if b is Resistor:
+			b.current = 0.0
+			b.potential = 0.0
+			
+			if b is Lamp:
+				b.update_light()
+
+
 # finds currents and voltages for all elements in the circuit based on
 # the previously calculated loop currents
 func calculate_element_attributes(loop_currents: Array):
