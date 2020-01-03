@@ -1,4 +1,4 @@
-extends BuildingBlock
+extends BuildingBlockWireable
 
 class_name VoltageSource
 

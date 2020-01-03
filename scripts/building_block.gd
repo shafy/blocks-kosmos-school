@@ -1,12 +1,14 @@
 extends GrabbableRemovableRigidBody
 
-# fundamental buildingblock class from which all other (e.g. lamps, voltage sources) inherit
+
+# fundamental buildingblock class from which all other inherit
 class_name BuildingBlock
 
 
 signal block_deleted
 
 onready var outline_bubble_mesh := $OutlineBubble
+
 
 func _ready():
 	# hide outlien bubble to start with

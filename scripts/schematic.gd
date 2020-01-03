@@ -96,10 +96,6 @@ func add_blocks(_building_block1: BuildingBlock, _ai1: String, _building_block2:
 	add_new_block(_building_block2)
 		
 	# add connection
-	# get indicies to use for connections
-#	var block1index = all_blocks.find(_building_block1)
-#	var block2index = all_blocks.find(_building_block2)
-	
 	# generate random alphanumeric string as connection id
 	var random_id := gen_random_connection_id()
 	
@@ -235,6 +231,9 @@ func loop_current_method():
 
 	# always start with the first element (which should be a VoltageSource)
 	var starting_element = all_blocks[0]
+	if !(starting_element is VoltageSource):
+		return
+	
 	# we also make sure the second element is the same for all loops, so they all go in the same direction
 	# (makes things easier)
 	
@@ -242,9 +241,15 @@ func loop_current_method():
 	var second_element = second_element_dict["next_element"]
 	var second_element_additional_info = second_element_dict["additional_info"]
 	
+	# stop executing if second element is switch
+	# TODO: how to handle case with more than 1 voltage sources?
+	if second_element is Switch:
+		if !second_element.is_closed:
+			return
+	
 	# here we save if second element is connected to first voltage sources positiv or negative side
 	starting_element.connection_side = second_element_additional_info
-	# we need this because the loop finding process (get_next_element()) is probablistic
+	# we need the fail_safe_count because the loop finding process (get_next_element()) is probablistic
 	var fail_safe_count = 0
 	if all_blocks.size() > 2:
 		while unique_elements != all_blocks.size() and fail_safe_count < 100:
@@ -255,7 +260,7 @@ func loop_current_method():
 			loop.append(second_element)
 			
 			var prev_element = second_element
-			var prev_prev_element = null
+			var prev_prev_element = starting_element
 			
 			# get next element using connections dict
 			for y in range(connections.size()):
@@ -268,13 +273,15 @@ func loop_current_method():
 					# no next element found
 					break
 				
-				#var next_element = all_blocks[next_element_index]
-				
-				
-				
 				# 2b) if loop comes back to a point other than starting point, discard
 				if loop.find(next_element) > 0:
 					break
+				
+				if next_element is Switch:
+					# if the switch is not closed, cancel the loop
+					
+					if !next_element.is_closed:
+						break
 				
 				# 2a) if loop comes to starting point, finish this loop
 				if (loop.find(next_element) == 0):

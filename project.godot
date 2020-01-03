@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/building_block.gd"
 }, {
+"base": "BuildingBlock",
+"class": "BuildingBlockWireable",
+"language": "GDScript",
+"path": "res://scripts/building_block_wireable.gd"
+}, {
 "base": "Spatial",
 "class": "ButtonPressable",
 "language": "GDScript",
@@ -44,7 +49,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://OQ_Toolkit/OQ_ARVRController/scripts/grabbable_rigid_body.gd"
 }, {
-"base": "BuildingBlock",
+"base": "BuildingBlockWireable",
 "class": "Junction",
 "language": "GDScript",
 "path": "res://scripts/junction.gd"
@@ -74,7 +79,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/placer_system.gd"
 }, {
-"base": "BuildingBlock",
+"base": "BuildingBlockWireable",
 "class": "Resistor",
 "language": "GDScript",
 "path": "res://scripts/resistor.gd"
@@ -89,17 +94,27 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/rigid_body_grab_removable.gd"
 }, {
+"base": "Spatial",
+"class": "Rotatable",
+"language": "GDScript",
+"path": "res://scripts/rotatable.gd"
+}, {
 "base": "Node",
 "class": "Schematic",
 "language": "GDScript",
 "path": "res://scripts/schematic.gd"
+}, {
+"base": "BuildingBlockWireable",
+"class": "Switch",
+"language": "GDScript",
+"path": "res://scripts/switch.gd"
 }, {
 "base": "Spatial",
 "class": "Tablet",
 "language": "GDScript",
 "path": "res://scripts/tablet.gd"
 }, {
-"base": "BuildingBlock",
+"base": "BuildingBlockWireable",
 "class": "VoltageSource",
 "language": "GDScript",
 "path": "res://scripts/voltage_source.gd"
@@ -126,6 +141,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "BuildingBlock": "",
+"BuildingBlockWireable": "",
 "ButtonPressable": "",
 "ButtonRemoveMode": "",
 "ButtonWireMode": "",
@@ -141,7 +157,9 @@ _global_script_class_icons={
 "Resistor": "",
 "RigidBodyGrab": "",
 "RigidBodyGrabRemovable": "",
+"Rotatable": "",
 "Schematic": "",
+"Switch": "",
 "Tablet": "",
 "VoltageSource": "",
 "WireGenerator": "",

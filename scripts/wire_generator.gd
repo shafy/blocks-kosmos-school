@@ -68,6 +68,13 @@ func _physics_process(delta):
 		handle_raycast_result(result)
 
 
+# signal is emittd by wirable.gd
+func _on_Wirable_wire_tapped(wire_node: Node, building_block: BuildingBlock, touching_area: Area, additional_info: String):
+	# only create new wire point if WireGenerator is ON
+	if is_on:
+		create_wire_point(wire_node, building_block, touching_area, additional_info)
+
+
 func _on_Wire_Segment_wire_segment_removed(exited_wire_parent: Spatial) -> void:
 	# user deletes only one segment, but the whole wire needs to go
 	
@@ -113,7 +120,6 @@ func create_wire_point(wire_node: Node, building_block: BuildingBlock, touching_
 		raycast()
 		point1_set = false
 		point1_wire_node.show_connection_bubbles(false)
-		#point1_wire_node = null
 		delete_ghost_wire()
 	
 	# mark as wired
@@ -250,12 +256,6 @@ func schematic_add_blocks(_building_block1: BuildingBlock, _ai1: String, _buildi
 func schematic_remove_connection(connection_id : String):
 	schematic.remove_connection(connection_id)
 	schematic.loop_current_method()
-	
-# signal is emittd by wirable.gd
-func _on_Wirable_wire_tapped(wire_node: Node, building_block: BuildingBlock, touching_area: Area, additional_info: String):
-	# only create new wire point if WireGenerator is ON
-	if is_on:
-		create_wire_point(wire_node, building_block, touching_area, additional_info)
 
 
 func _on_WireModeButton_button_pressed():

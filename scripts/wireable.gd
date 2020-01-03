@@ -16,9 +16,11 @@ export(Array, NodePath) var connection_bubble_node_paths
 
 func _ready():
 	parent_building_block = get_parent()
-	if !(parent_building_block is BuildingBlock):
-		print("Parent node was expected to be of type BuildingBlock, but isn't.")
+	if !(parent_building_block is BuildingBlockWireable):
+		print("Parent node was expected to be of type BuildingBlockWireable, but isn't.")
 	
+	# add itself to parent to let parent know that it exists
+	parent_building_block.add_wireable(self)
 	
 	connect("area_entered", self, "_on_Wirable_area_entered")
 	var wire_generator = get_node("/root/Main/WireGenerator")
@@ -26,10 +28,11 @@ func _ready():
 	
 	# don't show per default
 	show_connection_bubbles(false)
+	
 
 func _on_Wirable_area_entered(area):
 	
-	if !(parent_building_block is BuildingBlock):
+	if !(parent_building_block is BuildingBlockWireable):
 		return
 	
 	# don't add wire if already wired
@@ -47,6 +50,8 @@ func _on_Wirable_area_entered(area):
 
 func set_wired(_wired):
 	is_wired = _wired
+	
+	parent_building_block.refresh_wireables()
 	
 	# also activate or deactivate placer bubbles
 	for bubble_path in placer_bubble_node_paths:
