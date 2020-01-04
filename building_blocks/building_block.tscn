@@ -11,7 +11,8 @@
 [ext_resource path="res://scenes/placer_bubble.tscn" type="PackedScene" id=9]
 
 [sub_resource type="BoxShape" id=1]
-extents = Vector3( 0.0506947, 0.073929, 0.052452 )
+resource_local_to_scene = true
+extents = Vector3( 0.0999421, 0.0736806, 0.0317375 )
 
 [sub_resource type="BoxShape" id=2]
 margin = 0.001

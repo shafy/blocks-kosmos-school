@@ -1,7 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/lamp.gd" type="Script" id=1]
 [ext_resource path="res://building_blocks/building_block.tscn" type="PackedScene" id=2]
+
+[sub_resource type="BoxShape" id=2]
+resource_local_to_scene = true
+extents = Vector3( 0.0999421, 0.0736806, 0.0317375 )
 
 [sub_resource type="SpatialMaterial" id=1]
 resource_local_to_scene = true
@@ -17,6 +21,9 @@ emission_on_uv2 = false
 
 [node name="Lamp" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
+
+[node name="CollisionShape" parent="." index="0"]
+shape = SubResource( 2 )
 
 [node name="MeshInstance" parent="." index="1"]
 material/3 = SubResource( 1 )

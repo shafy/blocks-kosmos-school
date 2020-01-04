@@ -40,12 +40,9 @@ func _on_Wirable_area_entered(area):
 		return
 	
 	# check if it's a left or right controller
-	var area_parent = area.get_parent()
-	if (area_parent):
-		var area_parent_parent = area_parent.get_parent()
-		if (area_parent_parent):
-			if (area_parent_parent.name == "OQ_LeftController" or area_parent_parent.name == "OQ_RightController"):
-				emit_signal("wire_tapped", self, parent_building_block, area, polarity)
+	var current_controller = global_functions.controller_node_from_child(area)
+	if current_controller:
+		emit_signal("wire_tapped", self, parent_building_block, area, polarity)
 
 
 func set_wired(_wired):

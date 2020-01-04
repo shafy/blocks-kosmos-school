@@ -94,10 +94,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/rigid_body_grab_removable.gd"
 }, {
-"base": "Spatial",
-"class": "Rotatable",
+"base": "Area",
+"class": "RotatableArea",
 "language": "GDScript",
-"path": "res://scripts/rotatable.gd"
+"path": "res://scripts/rotatable_area.gd"
 }, {
 "base": "Node",
 "class": "Schematic",
@@ -157,7 +157,7 @@ _global_script_class_icons={
 "Resistor": "",
 "RigidBodyGrab": "",
 "RigidBodyGrabRemovable": "",
-"Rotatable": "",
+"RotatableArea": "",
 "Schematic": "",
 "Switch": "",
 "Tablet": "",
@@ -172,10 +172,13 @@ _global_script_class_icons={
 
 config/name="Lab Kits"
 run/main_scene="res://main.tscn"
+config/icon="res://icon.png"
 
 [autoload]
 
 vr="*res://OQ_Toolkit/vr_autoload.gd"
+global_functions="*res://scripts/autoload/global_functions.gd"
+global_vars="*res://scripts/autoload/global_vars.gd"
 
 [gdnative]
 
@@ -1245,5 +1248,5 @@ scene={
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
-quality/filters/msaa=2
+quality/filters/msaa=6
 environment/default_environment="res://default_env.tres"

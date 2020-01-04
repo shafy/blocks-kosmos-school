@@ -14,7 +14,6 @@ enum {
 }
 var grab_type = GRABTYPE_VELOCITY;
 
-onready var main_node = get_node("/root/Main")
 
 export var reparent_mesh = false;
 
@@ -31,6 +30,8 @@ func _ready():
 func start_grab_velocity(grabbable_rigid_body: GrabbableRigidBody):
 	if grabbable_rigid_body.is_grabbed:
 		return
+	
+	grabbable_rigid_body.sleeping = false
 	
 	var temp_global_pos = grabbable_rigid_body.global_transform.origin
 	var temp_rotation = grabbable_rigid_body.global_transform.basis
