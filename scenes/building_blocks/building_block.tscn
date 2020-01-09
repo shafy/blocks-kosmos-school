@@ -82,3 +82,10 @@ script = ExtResource( 10 )
 
 [node name="CollisionShape" type="CollisionShape" parent="SnapArea1"]
 shape = SubResource( 4 )
+
+[node name="SnapArea2" type="Area" parent="."]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.121, -0.06, 0 )
+script = ExtResource( 10 )
+
+[node name="CollisionShape" type="CollisionShape" parent="SnapArea2"]
+shape = SubResource( 4 )
