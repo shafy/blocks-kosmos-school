@@ -223,6 +223,7 @@ func loop_current_method():
 		return
 	
 	# initiliaze
+	clear_block_attributes()
 	loops_array.clear()
 	unique_elements = 0
 	
@@ -332,7 +333,6 @@ func loop_current_method():
 	print("solutions:", loop_current_solutions)
 	
 	# 7) solve for element currents and voltages using Ohm's Law
-	clear_block_attributes()
 	calculate_element_attributes(loop_current_solutions)
 
 

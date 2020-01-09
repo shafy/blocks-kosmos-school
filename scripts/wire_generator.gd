@@ -150,7 +150,9 @@ func create_wire_segment(start_point: Vector3, end_point: Vector3):
 	rb.set_script(wire_segment_script)
 	rb.connect("wire_segment_removed", self, "_on_Wire_Segment_wire_segment_removed")
 
-	# TODO: add collision make and layer it doesn't collide with building blocks
+	# add collision mask and layer it doesn't collide with building blocks
+	rb.set_collision_layer(2)
+	rb.set_collision_mask(2)
 	
 	# create new MeshInstance with Cylinder, and size it accordingly
 	var mesh_instance = MeshInstance.new()

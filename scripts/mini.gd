@@ -7,9 +7,9 @@ class_name Mini
 var is_max := false
 var scaling_up := false
 var ready_to_scale := false
-var mesh_node
+#var mesh_node
 var mesh_maxi_scale
-var collision_shape_node
+#var collision_shape_node
 var collision_shape_node_shape
 var collision_shape_initial_extents
 var collision_shape_maxi_extents
@@ -21,6 +21,8 @@ var collision_shape_initial_scale : Vector3
 var mesh_mini_scale : Vector3
 var collision_shape_mini_scale : Vector3
 
+onready var mesh_node = $MeshInstance
+onready var collision_shape_node = $CollisionShape
 
 export(float) var mini_scale_factor
 export(Vector3) var extents_initial
@@ -36,7 +38,7 @@ func _ready():
 	object_remover_system_node.connect("remove_mode_toggled", self, "_on_Object_Remover_System_remove_mode_toggled")
 	
 	# get nodes and apply the scale factor
-	mesh_node = get_node(mesh_node_path)
+	#mesh_node = get_node(mesh_node_path)
 	
 	if mesh_node and mini_scale_factor != 0.0:
 		mesh_initial_scale = mesh_node.scale
@@ -44,7 +46,7 @@ func _ready():
 	else:
 		print("No Mesh node assigned")
 
-	collision_shape_node = get_node(collision_shape_node_path)
+	#collision_shape_node = get_node(collision_shape_node_path)
 	if collision_shape_node and mini_scale_factor != 0.0:
 		collision_shape_node_shape = collision_shape_node.get_shape()
 		

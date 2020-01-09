@@ -104,6 +104,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/schematic.gd"
 }, {
+"base": "Area",
+"class": "SnapArea",
+"language": "GDScript",
+"path": "res://scripts/snap_area.gd"
+}, {
 "base": "BuildingBlockWireable",
 "class": "Switch",
 "language": "GDScript",
@@ -159,6 +164,7 @@ _global_script_class_icons={
 "RigidBodyGrabRemovable": "",
 "RotatableArea": "",
 "Schematic": "",
+"SnapArea": "",
 "Switch": "",
 "Tablet": "",
 "VoltageSource": "",
