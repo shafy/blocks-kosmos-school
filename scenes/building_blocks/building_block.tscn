@@ -24,7 +24,7 @@ extents = Vector3( 0.00942212, 0.0103624, 0.0103163 )
 [sub_resource type="BoxShape" id=4]
 resource_local_to_scene = true
 margin = 0.001
-extents = Vector3( 0.0302778, 0.00941889, 0.0192297 )
+extents = Vector3( 0.03, 0.009, 0.03 )
 
 [node name="BuildingBlock" type="RigidBody"]
 contacts_reported = 1
@@ -77,14 +77,14 @@ mesh = SubResource( 3 )
 material/0 = ExtResource( 2 )
 
 [node name="SnapArea1" type="Area" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, -0.06, 0.05 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, -0.06, 0.061194 )
 script = ExtResource( 10 )
 
 [node name="CollisionShape" type="CollisionShape" parent="SnapArea1"]
 shape = SubResource( 4 )
 
 [node name="SnapArea2" type="Area" parent="."]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.121, -0.06, 0 )
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.130995, -0.06, -1.62833e-09 )
 script = ExtResource( 10 )
 
 [node name="CollisionShape" type="CollisionShape" parent="SnapArea2"]

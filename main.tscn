@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -26,12 +26,9 @@
 [ext_resource path="res://materials/bright_metal.tres" type="Material" id=24]
 [ext_resource path="res://scenes/minis/switch_mini.tscn" type="PackedScene" id=25]
 [ext_resource path="res://scenes/minis/battery_mini.tscn" type="PackedScene" id=26]
-[ext_resource path="res://scenes/building_blocks/battery.tscn" type="PackedScene" id=28]
 [ext_resource path="res://materials/green_wood.tres" type="Material" id=29]
 [ext_resource path="res://scripts/button_remove_mode.gd" type="Script" id=30]
 [ext_resource path="res://materials/bronce_cover.tres" type="Material" id=31]
-[ext_resource path="res://scenes/building_blocks/switch.tscn" type="PackedScene" id=32]
-[ext_resource path="res://meshes/switch_base_one.mesh" type="ArrayMesh" id=33]
 
 [sub_resource type="BakedLightmapData" id=1]
 bounds = AABB( -7.5379, -1.74037, -6.87336, 15.0758, 3.48075, 13.7467 )
@@ -53,10 +50,6 @@ glow_blend_mode = 1
 
 [sub_resource type="BoxShape" id=4]
 extents = Vector3( 0.513476, 0.0379334, 0.5051 )
-
-[sub_resource type="SphereMesh" id=5]
-
-[sub_resource type="SphereShape" id=6]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 8 )
@@ -158,17 +151,12 @@ script = ExtResource( 11 )
 [node name="WireGenerator" parent="." instance=ExtResource( 10 )]
 
 [node name="Lamp3" parent="." instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.917069, -0.67264 )
+transform = Transform( 0.752484, 0, 0.658611, 0, 1, 0, -0.658611, 0, 0.752484, 0, 0.917069, -0.67264 )
 resistance = 3.0
 
 [node name="Lamp2" parent="." instance=ExtResource( 9 )]
 transform = Transform( 0.999998, -0.00174533, 0, 0.00174533, 0.999998, 0, 0, 0, 1, 0.336925, 0.909438, -0.626985 )
 resistance = 2.0
-
-[node name="Battery" parent="." instance=ExtResource( 28 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.21635, 0.913717, -0.457529 )
-visible = false
-potential = 9.0
 
 [node name="Table" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.593, -0.83874 )
@@ -182,30 +170,3 @@ shape = SubResource( 4 )
 use_in_baked_light = true
 mesh = ExtResource( 18 )
 material/0 = ExtResource( 19 )
-
-[node name="PowerButton" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.419509, 0.910404, -0.41626 )
-visible = false
-
-[node name="MeshInstance" type="MeshInstance" parent="PowerButton"]
-transform = Transform( 0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0 )
-mesh = SubResource( 5 )
-material/0 = null
-
-[node name="ButtonArea" type="Area" parent="PowerButton"]
-collision_mask = 2
-
-[node name="CollisionShape" type="CollisionShape" parent="PowerButton/ButtonArea"]
-transform = Transform( 0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0 )
-shape = SubResource( 6 )
-
-[node name="Switch" parent="." instance=ExtResource( 32 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0986018, 0.862605, -0.459485 )
-visible = false
-
-[node name="switch_base" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0388994, 0.849289, -0.89162 )
-mesh = ExtResource( 33 )
-material/0 = null
-material/1 = null
-material/2 = null
