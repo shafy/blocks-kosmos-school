@@ -7,7 +7,17 @@ class_name BuildingBlock
 
 signal block_deleted
 
+var snapping := false setget set_snapping, get_snapping
+
 onready var outline_bubble_mesh := $OutlineBubble
+
+
+func set_snapping(new_value):
+	snapping = new_value
+
+
+func get_snapping():
+	return snapping
 
 
 # this is a hacky workaround because of this issue: https://github.com/godotengine/godot/issues/25252

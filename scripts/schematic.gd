@@ -78,12 +78,16 @@ func remove_block(current_block : BuildingBlock) -> void:
 	# remove this block from schematic
 	all_blocks.remove(current_block_index)
 	
+	# disconnect signal
+	if (current_block.is_connected("block_deleted", self, "_on_Building_Block_block_deleted")):
+		current_block.disconnect("block_deleted", self, "_on_Building_Block_block_deleted")
+	
 	# remove its connections
 	var result_connections = find_connections_by_block(current_block)
 	
 	for conn in result_connections:
 		remove_connection(conn[2])
-		wire_generator.delete_wire(conn[2])
+		#wire_generator.delete_wire(conn[2])
 	
 	# re-calculate
 	loop_current_method()
@@ -145,12 +149,12 @@ func remove_connection(connection_id : String) -> void:
 		if !block_has_connection(block1):
 			var temp_index = all_blocks.find(block1)
 			if temp_index != -1:
-				all_blocks.remove(temp_index)
+				remove_block(block1)
 		
 		if !block_has_connection(block2):
 			var temp_index = all_blocks.find(block2)
 			if temp_index != -1:
-				all_blocks.remove(temp_index)
+				remove_block(block2)
 	
 	print("REMOVED")
 	print("all_blocks: ", all_blocks)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/building_blocks/building_block.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/voltage_source.gd" type="Script" id=2]
@@ -10,6 +10,10 @@ resource_local_to_scene = true
 margin = 0.001
 extents = Vector3( 0.0999421, 0.0253566, 0.0317375 )
 
+[sub_resource type="BoxShape" id=2]
+margin = 0.001
+extents = Vector3( 0.015, 0.009, 0.015 )
+
 [node name="Battery" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
@@ -19,4 +23,43 @@ shape = SubResource( 1 )
 
 [node name="MeshInstance" parent="." index="1"]
 mesh = ExtResource( 3 )
+material/0 = null
+material/1 = null
+material/2 = null
 material/3 = ExtResource( 4 )
+
+[node name="SnapArea1" parent="." index="9"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, -0.00439964, 0.0458475 )
+
+[node name="CollisionShape" parent="SnapArea1" index="0"]
+shape = SubResource( 2 )
+
+[node name="SnapArea2" parent="." index="10"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.116055, -0.00439965, 8.05601e-10 )
+
+[node name="CollisionShape" parent="SnapArea2" index="0"]
+shape = SubResource( 2 )
+
+[node name="SnapArea3" parent="." index="11"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.07, -0.00439965, -0.0458455 )
+
+[node name="CollisionShape" parent="SnapArea3" index="0"]
+shape = SubResource( 2 )
+
+[node name="SnapArea4" parent="." index="12"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0705971, -0.00439964, 0.0458475 )
+
+[node name="CollisionShape" parent="SnapArea4" index="0"]
+shape = SubResource( 2 )
+
+[node name="SnapArea5" parent="." index="13"]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.116302, -0.00439965, 4.31237e-08 )
+
+[node name="CollisionShape" parent="SnapArea5" index="0"]
+shape = SubResource( 2 )
+
+[node name="SnapArea6" parent="." index="14"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.07, -0.00439965, -0.0458455 )
+
+[node name="CollisionShape" parent="SnapArea6" index="0"]
+shape = SubResource( 2 )

@@ -21,14 +21,12 @@ emission_operator = 0
 emission_on_uv2 = false
 
 [sub_resource type="BoxShape" id=3]
-resource_local_to_scene = true
 margin = 0.001
-extents = Vector3( 0.03, 0.009, 0.03 )
+extents = Vector3( 0.015, 0.009, 0.015 )
 
 [sub_resource type="BoxShape" id=4]
-resource_local_to_scene = true
 margin = 0.001
-extents = Vector3( 0.03, 0.009, 0.03 )
+extents = Vector3( 0.015, 0.009, 0.015 )
 
 [node name="Lamp" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
