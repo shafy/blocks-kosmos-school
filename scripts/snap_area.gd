@@ -12,6 +12,12 @@ var x_difference := 1
 var connection_id : String
 var is_master := false
 var snapping := false
+var move_to_snap := false
+var snap_speed := 10.0
+var snap_timer := 0.0
+var snap_start_transform : Transform
+var snap_end_transform : Transform
+var interpolation_progress : float
 
 var initial_grab := false setget set_initial_grab, get_initial_grab
 
@@ -39,6 +45,8 @@ func _ready():
 
 
 func _process(delta):
+	if move_to_snap:
+		update_pos_to_snap(delta)
 	# only the master area executes the following
 	if !is_master:
 		return
@@ -75,9 +83,6 @@ func _process(delta):
 		initial_grab = false
 		snap_area_other_area.set_initial_grab(false)
 		
-		#parent_block.set_snapping(false)
-		#other_area_parent_block.set_snapping(false)
-		
 		# set up connection in schematic
 		connection_id = schematic_add_blocks(parent_block, polarity, other_area_parent_block, snap_area_other_area.polarity)
 		snap_area_other_area.connection_id = connection_id
@@ -103,29 +108,13 @@ func _on_Snap_Area_area_entered(area):
 	if (!area.is_master):
 		is_master = true
 	
-	# stop executing if parent is already in the process of snapping
-#	if parent_block.get_snapping() == true:
-#		return
-	
 	snap_area_other_area = area
 	other_area_parent_block = snap_area_other_area.get_parent()
-	
-#	if !other_area_parent_block.is_class("BuildingBlock"):
-#		snap_area_other_area = null
-#		other_area_parent_block = null
-#		return
-	
-	#print("other_area_parent_block ", other_area_parent_block)
-	#parent_block.set_snapping(true)
 
 
 func _on_Snap_Area_area_exited(area):
 	if !area.is_class("SnapArea"):
 		return
-		
-	# stop executing if parent is already in the process of snapping
-#	if parent_block.get_snapping() == true:
-#		return
 	
 	# can only unsnap if being grabbed away
 	if is_master and snapped:
@@ -133,29 +122,24 @@ func _on_Snap_Area_area_exited(area):
 			schematic_remove_connection()
 			snap_area_other_area.unsnap()
 			unsnap()
-	
-		#print("UNSNAP snap_area_other_area ", snap_area_other_area)
-		#print("exited blocks " + self.name + " " + parent_block.name + " and " + snap_area_other_area.name)
-	
-#	parent_block.set_snapping(false)
+
 	if !snapped:
 		snap_area_other_area = null
 		other_area_parent_block = null
-	
 
 
 # snaps this block to another block
 func snap_to_block(other_snap_area: Area):
+	snap_start_transform = parent_block.global_transform
+	
 	var current_other_area_parent_block = other_snap_area.get_parent()
 	# move to far position but in right direction
 	parent_block.global_transform.origin += other_snap_area.global_transform.basis.z.normalized() * 1000
 	
 	# rotate it so that this z-vector is aligned with other areas
 	# z-vector, but in the opposite direction
-	var look_at_transform = global_transform.looking_at(other_snap_area.global_transform.origin, Vector3(0, 1, 0))
+	parent_block.global_transform = global_transform.looking_at(other_snap_area.global_transform.origin, Vector3(0, 1, 0))
 	
-	# update parent building block's rotation
-	parent_block.global_transform.basis = look_at_transform.basis
 	# rotate by 180° degrees
 	parent_block.rotate_y(PI)
 	
@@ -169,21 +153,39 @@ func snap_to_block(other_snap_area: Area):
 	var other_block_extents = current_other_area_parent_block.get_node("CollisionShape").shape.extents
 	
 	var move_by_vec = other_snap_area.global_transform.origin - global_transform.origin
-	move_by_vec -= other_snap_area.global_transform.basis.z.normalized() * (other_snap_area_extents.x - 0.01) * 2
+	move_by_vec -= other_snap_area.global_transform.basis.z.normalized() * (other_snap_area_extents.x - 0.001) * 2
 	parent_block.global_transform.origin += move_by_vec
+	
+	# assign back
+	snap_end_transform = parent_block.global_transform
+	parent_block.global_transform = snap_start_transform
 	
 	# make this and other parent static
 	parent_block.set_mode(RigidBody.MODE_STATIC)
 	current_other_area_parent_block.set_mode(RigidBody.MODE_STATIC)
+	
+	move_to_snap = true
 
 
 func unsnap():
-	#print("unsnapping blocks " + self.name + " " + parent_block.name + " and " + snap_area_other_area.name)
 	snapped = false
 	is_master = false
 	snap_area_other_area = null
 	other_area_parent_block = null
 	connection_id = ""
+
+
+# snaps to the other block over time, updating position and rotation
+func update_pos_to_snap(delta: float) -> void:
+	snap_timer += delta
+	interpolation_progress = snap_timer * snap_speed
+	
+	if interpolation_progress > 1.0:
+		move_to_snap = false
+		snap_timer = 0.0
+		return
+	
+	parent_block.global_transform = snap_start_transform.interpolate_with(snap_end_transform, interpolation_progress)
 
 
 # update the schematic with this new connection
