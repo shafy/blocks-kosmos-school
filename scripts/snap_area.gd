@@ -88,8 +88,13 @@ func _on_Snap_Area_area_entered(area):
 	if snapped:
 		return
 	
+	if snapping:
+		return
+	
 	if !area.is_class("SnapArea"):
 		return
+		
+	print(parent_block.name + " " + self.name + " other area " + area.get_parent().name + " " + area.name )
 	
 	if area.snapped:
 		return
@@ -97,8 +102,6 @@ func _on_Snap_Area_area_entered(area):
 	# assign master area
 	if (!area.is_master):
 		is_master = true
-	
-	#print (self.name + " is_master: " + str(is_master))
 	
 	# stop executing if parent is already in the process of snapping
 #	if parent_block.get_snapping() == true:
@@ -127,9 +130,9 @@ func _on_Snap_Area_area_exited(area):
 	# can only unsnap if being grabbed away
 	if is_master and snapped:
 		if parent_block.is_grabbed or other_area_parent_block.is_grabbed:
+			schematic_remove_connection()
 			snap_area_other_area.unsnap()
 			unsnap()
-			schematic_remove_connection()
 	
 		#print("UNSNAP snap_area_other_area ", snap_area_other_area)
 		#print("exited blocks " + self.name + " " + parent_block.name + " and " + snap_area_other_area.name)
@@ -166,8 +169,12 @@ func snap_to_block(other_snap_area: Area):
 	var other_block_extents = current_other_area_parent_block.get_node("CollisionShape").shape.extents
 	
 	var move_by_vec = other_snap_area.global_transform.origin - global_transform.origin
-	move_by_vec -= other_snap_area.global_transform.basis.z.normalized() * other_snap_area_extents.x * 2
+	move_by_vec -= other_snap_area.global_transform.basis.z.normalized() * (other_snap_area_extents.x - 0.01) * 2
 	parent_block.global_transform.origin += move_by_vec
+	
+	# make this and other parent static
+	parent_block.set_mode(RigidBody.MODE_STATIC)
+	current_other_area_parent_block.set_mode(RigidBody.MODE_STATIC)
 
 
 func unsnap():

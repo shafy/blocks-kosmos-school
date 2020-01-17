@@ -26,6 +26,7 @@
 [ext_resource path="res://materials/bright_metal.tres" type="Material" id=24]
 [ext_resource path="res://scenes/minis/switch_mini.tscn" type="PackedScene" id=25]
 [ext_resource path="res://scenes/minis/battery_mini.tscn" type="PackedScene" id=26]
+[ext_resource path="res://scenes/building_blocks/battery.tscn" type="PackedScene" id=27]
 [ext_resource path="res://materials/green_wood.tres" type="Material" id=29]
 [ext_resource path="res://scripts/button_remove_mode.gd" type="Script" id=30]
 [ext_resource path="res://materials/bronce_cover.tres" type="Material" id=31]
@@ -50,10 +51,6 @@ glow_blend_mode = 1
 
 [sub_resource type="BoxShape" id=4]
 extents = Vector3( 0.513476, 0.0379334, 0.5051 )
-
-[sub_resource type="BoxShape" id=5]
-margin = 0.001
-extents = Vector3( 0.02, 0.009, 0.02 )
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 8 )
@@ -158,9 +155,17 @@ script = ExtResource( 11 )
 transform = Transform( 0.752484, 0, 0.658611, 0, 1, 0, -0.658611, 0, 0.752484, 0, 0.917069, -0.67264 )
 resistance = 3.0
 
+[node name="Lamp4" parent="." instance=ExtResource( 9 )]
+transform = Transform( 0.752484, 0, 0.658611, 0, 1, 0, -0.658611, 0, 0.752484, -0.252876, 0.917069, -0.45131 )
+resistance = 3.0
+
 [node name="Lamp2" parent="." instance=ExtResource( 9 )]
 transform = Transform( 0.999998, -0.00174533, 0, 0.00174533, 0.999998, 0, 0, 0, 1, 0.336925, 0.909438, -0.626985 )
 resistance = 2.0
+
+[node name="Battery" parent="." instance=ExtResource( 27 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33225, 0.896346, -0.391175 )
+potential = 20.0
 
 [node name="Table" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.593, -0.83874 )
@@ -174,9 +179,3 @@ shape = SubResource( 4 )
 use_in_baked_light = true
 mesh = ExtResource( 18 )
 material/0 = ExtResource( 19 )
-
-[node name="Area" type="Area" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15989, -0.80174 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Area"]
-shape = SubResource( 5 )
