@@ -1,4 +1,4 @@
-extends BuildingBlockWireable
+extends BuildingBlockSnappable
 
 class_name Junction
 

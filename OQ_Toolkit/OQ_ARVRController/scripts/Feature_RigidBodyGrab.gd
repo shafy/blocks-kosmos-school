@@ -7,6 +7,9 @@ var grab_area : Area = null;
 var held_object = null;
 var held_object_data = {};
 var grab_mesh : MeshInstance = null;
+var held_object_initial_parent : Node
+
+#onready var grabbable_rigid_body_parent_script = load("scripts/grabbable_rigid_body_parent.gd")
 
 enum {
 	GRABTYPE_VELOCITY,
@@ -32,19 +35,51 @@ func start_grab_velocity(grabbable_rigid_body: GrabbableRigidBody):
 		return
 	
 	grabbable_rigid_body.sleeping = false
-	
-	var temp_global_pos = grabbable_rigid_body.global_transform.origin
-	var temp_rotation = grabbable_rigid_body.global_transform.basis
-	
-	grabbable_rigid_body.global_transform.origin = temp_global_pos
-	grabbable_rigid_body.global_transform.basis = temp_rotation
-	
 	held_object = grabbable_rigid_body
-	held_object.grab_init(self)
+	
+	# keep initial transform
+	var initial_transform = held_object.get_global_transform()
+	
+	
+	
+	# reparent
+	held_object_initial_parent = held_object.get_parent()
+	held_object_initial_parent.remove_child(held_object)
+	add_child(held_object)
+	
+	held_object.global_transform = initial_transform
+	held_object.set_mode(RigidBody.MODE_KINEMATIC)
+	
+	#var hand_local = held_object.to_local(global_transform.origin)
+	#var grab_offset = hand_local - held_object.global_transform.origin
+	
+	held_object.grab_init(held_object.to_local(global_transform.origin))
 
 
 func release_grab_velocity():
+	# keep initial transform
+	var initial_transform = held_object.get_global_transform()
+	
+	# reparent
+	remove_child(held_object)
+	held_object_initial_parent.add_child(held_object)
+	
+	held_object.global_transform = initial_transform
+	held_object.set_mode(RigidBody.MODE_RIGID)
+	
 	held_object.grab_release(self)
+#	var parent_spatial_transform = parent_spatial.get_global_transform()
+#	# reparent to initial parent
+#	parent_spatial.remove_child(held_object)
+#
+#	held_object_initial_parent.add_child(held_object)
+#
+#	held_object.global_transform.origin = parent_spatial_transform.origin
+#	held_object.global_transform.basis = parent_spatial_transform.basis
+#
+#	# destroy spatial that we had created
+#	parent_spatial.queue_free()
+	
 	held_object = null
 
 
@@ -69,7 +104,7 @@ func grab():
 	if len(bodies) > 0:
 		for body in bodies:
 			if body is GrabbableRigidBody:
-					if body.is_grabbable:
+					if body.get_mode() == RigidBody.MODE_RIGID and body.is_grabbable:
 						grabbable_rigid_body = body
 
 	if grabbable_rigid_body:

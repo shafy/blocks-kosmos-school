@@ -23,6 +23,7 @@ var collision_shape_mini_scale : Vector3
 
 onready var mesh_node = $MeshInstance
 onready var collision_shape_node = $CollisionShape
+onready var all_building_blocks = get_node("/root/Main/AllBuildingBlocks")
 
 export(float) var mini_scale_factor
 export(Vector3) var extents_initial
@@ -112,10 +113,9 @@ func maximize():
 
 
 func switch_to_maxi():
-	# instance maxi node
-	var main_node = get_node("/root/Main")
+	# instance maxi node to all_building_blocks node
 	var new_maxi = maxi_scene.instance()
-	main_node.add_child(new_maxi)
+	all_building_blocks.add_child(new_maxi)
 	
 	# set to correct position and rotation
 	new_maxi.transform.origin = global_transform.origin

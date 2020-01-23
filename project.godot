@@ -9,15 +9,30 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Spatial",
+"class": "BlockLockSystem",
+"language": "GDScript",
+"path": "res://scripts/block_lock_system.gd"
+}, {
 "base": "GrabbableRemovableRigidBody",
 "class": "BuildingBlock",
 "language": "GDScript",
 "path": "res://scripts/building_block.gd"
 }, {
 "base": "BuildingBlock",
+"class": "BuildingBlockSnappable",
+"language": "GDScript",
+"path": "res://scripts/building_block_snappable.gd"
+}, {
+"base": "BuildingBlock",
 "class": "BuildingBlockWireable",
 "language": "GDScript",
 "path": "res://scripts/building_block_wireable.gd"
+}, {
+"base": "ButtonPressable",
+"class": "ButtonLockMode",
+"language": "GDScript",
+"path": "res://scripts/button_lock_mode.gd"
 }, {
 "base": "Spatial",
 "class": "ButtonPressable",
@@ -28,11 +43,6 @@ _global_script_classes=[ {
 "class": "ButtonRemoveMode",
 "language": "GDScript",
 "path": "res://scripts/button_remove_mode.gd"
-}, {
-"base": "ButtonPressable",
-"class": "ButtonWireMode",
-"language": "GDScript",
-"path": "res://scripts/button_wire_mode.gd"
 }, {
 "base": "Node",
 "class": "GaussSolver",
@@ -49,7 +59,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://OQ_Toolkit/OQ_ARVRController/scripts/grabbable_rigid_body.gd"
 }, {
-"base": "BuildingBlockWireable",
+"base": "RigidBody",
+"class": "GrabbableRigidBodyParent",
+"language": "GDScript",
+"path": "res://scripts/grabbable_rigid_body_parent.gd"
+}, {
+"base": "BuildingBlockSnappable",
 "class": "Junction",
 "language": "GDScript",
 "path": "res://scripts/junction.gd"
@@ -79,7 +94,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/placer_system.gd"
 }, {
-"base": "BuildingBlockWireable",
+"base": "BuildingBlockSnappable",
 "class": "Resistor",
 "language": "GDScript",
 "path": "res://scripts/resistor.gd"
@@ -109,7 +124,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/snap_area.gd"
 }, {
-"base": "BuildingBlockWireable",
+"base": "BuildingBlockSnappable",
 "class": "Switch",
 "language": "GDScript",
 "path": "res://scripts/switch.gd"
@@ -119,7 +134,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/tablet.gd"
 }, {
-"base": "BuildingBlockWireable",
+"base": "BuildingBlockSnappable",
 "class": "VoltageSource",
 "language": "GDScript",
 "path": "res://scripts/voltage_source.gd"
@@ -145,14 +160,17 @@ _global_script_classes=[ {
 "path": "res://scripts/wireable.gd"
 } ]
 _global_script_class_icons={
+"BlockLockSystem": "",
 "BuildingBlock": "",
+"BuildingBlockSnappable": "",
 "BuildingBlockWireable": "",
+"ButtonLockMode": "",
 "ButtonPressable": "",
 "ButtonRemoveMode": "",
-"ButtonWireMode": "",
 "GaussSolver": "",
 "GrabbableRemovableRigidBody": "",
 "GrabbableRigidBody": "",
+"GrabbableRigidBodyParent": "",
 "Junction": "",
 "Lamp": "",
 "Mini": "",

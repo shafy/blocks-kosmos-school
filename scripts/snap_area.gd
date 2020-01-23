@@ -4,9 +4,11 @@ extends Area
 class_name SnapArea
 
 
+signal area_snapped
+signal area_unsnapped
+
 var snap_area_other_area : Area
-var other_area_parent_block : BuildingBlock
-var snapped := false
+var other_area_parent_block
 var z_difference := 1
 var x_difference := 1
 var connection_id : String
@@ -20,12 +22,19 @@ var snap_end_transform : Transform
 var interpolation_progress : float
 var moving_connection_added := false
 
+var snapped := false setget , get_snapped
 var initial_grab := false setget set_initial_grab, get_initial_grab
 
 onready var parent_block := get_parent()
 onready var schematic  := get_node("/root/Main/Schematic")
 
 export(String) var polarity
+enum LocationOnBlock {LENGTH, WIDTH}
+export (LocationOnBlock) var location_on_block
+
+
+func get_snapped():
+	return snapped
 
 
 func set_initial_grab(new_value):
@@ -56,7 +65,7 @@ func _process(delta):
 		# this happens when the area overlaps with another while being moved to snap
 		# but the movement has originated from another area from the same block
 		# therefore, don't move but just create connection in schematic
-		print(parent_block.name + " " + self.name + " other area " + other_area_parent_block.name + " " + snap_area_other_area.name )
+		#print(parent_block.name + " " + self.name + " other area " + other_area_parent_block.name + " " + snap_area_other_area.name )
 		connection_id = schematic_add_blocks(parent_block, polarity, other_area_parent_block, snap_area_other_area.polarity)
 		snap_area_other_area.connection_id = connection_id
 		moving_connection_added = true
@@ -107,6 +116,10 @@ func _on_Snap_Area_area_entered(area):
 		return
 	
 	if !area.is_class("SnapArea"):
+		return
+	
+	# don't allow adding length to length
+	if area.location_on_block == LocationOnBlock.LENGTH and location_on_block == LocationOnBlock.LENGTH :
 		return
 	
 	if area.snapped:
@@ -171,8 +184,8 @@ func snap_to_block(other_snap_area: Area):
 	parent_block.global_transform = snap_start_transform
 	
 	# make this and other parent static
-	parent_block.set_mode(RigidBody.MODE_STATIC)
-	current_other_area_parent_block.set_mode(RigidBody.MODE_STATIC)
+#	parent_block.set_mode(RigidBody.MODE_STATIC)
+#	current_other_area_parent_block.set_mode(RigidBody.MODE_STATIC)
 	
 	move_to_snap = true
 	parent_block.set_moving_to_snap(true)
@@ -185,6 +198,7 @@ func unsnap():
 	other_area_parent_block = null
 	connection_id = ""
 	moving_connection_added = false
+	emit_signal("area_unsnapped")
 
 
 # snaps to the other block over time, updating position and rotation
@@ -198,6 +212,8 @@ func update_pos_to_snap(delta: float) -> void:
 		snap_timer = 0.0
 		snapped = true
 		snap_area_other_area.snapped = true
+		emit_signal("area_snapped")
+		
 		return
 	
 	parent_block.global_transform = snap_start_transform.interpolate_with(snap_end_transform, interpolation_progress)

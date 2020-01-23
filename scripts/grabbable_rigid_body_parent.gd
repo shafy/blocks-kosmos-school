@@ -1,24 +1,24 @@
 extends RigidBody
 
-# makes a rigid body grabbable by OQ_Controller
-class_name GrabbableRigidBody
+
+class_name GrabbableRigidBodyParent
 
 signal grab_started
 signal grab_ended
 
 
 var target_node = null
-var delta_orientation = Basis()
+var empty_parent : RigidBody 
+var delta_orientation = Basis();
 #var delta_vector = Vector3()
 var is_grabbed := false
-var impulse_offset : Vector3
 
 export var is_grabbable := true
 
 
-func grab_init(grab_offset):
-	impulse_offset = grab_offset
-	#target_node = node
+func grab_init(node):
+	target_node = node
+	# get empty parent, that's the one we want to move
 	#var node_basis = node.get_global_transform().basis;
 	# get relative position to where the grab was initiated
 	#delta_vector = target_node.get_global_transform().origin - get_global_transform().origin
@@ -28,8 +28,6 @@ func grab_init(grab_offset):
 func grab_release(node):
 	is_grabbed = false
 	target_node = null
-	apply_impulse(impulse_offset, linear_velocity)
-	apply_torque_impulse(angular_velocity)
 
 
 func orientation_follow(state, current_basis : Basis, target_basis : Basis):
@@ -51,16 +49,13 @@ func position_follow(state, current_position, target_position):
 	var dir = target_position - current_position;
 	state.set_linear_velocity(dir / state.get_step());
 
-#func _physics_process(delta):
-#	if is_grabbed:
-#		#print("linear_velocity", linear_velocity)
 
-#func _integrate_forces(state):
-#	if (!is_grabbed): return
-#
-#	if (!target_node): return
-#
-#	var target_basis =  target_node.get_global_transform().basis * delta_orientation
-#	var target_position = target_node.get_global_transform().origin
-#	position_follow(state, get_global_transform().origin, target_position)
-#	orientation_follow(state, get_global_transform().basis, target_basis)
+func _integrate_forces(state):
+	if (!is_grabbed): return
+	
+	if (!target_node): return
+	
+	var target_basis =  target_node.get_global_transform().basis * delta_orientation
+	var target_position = target_node.get_global_transform().origin
+	position_follow(state, get_global_transform().origin, target_position)
+	orientation_follow(state, get_global_transform().basis, target_basis)

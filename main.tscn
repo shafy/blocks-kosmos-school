@@ -9,7 +9,6 @@
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/Feature_ControllerModel_Left.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scripts/main.gd" type="Script" id=8]
 [ext_resource path="res://scenes/building_blocks/lamp.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/wire_generator.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scripts/schematic.gd" type="Script" id=11]
 [ext_resource path="res://scripts/placer_system.gd" type="Script" id=12]
 [ext_resource path="res://OQ_Toolkit/OQ_Buttons/OQ_ButtonPressable.tscn" type="PackedScene" id=13]
@@ -20,13 +19,14 @@
 [ext_resource path="res://meshes/table.mesh" type="ArrayMesh" id=18]
 [ext_resource path="res://materials/dark_grey_wood.tres" type="Material" id=19]
 [ext_resource path="res://table.png" type="Texture" id=20]
-[ext_resource path="res://scripts/button_wire_mode.gd" type="Script" id=21]
+[ext_resource path="res://scripts/button_lock_mode.gd" type="Script" id=21]
 [ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=22]
 [ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=23]
 [ext_resource path="res://materials/bright_metal.tres" type="Material" id=24]
 [ext_resource path="res://scenes/minis/switch_mini.tscn" type="PackedScene" id=25]
 [ext_resource path="res://scenes/minis/battery_mini.tscn" type="PackedScene" id=26]
 [ext_resource path="res://scenes/building_blocks/battery.tscn" type="PackedScene" id=27]
+[ext_resource path="res://scripts/block_lock_system.gd" type="Script" id=28]
 [ext_resource path="res://materials/green_wood.tres" type="Material" id=29]
 [ext_resource path="res://scripts/button_remove_mode.gd" type="Script" id=30]
 [ext_resource path="res://materials/bronce_cover.tres" type="Material" id=31]
@@ -80,15 +80,16 @@ transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.005, 0, 0, 0 )
 mesh = SubResource( 2 )
 material/0 = ExtResource( 15 )
 
-[node name="WireModeButton" parent="Tablet" instance=ExtResource( 13 )]
+[node name="ButtonLockMode" parent="Tablet" instance=ExtResource( 13 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, 0.052441, -0.0632514, 0.00800005 )
 script = ExtResource( 21 )
 off_material = ExtResource( 24 )
 on_material = ExtResource( 29 )
+on_on_start = true
 
-[node name="OQ_UILabel2" parent="Tablet/WireModeButton" instance=ExtResource( 22 )]
+[node name="OQ_UILabel2" parent="Tablet/ButtonLockMode" instance=ExtResource( 22 )]
 transform = Transform( -0.288362, 1.49012e-08, -3.57628e-07, 3.72529e-09, 0.328175, -3.27826e-07, 1.19209e-07, -1.19209e-07, -1, 8.9407e-08, 0, 0.00830704 )
-text = "Wire Mode"
+text = "Unlock Blocks"
 resize_mode = 1
 font_size_multiplier = 3.0
 font_color = Color( 0.156863, 0.141176, 0.141176, 1 )
@@ -149,22 +150,28 @@ environment = SubResource( 3 )
 [node name="Schematic" type="Node" parent="."]
 script = ExtResource( 11 )
 
-[node name="WireGenerator" parent="." instance=ExtResource( 10 )]
+[node name="AllBuildingBlocks" type="Spatial" parent="."]
 
-[node name="Lamp3" parent="." instance=ExtResource( 9 )]
+[node name="Lamp3" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
 transform = Transform( 0.752484, 0, 0.658611, 0, 1, 0, -0.658611, 0, 0.752484, 0, 0.917069, -0.67264 )
-resistance = 3.0
+linear_damp = 0.9
+angular_damp = 1.0
 
-[node name="Lamp4" parent="." instance=ExtResource( 9 )]
+[node name="Lamp4" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
 transform = Transform( 0.752484, 0, 0.658611, 0, 1, 0, -0.658611, 0, 0.752484, -0.252876, 0.917069, -0.45131 )
-resistance = 3.0
+linear_damp = 0.9
+angular_damp = 1.0
 
-[node name="Lamp2" parent="." instance=ExtResource( 9 )]
+[node name="Lamp2" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
 transform = Transform( 0.999998, -0.00174533, 0, 0.00174533, 0.999998, 0, 0, 0, 1, 0.336925, 0.909438, -0.626985 )
+linear_damp = 0.9
+angular_damp = 1.0
 resistance = 2.0
 
-[node name="Battery" parent="." instance=ExtResource( 27 )]
+[node name="Battery" parent="AllBuildingBlocks" instance=ExtResource( 27 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33225, 0.896346, -0.391175 )
+linear_damp = 0.9
+angular_damp = 1.0
 potential = 20.0
 
 [node name="Table" type="RigidBody" parent="."]
@@ -179,3 +186,6 @@ shape = SubResource( 4 )
 use_in_baked_light = true
 mesh = ExtResource( 18 )
 material/0 = ExtResource( 19 )
+
+[node name="BlockLockSystem" type="Spatial" parent="."]
+script = ExtResource( 28 )

@@ -17,7 +17,6 @@ var alphanumeric_array = [
 	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
 ]
 
-onready var wire_generator = get_node("/root/Main/WireGenerator")
 
 func _ready():
 #	var power_button = get_node("/root/Main/PowerButton")
@@ -87,7 +86,6 @@ func remove_block(current_block : BuildingBlock) -> void:
 	
 	for conn in result_connections:
 		remove_connection(conn[2])
-		#wire_generator.delete_wire(conn[2])
 	
 	# re-calculate
 	loop_current_method()
@@ -120,7 +118,7 @@ func add_blocks(_building_block1: BuildingBlock, _ai1: String, _building_block2:
 	return random_id
 
 
-func add_new_block(block: BuildingBlock) -> void:
+func add_new_block(block) -> void:
 	if !all_blocks.has(block):
 		# doesn't exist, add
 		# it's a voltage source and there's no voltage source otherwise, add to first position

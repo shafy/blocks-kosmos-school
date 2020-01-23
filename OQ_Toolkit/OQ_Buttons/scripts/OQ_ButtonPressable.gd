@@ -37,10 +37,12 @@ func _ready():
 	
 	button_half_length_vector = initial_pos_local + button_forward_vector_norm * z_scale / 2
 	
-	# switch to correct material
+	# initialize
 	if (on_on_start):
 		is_on = true
-	switch_mat(is_on)
+		button_turn_on()
+	else:
+		button_turn_off()
 
 
 func _process(delta):
@@ -101,6 +103,16 @@ func button_press(other_area: Area):
 	is_on = !is_on
 	switch_mat(is_on)
 	emit_signal("button_pressed")
+
+
+func button_turn_on():
+	is_on = true
+	switch_mat(true)
+
+
+func button_turn_off():
+	is_on = false
+	switch_mat(false)
 
 
 func switch_mat(_is_on):

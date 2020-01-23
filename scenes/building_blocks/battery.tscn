@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://scenes/building_blocks/building_block.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/building_blocks/building_block_snappable.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/voltage_source.gd" type="Script" id=2]
 [ext_resource path="res://meshes/battery_base.mesh" type="ArrayMesh" id=3]
 [ext_resource path="res://materials/bronce_cover.tres" type="Material" id=4]
@@ -16,6 +16,7 @@ extents = Vector3( 0.015, 0.009, 0.015 )
 
 [node name="Battery" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+potential = 9.0
 
 [node name="CollisionShape" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0115887, 0 )
