@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/Feature_ControllerModel_Left.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scripts/main.gd" type="Script" id=8]
 [ext_resource path="res://scenes/building_blocks/lamp.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/building_blocks/ammeter.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scripts/schematic.gd" type="Script" id=11]
 [ext_resource path="res://scripts/placer_system.gd" type="Script" id=12]
 [ext_resource path="res://OQ_Toolkit/OQ_Buttons/OQ_ButtonPressable.tscn" type="PackedScene" id=13]
@@ -51,6 +52,9 @@ glow_blend_mode = 1
 
 [sub_resource type="BoxShape" id=4]
 extents = Vector3( 0.513476, 0.0379334, 0.5051 )
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 0.015, 0.009, 0.015 )
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 8 )
@@ -152,26 +156,20 @@ script = ExtResource( 11 )
 
 [node name="AllBuildingBlocks" type="Spatial" parent="."]
 
+[node name="Ammeter" parent="AllBuildingBlocks" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.266051, 0.928088, -0.540654 )
+linear_damp = 1.0
+angular_damp = 0.9
+
 [node name="Lamp3" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
 transform = Transform( 0.752484, 0, 0.658611, 0, 1, 0, -0.658611, 0, 0.752484, 0, 0.917069, -0.67264 )
-linear_damp = 0.9
-angular_damp = 1.0
-
-[node name="Lamp4" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
-transform = Transform( 0.752484, 0, 0.658611, 0, 1, 0, -0.658611, 0, 0.752484, -0.252876, 0.917069, -0.45131 )
-linear_damp = 0.9
-angular_damp = 1.0
 
 [node name="Lamp2" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
 transform = Transform( 0.999998, -0.00174533, 0, 0.00174533, 0.999998, 0, 0, 0, 1, 0.336925, 0.909438, -0.626985 )
-linear_damp = 0.9
-angular_damp = 1.0
 resistance = 2.0
 
 [node name="Battery" parent="AllBuildingBlocks" instance=ExtResource( 27 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33225, 0.896346, -0.391175 )
-linear_damp = 0.9
-angular_damp = 1.0
 potential = 20.0
 
 [node name="Table" type="RigidBody" parent="."]
@@ -189,3 +187,10 @@ material/0 = ExtResource( 19 )
 
 [node name="BlockLockSystem" type="Spatial" parent="."]
 script = ExtResource( 28 )
+
+[node name="Area" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.734063, -1.82318 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.361732, 1.11083 )
+shape = SubResource( 5 )

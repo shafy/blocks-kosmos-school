@@ -355,7 +355,7 @@ func calculate_element_attributes(loop_currents: Array):
 	for i in range(loops_array.size()):
 		for k in range (loops_array[i].size()):
 			var element = loops_array[i][k]
-			if element is Resistor:
+			if element is Resistor or element is Ammeter:
 				var loop_current = 0.0
 				if element.superposition["connections"].empty():
 					loop_current = loop_currents[i]
@@ -365,14 +365,20 @@ func calculate_element_attributes(loop_currents: Array):
 						loop_current += loop_currents[c]
 				
 				element.current = loop_current
-				element.potential = element.resistance * loop_current
+				
+				if element is Resistor:
+					element.potential = element.resistance * loop_current
 				
 				if element is Lamp:
 					element.update_light()
 				
-				print("element.resistance: ", element.resistance)
-				print("element.current: ", element.current)
-				print("element.potential: ", element.potential)
+				if element is Ammeter:
+					element.update_text()
+				
+				if element is Resistor:
+					print("element.resistance: ", element.resistance)
+					print("element.current: ", element.current)
+					print("element.potential: ", element.potential)
 
 # loop through all loops and mark superpositions
 func find_superpositions():
@@ -381,7 +387,7 @@ func find_superpositions():
 		var loop1 = loops_array[i]
 		for y in range(loop1.size()):
 			var element1 = loop1[y]
-			if element1 is Resistor:
+			if element1 is Resistor or Ammeter:
 				# compare to all loops with index greater
 				for ii in range(i+1, loops_array.size()):
 					# here we could optimize a bit and avoid checking loops that

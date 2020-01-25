@@ -21,6 +21,8 @@ extents = Vector3( 0.015, 0.009, 0.015 )
 [node name="BuildingBlockSnappable" type="RigidBody"]
 contacts_reported = 1
 contact_monitor = true
+linear_damp = 0.9
+angular_damp = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00569363, 0 )

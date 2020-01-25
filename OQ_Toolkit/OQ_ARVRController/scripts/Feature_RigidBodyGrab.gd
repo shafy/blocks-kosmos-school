@@ -40,8 +40,6 @@ func start_grab_velocity(grabbable_rigid_body: GrabbableRigidBody):
 	# keep initial transform
 	var initial_transform = held_object.get_global_transform()
 	
-	
-	
 	# reparent
 	held_object_initial_parent = held_object.get_parent()
 	held_object_initial_parent.remove_child(held_object)
@@ -49,9 +47,6 @@ func start_grab_velocity(grabbable_rigid_body: GrabbableRigidBody):
 	
 	held_object.global_transform = initial_transform
 	held_object.set_mode(RigidBody.MODE_KINEMATIC)
-	
-	#var hand_local = held_object.to_local(global_transform.origin)
-	#var grab_offset = hand_local - held_object.global_transform.origin
 	
 	held_object.grab_init(held_object.to_local(global_transform.origin))
 
@@ -68,17 +63,6 @@ func release_grab_velocity():
 	held_object.set_mode(RigidBody.MODE_RIGID)
 	
 	held_object.grab_release(self)
-#	var parent_spatial_transform = parent_spatial.get_global_transform()
-#	# reparent to initial parent
-#	parent_spatial.remove_child(held_object)
-#
-#	held_object_initial_parent.add_child(held_object)
-#
-#	held_object.global_transform.origin = parent_spatial_transform.origin
-#	held_object.global_transform.basis = parent_spatial_transform.basis
-#
-#	# destroy spatial that we had created
-#	parent_spatial.queue_free()
 	
 	held_object = null
 

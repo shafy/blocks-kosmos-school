@@ -71,11 +71,13 @@ func _process(delta):
 		moving_connection_added = true
 	
 	
-	# only the master area executes the following
+	# only the master snap area executes the following
 	if !is_master:
 		return
-		
+	
+	# decide which block is grabbed
 	if !snapping and !initial_grab and !snap_area_other_area.get_initial_grab():
+		# if both are grabbed or ungrabbed, return
 		if parent_block.is_grabbed == other_area_parent_block.is_grabbed:
 			return
 		
@@ -105,7 +107,6 @@ func _process(delta):
 		# set up connection in schematic
 		connection_id = schematic_add_blocks(parent_block, polarity, other_area_parent_block, snap_area_other_area.polarity)
 		snap_area_other_area.connection_id = connection_id
-		#snap_area_other_area = null
 
 
 func _on_Snap_Area_area_entered(area):
@@ -131,13 +132,19 @@ func _on_Snap_Area_area_entered(area):
 	
 	snap_area_other_area = area
 	other_area_parent_block = snap_area_other_area.get_parent()
-	
-	#print(parent_block.name + " " + self.name + " other area " + area.get_parent().name + " " + area.name )
 
 
 func _on_Snap_Area_area_exited(area):
 	if !area.is_class("SnapArea"):
 		return
+	
+	if snap_area_other_area:
+		# only reset if snap_area_other_area is far enough
+		# we need to do this because with the small collisionshapes we use
+		# the area keeps entering and exiting all the time (probably a bug in Godot)
+		if other_area_distance() > 0.04:
+			snap_area_other_area = null
+			other_area_parent_block = null
 	
 	# can only unsnap if being grabbed away
 	if is_master and snapped:
@@ -146,9 +153,9 @@ func _on_Snap_Area_area_exited(area):
 			snap_area_other_area.unsnap()
 			unsnap()
 
-	if !snapped:
-		snap_area_other_area = null
-		other_area_parent_block = null
+#	if !snapped and !move_to_snap and !snapping:
+#		snap_area_other_area = null
+#		other_area_parent_block = null
 
 
 # snaps this block to another block
@@ -183,10 +190,6 @@ func snap_to_block(other_snap_area: Area):
 	snap_end_transform = parent_block.global_transform
 	parent_block.global_transform = snap_start_transform
 	
-	# make this and other parent static
-#	parent_block.set_mode(RigidBody.MODE_STATIC)
-#	current_other_area_parent_block.set_mode(RigidBody.MODE_STATIC)
-	
 	move_to_snap = true
 	parent_block.set_moving_to_snap(true)
 
@@ -219,6 +222,11 @@ func update_pos_to_snap(delta: float) -> void:
 	parent_block.global_transform = snap_start_transform.interpolate_with(snap_end_transform, interpolation_progress)
 
 
+
+func other_area_distance() -> float:
+	return get_global_transform().origin.distance_to(snap_area_other_area.get_global_transform().origin)
+	
+	
 # update the schematic with this new connection
 func schematic_add_blocks(_building_block1: BuildingBlock, _ai1: String, _building_block2: BuildingBlock, _ai2: String) -> String:
 	var return_connection_id = schematic.add_blocks(_building_block1, _ai1, _building_block2, _ai2)

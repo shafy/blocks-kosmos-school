@@ -9,7 +9,6 @@ signal grab_ended
 
 var target_node = null
 var delta_orientation = Basis()
-#var delta_vector = Vector3()
 var is_grabbed := false
 var impulse_offset : Vector3
 
@@ -29,7 +28,7 @@ func grab_release(node):
 	is_grabbed = false
 	target_node = null
 	apply_impulse(impulse_offset, linear_velocity)
-	apply_torque_impulse(angular_velocity)
+	apply_torque_impulse(angular_velocity * 0.001)
 
 
 func orientation_follow(state, current_basis : Basis, target_basis : Basis):
