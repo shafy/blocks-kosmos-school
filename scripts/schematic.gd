@@ -96,7 +96,7 @@ func add_blocks(_building_block1: BuildingBlock, _ai1: String, _building_block2:
 	# add blocks
 	add_new_block(_building_block1)
 	add_new_block(_building_block2)
-		
+	
 	# add connection
 	# generate random alphanumeric string as connection id
 	var random_id := gen_random_connection_id()
@@ -128,7 +128,10 @@ func add_new_block(block) -> void:
 			all_blocks.append(block)
 		
 		# connect to deletion signal
-		block.connect("block_deleted", self, "_on_Building_Block_block_deleted")
+		if !block.is_connected("block_deleted", self, "_on_Building_Block_block_deleted"):
+			block.connect("block_deleted", self, "_on_Building_Block_block_deleted", [CONNECT_DEFERRED])
+		
+		
 
 
 # removes connection from schematic
@@ -345,8 +348,7 @@ func clear_block_attributes():
 			b.current = 0.0
 			b.potential = 0.0
 			
-			if b is Lamp:
-				b.update_light()
+			b.refresh()
 
 
 # finds currents and voltages for all elements in the circuit based on
@@ -355,7 +357,7 @@ func calculate_element_attributes(loop_currents: Array):
 	for i in range(loops_array.size()):
 		for k in range (loops_array[i].size()):
 			var element = loops_array[i][k]
-			if element is Resistor or element is Ammeter:
+			if element is Resistor:
 				var loop_current = 0.0
 				if element.superposition["connections"].empty():
 					loop_current = loop_currents[i]
@@ -366,19 +368,13 @@ func calculate_element_attributes(loop_currents: Array):
 				
 				element.current = loop_current
 				
-				if element is Resistor:
-					element.potential = element.resistance * loop_current
+				element.potential = element.resistance * loop_current
+				element.refresh()
 				
-				if element is Lamp:
-					element.update_light()
-				
-				if element is Ammeter:
-					element.update_text()
-				
-				if element is Resistor:
-					print("element.resistance: ", element.resistance)
-					print("element.current: ", element.current)
-					print("element.potential: ", element.potential)
+				print("element.name: ", element.name)
+				print("element.resistance: ", element.resistance)
+				print("element.current: ", element.current)
+				print("element.potential: ", element.potential)
 
 # loop through all loops and mark superpositions
 func find_superpositions():
@@ -466,7 +462,7 @@ func setup_KVL():
 					else:
 						b += float(current_element.potential)
 
-			elif current_element is Resistor:		
+			elif current_element is Resistor:
 				if !current_element.superposition["connections"].empty():
 					
 					current_element.superposition["connections"].sort()

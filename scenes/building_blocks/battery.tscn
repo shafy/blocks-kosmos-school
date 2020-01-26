@@ -31,36 +31,42 @@ material/3 = ExtResource( 4 )
 
 [node name="SnapArea1" parent="." index="3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, -0.00439964, 0.0458475 )
+polarity = "n"
 
 [node name="CollisionShape" parent="SnapArea1" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea2" parent="." index="4"]
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.116055, -0.00439965, 8.05601e-10 )
+polarity = "n"
 
 [node name="CollisionShape" parent="SnapArea2" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea3" parent="." index="5"]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.07, -0.00439965, -0.0458455 )
+polarity = "n"
 
 [node name="CollisionShape" parent="SnapArea3" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea4" parent="." index="6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0705971, -0.00439964, 0.0458475 )
+polarity = "p"
 
 [node name="CollisionShape" parent="SnapArea4" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea5" parent="." index="7"]
 transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.116302, -0.00439965, 4.31237e-08 )
+polarity = "p"
 
 [node name="CollisionShape" parent="SnapArea5" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea6" parent="." index="8"]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.07, -0.00439965, -0.0458455 )
+polarity = "p"
 
 [node name="CollisionShape" parent="SnapArea6" index="0"]
 shape = SubResource( 2 )

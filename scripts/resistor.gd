@@ -12,5 +12,10 @@ var superposition := {"connections": [], "direction": ""}
 func _ready():
 	pass
 
+# children can implement this method
+func refresh():
+	pass
+
+
 func get_class():
 	return "Resistor"

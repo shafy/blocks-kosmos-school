@@ -23,7 +23,7 @@ func _ready():
 		#mesh_instance.set_surface_material(3, bulb_material)
 
 
-func update_light():
+func refresh():
 	update_power()
 	set_emission()
 

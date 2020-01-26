@@ -19,8 +19,8 @@ func _ready():
 	outline_bubble_mesh.visible = false
 
 
-func _exit_tree():
-	emit_signal("block_deleted", self)
+#func _exit_tree():
+#	emit_signal("block_deleted", self)
 
 
 # overriding this function from the parent GrabbableRemovableRigidBody

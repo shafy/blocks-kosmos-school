@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "BuildingBlockSnappable",
+"base": "Resistor",
 "class": "Ammeter",
 "language": "GDScript",
 "path": "res://scripts/ammeter.gd"
@@ -144,6 +144,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/voltage_source.gd"
 }, {
+"base": "Resistor",
+"class": "Voltmeter",
+"language": "GDScript",
+"path": "res://scripts/voltmeter.gd"
+}, {
+"base": "BuildingBlockSnappable",
+"class": "WireBlock",
+"language": "GDScript",
+"path": "res://scripts/wire_block.gd"
+}, {
 "base": "Spatial",
 "class": "WireGenerator",
 "language": "GDScript",
@@ -192,6 +202,8 @@ _global_script_class_icons={
 "Switch": "",
 "Tablet": "",
 "VoltageSource": "",
+"Voltmeter": "",
+"WireBlock": "",
 "WireGenerator": "",
 "WireParent": "",
 "WireSegment": "",

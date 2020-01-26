@@ -1,18 +1,14 @@
-extends BuildingBlockSnappable
+extends Resistor
 
 # measaures and displays the current in a circuit
 class_name Ammeter
-
-
-var current := 0.0
-var superposition := {"connections": [], "direction": ""}
 
 onready var label = $OQ_UILabel
 
 
 func _ready():
-	update_text()
+	refresh()
 
 
-func update_text():
+func refresh():
 	label.set_label_text("%.2f A" % current)

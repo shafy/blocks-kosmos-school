@@ -14,7 +14,6 @@ var x_difference := 1
 var connection_id : String
 var is_master := false
 var snapping := false
-var move_to_snap := false
 var snap_speed := 10.0
 var snap_timer := 0.0
 var snap_start_transform : Transform
@@ -24,6 +23,7 @@ var moving_connection_added := false
 
 var snapped := false setget , get_snapped
 var initial_grab := false setget set_initial_grab, get_initial_grab
+var move_to_snap := false setget , get_move_to_snap
 
 onready var parent_block := get_parent()
 onready var schematic  := get_node("/root/Main/Schematic")
@@ -44,6 +44,11 @@ func set_initial_grab(new_value):
 func get_initial_grab():
 	return initial_grab
 
+
+func get_move_to_snap():
+	return move_to_snap
+
+
 # this is a hacky workaround because of this issue: https://github.com/godotengine/godot/issues/25252
 func is_class(type):
 	return type == "SnapArea" or .is_class(type)
@@ -55,6 +60,8 @@ func _ready():
 
 
 func _process(delta):
+	check_for_removal()
+	
 	if move_to_snap:
 		update_pos_to_snap(delta)
 	
@@ -105,11 +112,12 @@ func _process(delta):
 		snap_area_other_area.set_initial_grab(false)
 		
 		# set up connection in schematic
-		connection_id = schematic_add_blocks(parent_block, polarity, other_area_parent_block, snap_area_other_area.polarity)
-		snap_area_other_area.connection_id = connection_id
+		setup_connection(snap_area_other_area)
 
 
 func _on_Snap_Area_area_entered(area):
+	print(self.name + " and " + area.name)
+	
 	if snapped:
 		return
 	
@@ -135,27 +143,51 @@ func _on_Snap_Area_area_entered(area):
 
 
 func _on_Snap_Area_area_exited(area):
-	if !area.is_class("SnapArea"):
-		return
-	
-	if snap_area_other_area:
-		# only reset if snap_area_other_area is far enough
-		# we need to do this because with the small collisionshapes we use
-		# the area keeps entering and exiting all the time (probably a bug in Godot)
-		if other_area_distance() > 0.04:
-			snap_area_other_area = null
-			other_area_parent_block = null
-	
-	# can only unsnap if being grabbed away
-	if is_master and snapped:
-		if parent_block.is_grabbed or other_area_parent_block.is_grabbed:
-			schematic_remove_connection()
-			snap_area_other_area.unsnap()
-			unsnap()
+	pass
+#	if !area.is_class("SnapArea"):
+#		return
+#
+##	if snap_area_other_area and !snapped:
+##		# only reset if snap_area_other_area is far enough
+##		# we need to do this because with the small collisionshapes we use
+##		# the area keeps entering and exiting all the time (probably a bug in Godot)
+##		if other_area_distance() > 0.04:
+##			snap_area_other_area = null
+##			other_area_parent_block = null
+#
+#	# can only unsnap if being grabbed away
+#	if is_master and snapped:
+#		if parent_block.is_grabbed or other_area_parent_block.is_grabbed:
+#			schematic_remove_connection()
+#			snap_area_other_area.unsnap()
+#			unsnap()
 
 #	if !snapped and !move_to_snap and !snapping:
 #		snap_area_other_area = null
 #		other_area_parent_block = null
+
+
+# we use this custom method instead of the area_exited or get_overlapping_areas
+# we need to do this because with the small collisionshapes we use
+# the area keeps entering and exiting all the time (probably a bug in Godot)
+func check_for_removal():
+	if !snap_area_other_area:
+		return
+	
+	if move_to_snap or snapping:
+		return
+		
+	if other_area_distance() < 0.04:
+		return
+	
+	# if distance is greater, remove
+	if is_master and snapped:
+		schematic_remove_connection()
+		snap_area_other_area.unsnap()
+		unsnap()
+	else:
+		snap_area_other_area = null
+		other_area_parent_block = null
 
 
 # snaps this block to another block
@@ -216,11 +248,24 @@ func update_pos_to_snap(delta: float) -> void:
 		snapped = true
 		snap_area_other_area.snapped = true
 		emit_signal("area_snapped")
+		other_area_parent_block.set_snapped(true)
 		
 		return
 	
 	parent_block.global_transform = snap_start_transform.interpolate_with(snap_end_transform, interpolation_progress)
 
+
+func setup_connection(_other_area):
+	connection_id = schematic_add_blocks(parent_block, polarity, _other_area.get_parent(), _other_area.polarity)
+	snap_area_other_area.connection_id = connection_id
+
+# double checks if really not overlapping an area
+# called from parent after every succesful snap
+func doublecheck_snap() -> void:
+	var overlapping_areas = get_overlapping_areas()
+	for overlapping_area in overlapping_areas:
+		if !overlapping_area.get_snapped() or !overlapping_area.get_move_to_snap():
+			setup_connection(overlapping_area)
 
 
 func other_area_distance() -> float:
