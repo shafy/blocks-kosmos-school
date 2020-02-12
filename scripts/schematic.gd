@@ -278,6 +278,8 @@ func loop_current_method():
 	var starting_element = all_blocks[0]
 	if !(starting_element is VoltageSource):
 		return
+		
+	starting_element.directional_polarity = SnapArea.Polarity.POSITIVE
 	
 	# we also make sure the second element is the same for all loops, so they all go in the same direction
 	# (makes things easier)
@@ -340,10 +342,6 @@ func loop_current_method():
 #				var next_element_connection_side = next_element_dict["connection_side"]
 #				var next_element_polarity = next_element_dict["polarity"]
 				#var next_element_add_info_curr_el = next_element_dict["additional_info_current_element"]
-				
-#				if !next_element:
-#					# no next element found
-#					break
 
 				var next_next_element_dict = get_next_element(next_element, prev_element)
 				var next_next_element = next_next_element_dict["next_element"]
@@ -369,8 +367,8 @@ func loop_current_method():
 							break
 					
 					# 2a) if loop comes to starting point, finish this loop
-					if loop.find(next_element) == 0:
-	#					at_starting_point = true
+					# check if on negative side of voltage source (because we always start on the pos side)
+					if loop.find(next_element) == 0 and next_element_polarity == SnapArea.Polarity.NEGATIVE:
 						add_loop(loop)
 						break
 					
@@ -469,10 +467,10 @@ func calculate_element_attributes(loop_currents: Array):
 				element.potential = element.resistance * loop_current
 				element.refresh()
 				
-#				print("element.name: ", element.name)
-#				print("element.resistance: ", element.resistance)
-#				print("element.current: ", element.current)
-#				print("element.potential: ", element.potential)
+				print("element.name: ", element.name)
+				print("element.resistance: ", element.resistance)
+				print("element.current: ", element.current)
+				print("element.potential: ", element.potential)
 
 # loop through all loops and mark superpositions
 func find_superpositions():
@@ -592,24 +590,24 @@ func setup_KVL():
 					# we need to subtract voltages, otherwise add them
 					for c in current_element.superposition["connections"]:
 						if (current_element.superposition["direction"] == "same"):
-							if loops_array[i][0].directional_polarity == SnapArea.Polarity.POSITIVE:
+							if loops_array[i][0].directional_polarity == SnapArea.Polarity.NEGATIVE:
 								a[c] -= float(current_element.resistance)
 							else:
 								a[c] += float(current_element.resistance)
 						else:
 							# in this case we still need to add or substract the first one
 							if (current_element.superposition["connections"].find(c) == 0):
-								if loops_array[i][0].directional_polarity == SnapArea.Polarity.POSITIVE:
+								if loops_array[i][0].directional_polarity == SnapArea.Polarity.NEGATIVE:
 									a[c] -= float(current_element.resistance)
 								else:
 									a[c] += float(current_element.resistance)
 							else:
-								if loops_array[i][0].directional_polarity == SnapArea.Polarity.POSITIVE:
+								if loops_array[i][0].directional_polarity == SnapArea.Polarity.NEGATIVE:
 									a[c] += float(current_element.resistance)
 								else:
 									a[c] -= float(current_element.resistance)
 				else:
-					if loops_array[i][0].directional_polarity == SnapArea.Polarity.POSITIVE:
+					if loops_array[i][0].directional_polarity == SnapArea.Polarity.NEGATIVE:
 						a[i] -= float(current_element.resistance)
 					else:
 						a[i] += float(current_element.resistance)
