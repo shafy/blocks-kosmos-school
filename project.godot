@@ -149,7 +149,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/voltmeter.gd"
 }, {
-"base": "BuildingBlockSnappable",
+"base": "Resistor",
 "class": "WireBlock",
 "language": "GDScript",
 "path": "res://scripts/wire_block.gd"
@@ -1284,6 +1284,11 @@ scene={
 "nodes/root_type": "Spatial",
 "nodes/storage": 0
 }
+
+[network]
+
+limits/debugger_stdout/max_chars_per_second=10000
+limits/debugger_stdout/max_messages_per_frame=100
 
 [rendering]
 

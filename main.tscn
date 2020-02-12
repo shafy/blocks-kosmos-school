@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -32,7 +32,6 @@
 [ext_resource path="res://scripts/button_remove_mode.gd" type="Script" id=30]
 [ext_resource path="res://materials/bronce_cover.tres" type="Material" id=31]
 [ext_resource path="res://scenes/building_blocks/wire_block.tscn" type="PackedScene" id=32]
-[ext_resource path="res://scenes/building_blocks/voltmeter.tscn" type="PackedScene" id=33]
 
 [sub_resource type="BakedLightmapData" id=1]
 bounds = AABB( -7.5379, -1.74037, -6.87336, 15.0758, 3.48075, 13.7467 )
@@ -163,6 +162,10 @@ angular_damp = 0.9
 [node name="Lamp3" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
 transform = Transform( 0.752484, 0, 0.658611, 0, 1, 0, -0.658611, 0, 0.752484, 0, 0.917069, -0.67264 )
 
+[node name="Lamp4" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
+transform = Transform( 0.752484, 0, 0.658611, 0, 1, 0, -0.658611, 0, 0.752484, -0.0959881, 0.917069, -0.928498 )
+resistance = 4.0
+
 [node name="Lamp2" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
 transform = Transform( 0.999998, -0.00174533, 0, 0.00174533, 0.999998, 0, 0, 0, 1, 0.336925, 0.909438, -0.626985 )
 resistance = 2.0
@@ -176,9 +179,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.245244, 0.923541, -0.814784 
 
 [node name="WireBlock2" parent="AllBuildingBlocks" instance=ExtResource( 32 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.245244, 0.923541, -0.958764 )
-
-[node name="Voltmeter" parent="AllBuildingBlocks" instance=ExtResource( 33 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0822825, 0.923798, -0.97907 )
 
 [node name="Table" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.593, -0.83874 )

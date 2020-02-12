@@ -11,7 +11,7 @@ var held_object_initial_parent : Node
 
 #onready var grabbable_rigid_body_parent_script = load("scripts/grabbable_rigid_body_parent.gd")
 
-enum {
+enum {	
 	GRABTYPE_VELOCITY,
 	GRABTYPE_PINJOINT, #!!TODO: not yet working; I first need to figure out how joints work
 }

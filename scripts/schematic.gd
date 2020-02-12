@@ -92,7 +92,20 @@ func remove_block(current_block : BuildingBlock) -> void:
 
 
 # add new blocks to schematic and returns connection id
-func add_blocks(_building_block1: BuildingBlock, _ai1: String, _building_block2: BuildingBlock, _ai2: String) -> String:
+func add_blocks(
+	_building_block1: BuildingBlock,
+	_polarity1: int,
+	_connection_side1: int,
+	_building_block2: BuildingBlock,
+	_polarity2: int,
+	_connection_side2: int
+) -> String:
+	
+	print("*******")
+	print("Adding these two blocks:")
+	print("- new block 1 ", _building_block1.name)
+	print("- new block 2 ", _building_block2.name)
+	
 	# add blocks
 	add_new_block(_building_block1)
 	add_new_block(_building_block2)
@@ -106,14 +119,23 @@ func add_blocks(_building_block1: BuildingBlock, _ai1: String, _building_block2:
 		random_id = gen_random_connection_id()
 	
 	connections.append([
-		{"block": _building_block1, "additional_info": _ai1},
-		{"block": _building_block2, "additional_info": _ai2},
+		{"block": _building_block1, "polarity": _polarity1, "connection_side": _connection_side1},
+		{"block": _building_block2,  "polarity": _polarity2, "connection_side": _connection_side2},
 		random_id
 		])
 	
-	print("ADDED")
-	print("all_blocks: ", all_blocks)
-	print("connections: ", connections)
+	print("*******")
+	print("all_blocks:")
+	for block in all_blocks:
+		print("- " + block.name)
+	print("*******")
+	print("conn count ", connections.size())
+	print("*******")
+	print("all connections:")
+	print(connections)
+	print("*******")
+	for connection in connections:
+		print("- " + connection[0]["block"].name + " to " + connection[1]["block"].name)
 	
 	return random_id
 
@@ -156,10 +178,6 @@ func remove_connection(connection_id : String) -> void:
 			var temp_index = all_blocks.find(block2)
 			if temp_index != -1:
 				remove_block(block2)
-	
-	print("REMOVED")
-	print("all_blocks: ", all_blocks)
-	print("connections: ", connections)
 
 
 func gen_random_connection_id() -> String:
@@ -211,6 +229,27 @@ func block_has_connection(current_block : BuildingBlock) -> bool:
 #
 #	return -1
 
+#func loop_current_method():
+#	if all_blocks.empty() or connections.empty():
+#		return
+#
+#	# initiliaze
+#	clear_block_attributes()
+#	loops_array.clear()
+#	unique_elements = 0
+#
+#	var loop_connections = []
+#	#var first_connection = get_vs_connection()
+#	# we always start with the voltage source as first connection
+#	var fail_safe_count = 0
+#
+#	while unique_elements != all_blocks.size() and fail_safe_count < 10:
+#		fail_safe_count += 1
+#
+#		for y in range(connections.size()):
+#				var next_conn = get_next_connection(prev_element, prev_prev_element)
+	
+
 func loop_current_method():
 	# we're doing circuit analysis using the loop current method (https://en.wikipedia.org/wiki/Mesh_analysis)
 	# also on KA: https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-dc-circuit-analysis/a/ee-loop-current-method
@@ -243,76 +282,135 @@ func loop_current_method():
 	# we also make sure the second element is the same for all loops, so they all go in the same direction
 	# (makes things easier)
 	
-	var second_element_dict = get_next_element(starting_element, null)
-	var second_element = second_element_dict["next_element"]
-	var second_element_additional_info = second_element_dict["additional_info"]
+#	print("*******")
+#	print("running loop_current with these blocks:")
+#	for block in all_blocks:
+#		print("- " + block.name)
+#	print("running loop_current with these connections:")
+#	for connection in connections:
+#		print("- " + connection[0]["block"].name + " to " + connection[1]["block"].name)
+#	print("*******")
 	
-	# stop executing if second element is switch
+#	var second_element
+#	var second_element_dict = get_next_element(starting_element, null)
+#	var second_element = second_element_dict["next_element"]
+#	var second_element_additional_info = second_element_dict["additional_info"]
+	
+	# stop executing if second element is switch and not closed
 	# TODO: how to handle case with more than 1 voltage sources?
-	if second_element is Switch:
-		if !second_element.is_closed:
-			return
+#	if second_element is Switch:
+#		if !second_element.is_closed:
+#			return
 	
 	# here we save if second element is connected to first voltage sources positiv or negative side
-	starting_element.connection_side = second_element_additional_info
-	# we need the fail_safe_count because the loop finding process (get_next_element()) is probablistic
-	var fail_safe_count = 0
+	
 	if all_blocks.size() > 2:
-		while unique_elements != all_blocks.size() and fail_safe_count < 100:
+		# we need the fail_safe_count because the loop finding process (get_next_element()) is probablistic
+		var fail_safe_count = 0
+#		var at_starting_point = false
+		while unique_elements != all_blocks.size() and fail_safe_count < 10:
 			fail_safe_count += 1
+#
+#			if loops_array.empty():
+#				var second_element_dict = get_next_element(starting_element, null)
+#				second_element = second_element_dict["next_element"]
 			
 			var loop = []
 			loop.append(starting_element)
-			loop.append(second_element)
+#			loop.append(second_element)
 			
-			var prev_element = second_element
-			var prev_prev_element = starting_element
 			
-			# get next element using connections dict
+#			var prev_prev_element = starting_element
+			# we always start from the positive side of the voltage source
+			var next_element_dict = get_next_element(starting_element, null, SnapArea.Polarity.POSITIVE)
+			var next_element = next_element_dict["next_element"]
+			var next_element_connection_side = next_element_dict["connection_side"]
+			var next_element_polarity = next_element_dict["polarity"]
+			
+			if !next_element:
+				continue
+			
+			# TODO: first do check if voltage source is connected correctly
+			
+			var prev_element = starting_element
+			
 			for y in range(connections.size()):
-				var next_element_dict = get_next_element(prev_element, prev_prev_element)
-				var next_element = next_element_dict["next_element"]
-				var additional_info = next_element_dict["additional_info"]
+#				var next_element_dict = get_next_element(prev_element, prev_prev_element)
+#				var next_element = next_element_dict["next_element"]
+#				var next_element_connection_side = next_element_dict["connection_side"]
+#				var next_element_polarity = next_element_dict["polarity"]
+				#var next_element_add_info_curr_el = next_element_dict["additional_info_current_element"]
 				
-				# 2b) if loop has no more connections, discard
-				if !next_element:
-					# no next element found
+#				if !next_element:
+#					# no next element found
+#					break
+
+				var next_next_element_dict = get_next_element(next_element, prev_element)
+				var next_next_element = next_next_element_dict["next_element"]
+				var next_next_element_connection_side = next_next_element_dict["connection_side"]
+				var next_next_element_conn_side_curr_el = next_next_element_dict["connection_side_current_element"]
+
+				if !next_next_element:
 					break
 				
-				# 2b) if loop comes back to a point other than starting point, discard
-				if loop.find(next_element) > 0:
-					break
+				#print("next_element_connection_side: ", next_element_connection_side)
+				#print("next_next_element_conn_side_curr_el: ", next_next_element_conn_side_curr_el)
 				
-				if next_element is Switch:
-					# if the switch is not closed, cancel the loop
-					
-					if !next_element.is_closed:
+				if next_element_connection_side != next_next_element_conn_side_curr_el:
+				
+					# 2b) if loop comes back to a point other than starting point, discard
+					if loop.find(next_element) > 0:
 						break
-				
-				# 2a) if loop comes to starting point, finish this loop
-				if (loop.find(next_element) == 0):
-					if !(next_element is Junction):
+					
+					# TODO: not sure if this makes sense
+					if next_element is Switch:
+						# if the switch is not closed, cancel the loop
+						if !next_element.is_closed:
+							break
+					
+					# 2a) if loop comes to starting point, finish this loop
+					if loop.find(next_element) == 0:
+	#					at_starting_point = true
 						add_loop(loop)
-					break
-				
-				# if it's a voltage source, save connection side (positive or negative)
-				if next_element is VoltageSource:
-					next_element.connection_side = additional_info
+						break
+					
+	#				# if it came to starting point, check if next element is also the next element
+	#				# in the loop. this means it's going around in the same loop. otherwise it might
+	#				# be another loop and we should keep going
+	#				if loop.find(next_element) == 1 and at_starting_point:
+	#					at_starting_point = false
+	#					break
+	#				elif loop.find(next_element) != 1 and at_starting_point:
+	#					add_loop(loop)
 						
-				# if all good, append to loop
-				loop.append(next_element)
+					# if it's a voltage source, save connection side (positive or negative)
+					if next_element is VoltageSource:
+						next_element.directional_polarity = next_element_polarity
+							
+					# if all good, append to loop
+					loop.append(next_element)
 				
+#				prev_prev_element = prev_element
+#				prev_element = next_element
 				
-				prev_prev_element = prev_element
 				prev_element = next_element
+				next_element = next_next_element
+				
+				next_element_connection_side = next_next_element_dict["connection_side"]
+				next_element_polarity = next_next_element_dict["polarity"]
+		
+		print("unique_elements: ", unique_elements)
+		print("all_blocks.size(): ", all_blocks.size())
+		print("fail_safe_count: ", fail_safe_count)
 	else:
 		# in this case there are only two elements in the circuit
 		# check if their connnected in a closed loop
-		if connections.size() == 2:
-			var loop = []
-			loop.append(starting_element)
-			loop.append(second_element)
-			add_loop(loop)
+#		if connections.size() == 2:
+#			var loop = []
+#			loop.append(starting_element)
+#			loop.append(second_element)
+#			add_loop(loop)
+		pass
 	
 	# define elements that superimpose on each other
 	find_superpositions()
@@ -371,10 +469,10 @@ func calculate_element_attributes(loop_currents: Array):
 				element.potential = element.resistance * loop_current
 				element.refresh()
 				
-				print("element.name: ", element.name)
-				print("element.resistance: ", element.resistance)
-				print("element.current: ", element.current)
-				print("element.potential: ", element.potential)
+#				print("element.name: ", element.name)
+#				print("element.resistance: ", element.resistance)
+#				print("element.current: ", element.current)
+#				print("element.potential: ", element.potential)
 
 # loop through all loops and mark superpositions
 func find_superpositions():
@@ -409,25 +507,44 @@ func find_superpositions():
 
 
 # returns next element based on connections array
-func get_next_element(prev_block: BuildingBlock, prev_prev_block: BuildingBlock) -> Dictionary:
+func get_next_element(prev_block: BuildingBlock, prev_prev_block: BuildingBlock, force_polarity: int = 0) -> Dictionary:
 	# randomize order so we don't end up going down same paths
 	randomize()
 	connections.shuffle()
-	var additional_info = ""
+	var polarity = SnapArea.Polarity.UNDEFINED
+	var connection_side = null
+	var connection_side_current_element = null
 	var next_element_block = null
 	for i in range(connections.size()):
 		if connections[i][0]["block"] == prev_block and connections[i][1]["block"] != prev_prev_block:
+			# if there's a forced polarity for voltage source, skip rest of iteration if no match
+			if force_polarity != SnapArea.Polarity.UNDEFINED and prev_block is VoltageSource:
+				if connections[i][0]["polarity"] != force_polarity:
+					continue
+				
 			next_element_block = connections[i][1]["block"]
-			if connections[i][1].has("additional_info"):
-				additional_info = connections[i][1]["additional_info"]
+			polarity = connections[i][1]["polarity"]
+			connection_side = connections[i][1]["connection_side"]
+			connection_side_current_element = connections[i][0]["connection_side"]
 			break
 		elif connections[i][1]["block"] == prev_block and connections[i][0]["block"] != prev_prev_block:
+			# if there's a forced polarity for voltage source, skip rest of iteration if no match
+			if force_polarity != SnapArea.Polarity.UNDEFINED and prev_block is VoltageSource:
+				if connections[i][1]["polarity"] != force_polarity:
+					continue
+					
 			next_element_block = connections[i][0]["block"]
-			if connections[i][0].has("additional_info"):
-				additional_info = connections[i][0]["additional_info"]
+			polarity = connections[i][0]["polarity"]
+			connection_side = connections[i][0]["connection_side"]
+			connection_side_current_element = connections[i][1]["connection_side"]
 			break
 	
-	return {"next_element": next_element_block, "additional_info": additional_info}
+	return {
+		"next_element": next_element_block,
+		"polarity": polarity,
+		"connection_side": connection_side,
+		"connection_side_current_element": connection_side_current_element
+	}
 	
 		
 # writes Kirchhoff's Voltage Law equations for loops in loops_array
@@ -451,13 +568,13 @@ func setup_KVL():
 			if current_element is VoltageSource:
 				# add to last column
 				if y > 0:
-					if current_element.connection_side == "p":
+					if current_element.directional_polarity == SnapArea.Polarity.POSITIVE:
 						b += float(current_element.potential)
 					else:
 						b -= float(current_element.potential)
 				else:
 					# if it's the first element, do the inverse
-					if current_element.connection_side == "p":
+					if current_element.directional_polarity == SnapArea.Polarity.POSITIVE:
 						b -= float(current_element.potential)
 					else:
 						b += float(current_element.potential)
@@ -475,24 +592,24 @@ func setup_KVL():
 					# we need to subtract voltages, otherwise add them
 					for c in current_element.superposition["connections"]:
 						if (current_element.superposition["direction"] == "same"):
-							if loops_array[i][0].connection_side == "p":
+							if loops_array[i][0].directional_polarity == SnapArea.Polarity.POSITIVE:
 								a[c] -= float(current_element.resistance)
 							else:
 								a[c] += float(current_element.resistance)
 						else:
 							# in this case we still need to add or substract the first one
 							if (current_element.superposition["connections"].find(c) == 0):
-								if loops_array[i][0].connection_side == "p":
+								if loops_array[i][0].directional_polarity == SnapArea.Polarity.POSITIVE:
 									a[c] -= float(current_element.resistance)
 								else:
 									a[c] += float(current_element.resistance)
 							else:
-								if loops_array[i][0].connection_side == "p":
+								if loops_array[i][0].directional_polarity == SnapArea.Polarity.POSITIVE:
 									a[c] += float(current_element.resistance)
 								else:
 									a[c] -= float(current_element.resistance)
 				else:
-					if loops_array[i][0].connection_side == "p":
+					if loops_array[i][0].directional_polarity == SnapArea.Polarity.POSITIVE:
 						a[i] -= float(current_element.resistance)
 					else:
 						a[i] += float(current_element.resistance)

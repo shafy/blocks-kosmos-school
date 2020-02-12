@@ -1,4 +1,4 @@
-extends BuildingBlockSnappable
+extends Resistor
 
 
 # just a block that connects other blocks, like a wire

@@ -28,7 +28,10 @@ var move_to_snap := false setget , get_move_to_snap
 onready var parent_block := get_parent()
 onready var schematic  := get_node("/root/Main/Schematic")
 
-export(String) var polarity
+enum Polarity {UNDEFINED, POSITIVE, NEGATIVE}
+export (Polarity) var polarity
+enum ConnectionSide {A, B}
+export (ConnectionSide) var connection_side
 enum LocationOnBlock {LENGTH, WIDTH}
 export (LocationOnBlock) var location_on_block
 
@@ -73,7 +76,7 @@ func _process(delta):
 		# but the movement has originated from another area from the same block
 		# therefore, don't move but just create connection in schematic
 		#print(parent_block.name + " " + self.name + " other area " + other_area_parent_block.name + " " + snap_area_other_area.name )
-		connection_id = schematic_add_blocks(parent_block, polarity, other_area_parent_block, snap_area_other_area.polarity)
+		connection_id = schematic_add_blocks(parent_block, polarity, connection_side, other_area_parent_block, snap_area_other_area.polarity, snap_area_other_area.connection_side)
 		snap_area_other_area.connection_id = connection_id
 		moving_connection_added = true
 	
@@ -116,8 +119,6 @@ func _process(delta):
 
 
 func _on_Snap_Area_area_entered(area):
-	print(self.name + " and " + area.name)
-	
 	if snapped:
 		return
 	
@@ -256,7 +257,14 @@ func update_pos_to_snap(delta: float) -> void:
 
 
 func setup_connection(_other_area):
-	connection_id = schematic_add_blocks(parent_block, polarity, _other_area.get_parent(), _other_area.polarity)
+	connection_id = schematic_add_blocks(
+		parent_block,
+		polarity,
+		connection_side,
+		_other_area.get_parent(),
+		_other_area.polarity,
+		_other_area.connection_side
+	)
 	snap_area_other_area.connection_id = connection_id
 
 # double checks if really not overlapping an area
@@ -273,8 +281,23 @@ func other_area_distance() -> float:
 	
 	
 # update the schematic with this new connection
-func schematic_add_blocks(_building_block1: BuildingBlock, _ai1: String, _building_block2: BuildingBlock, _ai2: String) -> String:
-	var return_connection_id = schematic.add_blocks(_building_block1, _ai1, _building_block2, _ai2)
+func schematic_add_blocks(
+	_building_block1: BuildingBlock,
+	_polarity1: int,
+	_connection_side1: int,
+	_building_block2: BuildingBlock,
+	_polarity2: int,
+	_connection_side2: int
+) -> String:
+	
+	var return_connection_id = schematic.add_blocks(
+		_building_block1,
+		_polarity1,
+		_connection_side1,
+		_building_block2,
+		_polarity2,
+		_connection_side2
+	)
 	schematic.loop_current_method()
 	
 	return return_connection_id

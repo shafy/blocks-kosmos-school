@@ -13,7 +13,10 @@ func _process(delta):
 		var rot_x = rotatable_handle.rotation_degrees.x
 		if rot_x > 12.0 and is_closed:
 			is_closed = false
-			schematic.loop_current_method()
+			# TODO: case for when there are more than 1 circuits
+			if get_snapped():
+				schematic.loop_current_method()
 		elif rot_x <= 12.0 and !is_closed:
 			is_closed = true
-			schematic.loop_current_method()
+			if get_snapped():
+				schematic.loop_current_method()
