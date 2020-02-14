@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -33,6 +33,7 @@
 [ext_resource path="res://materials/bronce_cover.tres" type="Material" id=31]
 [ext_resource path="res://scenes/building_blocks/wire_block.tscn" type="PackedScene" id=32]
 [ext_resource path="res://scenes/edit_palette.tscn" type="PackedScene" id=33]
+[ext_resource path="res://scenes/measure_palette.tscn" type="PackedScene" id=34]
 
 [sub_resource type="BakedLightmapData" id=1]
 bounds = AABB( -7.5379, -1.74037, -6.87336, 15.0758, 3.48075, 13.7467 )
@@ -79,6 +80,7 @@ script = ExtResource( 10 )
 block_lock_system = NodePath("../BlockLockSystem")
 object_remover_system = NodePath("../ObjectRemoverSystem")
 edit_palette = NodePath("../OQ_ARVROrigin/OQ_RightController/ToolPalettes/EditPalette")
+measure_palette = NodePath("../OQ_ARVROrigin/OQ_RightController/ToolPalettes/MeasurePalette")
 
 [node name="OQ_UI2DLogWindow" parent="." instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 0.995679, 0.0928572, 0, -0.0928572, 0.995679, 0.0275311, 1.18624, -1.69866 )
@@ -158,6 +160,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0117321, -0.0218209, -0.0377
 
 [node name="EditPalette" parent="OQ_ARVROrigin/OQ_RightController/ToolPalettes" instance=ExtResource( 33 )]
 transform = Transform( 1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0.01305, -0.00302804, 0.0207366 )
+
+[node name="MeasurePalette" parent="OQ_ARVROrigin/OQ_RightController/ToolPalettes" instance=ExtResource( 34 )]
+transform = Transform( 1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0.013, -0.003, 0.021 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.69393, 0.720043, 0, -0.720043, 0.69393, 0, 0, 0 )

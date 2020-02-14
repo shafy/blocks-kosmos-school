@@ -10,13 +10,17 @@ var right_controller_models
 var selected_tool : String
 var lock_selection_node
 var remove_selection_node
+var voltmeter_selection_node
+var ammeter_selection_node
 var remove_mode_on := false
 var lock_mode_on := false
+var joystick_x := 0.0
 var joystick_x_prev := 0.0
 
 export(NodePath) onready var block_lock_system = get_node(block_lock_system)
 export(NodePath) onready var object_remover_system = get_node(object_remover_system)
 export(NodePath) onready var edit_palette = get_node(edit_palette)
+export(NodePath) onready var measure_palette = get_node(measure_palette)
 
 onready var right_controller = get_node(global_vars.CONTR_RIGHT_PATH)
 
@@ -28,19 +32,41 @@ func _ready():
 	
 	lock_selection_node = edit_palette.get_node("LockSelection")
 	remove_selection_node = edit_palette.get_node("RemoveSelection")
+	voltmeter_selection_node = measure_palette.get_node("VoltmeterSelection")
+	ammeter_selection_node = measure_palette.get_node("AmmeterSelection")
+	edit_palette.visible = false
+	measure_palette.visible = false
 
 
 func _process(delta):
-	var joystick_x = right_controller.get_joystick_axis(0)
-#	var joystick_y = right_controller.get_joystick_axis(1)
-	
-	if joystick_x > 0.5 and joystick_x_prev <= 0.5:
-		select_tool("lock")
-	if joystick_x < -0.5 and joystick_x_prev >= -0.5:
-		select_tool("remove")
-	
+	joystick_x = right_controller.get_joystick_axis(0)
+
+	match controller_type:
+		ControllerType.EDIT:
+			if joystick_position() == 0 and edit_palette.visible:
+				edit_palette.visible = false
+			
+			if joystick_position() == 1:
+				edit_palette.visible = true
+				select_tool("lock")
+			
+			if joystick_position() == 2:
+				edit_palette.visible = true
+				select_tool("remove")
+		ControllerType.MEASURE:
+			if joystick_position() == 0 and measure_palette.visible:
+				measure_palette.visible = false
+			
+			if joystick_position() == 1:
+				measure_palette.visible = true
+				select_tool("voltmeter")
+				
+			if joystick_position() == 2:
+				measure_palette.visible = true
+				select_tool("ammeter")
+				
 	joystick_x_prev = joystick_x
-	
+
 
 func _on_right_ARVRController_button_pressed(button_number):
 	# check for A button press
@@ -49,11 +75,22 @@ func _on_right_ARVRController_button_pressed(button_number):
 	
 	roundrobin()
 
+
+func joystick_position() -> int:
+	if joystick_x <= 0.5 and joystick_x >= -0.5:
+		return 0
+	
+	if joystick_x > 0.5 and joystick_x_prev <= 0.5:
+		return 1
+	
+	if joystick_x < -0.5 and joystick_x_prev >= -0.5:
+		return 2
+	
+	return -1
+
+
 # selects a tool to use
 func select_tool(tool_name : String) -> void:
-#	if tool_name == selected_tool:
-#		return
-	
 	match tool_name:
 		"lock":
 			lock_mode_on = !lock_mode_on
@@ -65,9 +102,15 @@ func select_tool(tool_name : String) -> void:
 			lock_selection_node.select(false)
 			remove_mode_on = !remove_mode_on
 			remove_selection_node.select(remove_mode_on)
+		"voltmeter":
+			voltmeter_selection_node.select(true)
+			ammeter_selection_node.select(false)
+		"ammeter":
+			voltmeter_selection_node.select(false)
+			ammeter_selection_node.select(true)
 	
 	selected_tool = tool_name
-			
+
 
 # switches to the next controller type
 func roundrobin() -> void:
