@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/tool_palette_selection.gd" type="Script" id=2]
+[ext_resource path="res://materials/bright_metal.tres" type="Material" id=3]
+[ext_resource path="res://materials/bronce_cover.tres" type="Material" id=4]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Spatial
+
+
+class_name ToolPalette
+
+
+func _ready():
+	pass
+"
+
+[sub_resource type="CubeMesh" id=1]
+
+[node name="EditPalette" type="Spatial"]
+script = SubResource( 2 )
+
+[node name="LockSelection" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04, 0, 0 )
+script = ExtResource( 2 )
+on_material = ExtResource( 4 )
+off_material = ExtResource( 3 )
+
+[node name="OQ_UILabel" parent="LockSelection" instance=ExtResource( 1 )]
+transform = Transform( -0.253583, -1.16541e-07, 1.70218e-14, 0, -1.30816e-08, -1, 9.87487e-08, -0.299273, 4.37114e-08, -3.45216e-17, 0.00202808, -8.86501e-11 )
+text = "Lock"
+resize_mode = 1
+font_size_multiplier = 4.0
+background_color = Color( 0, 0, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="LockSelection"]
+transform = Transform( 0.025, 0, 0, 0, 0.002, 0, 0, 0, 0.015, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="RemoveSelection" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04, 0, 0 )
+script = ExtResource( 2 )
+on_material = ExtResource( 4 )
+off_material = ExtResource( 3 )
+
+[node name="OQ_UILabel" parent="RemoveSelection" instance=ExtResource( 1 )]
+transform = Transform( -0.253583, -1.16541e-07, 1.70218e-14, 0, -1.30816e-08, -1, 9.87487e-08, -0.299273, 4.37114e-08, -3.45216e-17, 0.00202808, -8.86501e-11 )
+text = "Delete"
+resize_mode = 1
+font_size_multiplier = 4.0
+background_color = Color( 0, 0, 0, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="RemoveSelection"]
+transform = Transform( 0.025, 0, 0, 0, 0.002, 0, 0, 0, 0.015, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null

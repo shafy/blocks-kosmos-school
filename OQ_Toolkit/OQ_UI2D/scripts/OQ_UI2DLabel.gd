@@ -1,6 +1,6 @@
 extends Spatial
 
-export var text = "I am a Label\nWith a new line"
+export (String, MULTILINE) var text = "I am a Label\nWith a new line"
 export var margin = 16;
 export var billboard = false;
 

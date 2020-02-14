@@ -35,9 +35,6 @@ export(PackedScene) var maxi_scene
 func _ready():
 	connect("body_entered", self, "_on_Mini_body_entered")
 	
-	var object_remover_system_node = get_node("/root/Main/ObjectRemoverSystem")
-	object_remover_system_node.connect("remove_mode_toggled", self, "_on_Object_Remover_System_remove_mode_toggled")
-	
 	# get nodes and apply the scale factor
 	#mesh_node = get_node(mesh_node_path)
 	

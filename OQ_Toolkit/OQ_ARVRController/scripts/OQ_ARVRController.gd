@@ -101,6 +101,7 @@ func _update_buttons_and_sticks():
 var first_time = true;
 
 func _process(dt):
+	# TODO: change to signals instead of checking every frame
 	if (get_is_active() || !vr.inVR): # wait for active controller; or update if we are in simulation mode
 		_update_buttons_and_sticks();
 		

@@ -71,6 +71,10 @@ func _process(delta):
 	if !snap_area_other_area:
 		return
 	
+	# we have to do this check because it's possible the other area was deleted in the meantime
+	if !is_instance_valid(snap_area_other_area):
+		return
+	
 	if parent_block.get_moving_to_snap() and !move_to_snap and !moving_connection_added:
 		# this happens when the area overlaps with another while being moved to snap
 		# but the movement has originated from another area from the same block
@@ -175,6 +179,10 @@ func check_for_removal():
 	if !snap_area_other_area:
 		return
 	
+	# we have to do this check because it's possible the other area was deleted in the meantime
+	if !is_instance_valid(snap_area_other_area):
+		return
+	
 	if move_to_snap or snapping:
 		return
 		
@@ -248,8 +256,8 @@ func update_pos_to_snap(delta: float) -> void:
 		snap_timer = 0.0
 		snapped = true
 		snap_area_other_area.snapped = true
-		emit_signal("area_snapped")
 		other_area_parent_block.set_snapped(true)
+		emit_signal("area_snapped")
 		
 		return
 	

@@ -10,6 +10,7 @@ signal block_snapped_updated
 var moving_to_snap := false setget set_moving_to_snap, get_moving_to_snap
 var snapped := false setget set_snapped, get_snapped
 
+# TODO change this to find block by name
 onready var block_lock_system = get_node("/root/Main/BlockLockSystem")
 
 # setter and getter functions
@@ -56,7 +57,7 @@ func _on_SnapArea_area_unsnapped():
 				break
 	
 	snapped = snapped_status
-	emit_signal("block_snapped_updated")
+#	emit_signal("block_unsnapped_updated")
 
 
 func connect_to_snap_area_signals():

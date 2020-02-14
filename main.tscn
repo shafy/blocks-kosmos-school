@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -9,7 +9,7 @@
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/Feature_ControllerModel_Left.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scripts/main.gd" type="Script" id=8]
 [ext_resource path="res://scenes/building_blocks/lamp.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/building_blocks/ammeter.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scripts/controller_system.gd" type="Script" id=10]
 [ext_resource path="res://scripts/schematic.gd" type="Script" id=11]
 [ext_resource path="res://scripts/placer_system.gd" type="Script" id=12]
 [ext_resource path="res://OQ_Toolkit/OQ_Buttons/OQ_ButtonPressable.tscn" type="PackedScene" id=13]
@@ -32,6 +32,7 @@
 [ext_resource path="res://scripts/button_remove_mode.gd" type="Script" id=30]
 [ext_resource path="res://materials/bronce_cover.tres" type="Material" id=31]
 [ext_resource path="res://scenes/building_blocks/wire_block.tscn" type="PackedScene" id=32]
+[ext_resource path="res://scenes/edit_palette.tscn" type="PackedScene" id=33]
 
 [sub_resource type="BakedLightmapData" id=1]
 bounds = AABB( -7.5379, -1.74037, -6.87336, 15.0758, 3.48075, 13.7467 )
@@ -68,6 +69,16 @@ script = ExtResource( 14 )
 
 [node name="PlacerSystem" type="Node" parent="."]
 script = ExtResource( 12 )
+
+[node name="BlockLockSystem" type="Node" parent="."]
+script = ExtResource( 28 )
+all_building_blocks = NodePath("../AllBuildingBlocks")
+
+[node name="ControllerSystem" type="Node" parent="."]
+script = ExtResource( 10 )
+block_lock_system = NodePath("../BlockLockSystem")
+object_remover_system = NodePath("../ObjectRemoverSystem")
+edit_palette = NodePath("../OQ_ARVROrigin/OQ_RightController/ToolPalettes/EditPalette")
 
 [node name="OQ_UI2DLogWindow" parent="." instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 0.995679, 0.0928572, 0, -0.0928572, 0.995679, 0.0275311, 1.18624, -1.69866 )
@@ -143,6 +154,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0117321, -0.0218209, -0.0377
 
 [node name="Feature_ControllerModel_Right" parent="OQ_ARVROrigin/OQ_RightController" instance=ExtResource( 6 )]
 
+[node name="ToolPalettes" type="Spatial" parent="OQ_ARVROrigin/OQ_RightController"]
+
+[node name="EditPalette" parent="OQ_ARVROrigin/OQ_RightController/ToolPalettes" instance=ExtResource( 33 )]
+transform = Transform( 1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0.01305, -0.00302804, 0.0207366 )
+
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.69393, 0.720043, 0, -0.720043, 0.69393, 0, 0, 0 )
 
@@ -153,11 +169,6 @@ environment = SubResource( 3 )
 script = ExtResource( 11 )
 
 [node name="AllBuildingBlocks" type="Spatial" parent="."]
-
-[node name="Ammeter" parent="AllBuildingBlocks" instance=ExtResource( 10 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.266051, 0.928088, -0.540654 )
-linear_damp = 1.0
-angular_damp = 0.9
 
 [node name="Lamp3" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
 transform = Transform( 0.752484, 0, 0.658611, 0, 1, 0, -0.658611, 0, 0.752484, 0, 0.917069, -0.67264 )
@@ -196,6 +207,3 @@ shape = SubResource( 4 )
 use_in_baked_light = true
 mesh = ExtResource( 18 )
 material/0 = ExtResource( 19 )
-
-[node name="BlockLockSystem" type="Spatial" parent="."]
-script = ExtResource( 28 )

@@ -13,6 +13,15 @@ var is_grabbed := false
 var impulse_offset : Vector3
 
 export var is_grabbable := true
+export var is_removable := false
+
+func _ready():
+	var object_remover_system_node = get_node("/root/Main/ObjectRemoverSystem")
+	object_remover_system_node.connect("remove_mode_toggled", self, "_on_Object_Remover_System_remove_mode_toggled")
+
+
+func _on_Object_Remover_System_remove_mode_toggled():
+	is_removable = !is_removable
 
 
 func grab_init(grab_offset):
@@ -29,6 +38,11 @@ func grab_release(node):
 	target_node = null
 	apply_impulse(impulse_offset, linear_velocity)
 	apply_torque_impulse(angular_velocity * 0.001)
+
+
+func start_remove():
+	if is_removable:
+		queue_free()
 
 
 func orientation_follow(state, current_basis : Basis, target_basis : Basis):

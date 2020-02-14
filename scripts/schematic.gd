@@ -64,7 +64,7 @@ func _ready():
 	pass
 
 
-func _on_Building_Block_block_deleted(current_block : BuildingBlock) -> void:
+func _on_Building_Block_block_deleted(current_block : BuildingBlock):
 	remove_block(current_block)
 
 
