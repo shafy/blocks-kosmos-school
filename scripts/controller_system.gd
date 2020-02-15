@@ -39,7 +39,7 @@ func _ready():
 
 
 func _process(delta):
-	joystick_x = right_controller.get_joystick_axis(0)
+	joystick_x = right_controller.get_joystick_axis(vr.CONTROLLER_AXIS.JOYSTICK_X)
 
 	match controller_type:
 		ControllerType.EDIT:
@@ -127,7 +127,7 @@ func set_controller_type(new_ct : int) -> void:
 		var all_children = right_controller_models.get_children()
 		# hide all
 		for child in all_children:
-			child.visible = false
+			child.set_selected(false)
 		# show the new one. this assumes meshes are in the same order as the enum ControllerType
-		var new_mesh = right_controller_models.get_child(new_ct)
-		new_mesh.visible = true
+		var new_controller = right_controller_models.get_child(new_ct)
+		new_controller.set_selected(true)

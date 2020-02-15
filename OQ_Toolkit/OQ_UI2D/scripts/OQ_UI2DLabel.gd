@@ -23,11 +23,7 @@ func _ready():
 	ui_mesh = mesh_instance.mesh;
 	set_label_text(text)
 	
-	match resize_mode:
-		ResizeModes.AUTO_RESIZE:
-			resize_auto()
-		ResizeModes.FIXED:
-			resize_fixed()
+	resize()
 	
 	if (billboard):
 		mesh_instance.mesh.surface_get_material(0).set_billboard_mode(SpatialMaterial.BILLBOARD_FIXED_Y);
@@ -43,6 +39,14 @@ func _ready():
 		#var center = (global_transform.origin + p.global_transform.origin) * 0.5;
 		#$LineMesh.global_transform.origin = center;
 		#$LineMesh.look_at_from_position()
+
+
+func resize():
+	match resize_mode:
+		ResizeModes.AUTO_RESIZE:
+			resize_auto()
+		ResizeModes.FIXED:
+			resize_fixed()
 
 
 func resize_auto():
@@ -80,3 +84,4 @@ func resize_fixed():
 
 func set_label_text(t: String):
 	ui_label.set_text(t)
+	resize()
