@@ -12,7 +12,6 @@ var other_area_parent_block
 var z_difference := 1
 var x_difference := 1
 var connection_id : String
-var is_master := false
 var snapping := false
 var snap_speed := 10.0
 var snap_timer := 0.0
@@ -59,7 +58,7 @@ func is_class(type):
 
 func _ready():
 	connect("area_entered", self, "_on_Snap_Area_area_entered")
-	connect("area_exited", self, "_on_Snap_Area_area_exited")
+#	connect("area_exited", self, "_on_Snap_Area_area_exited")
 
 
 func _process(delta):
@@ -79,44 +78,18 @@ func _process(delta):
 		# this happens when the area overlaps with another while being moved to snap
 		# but the movement has originated from another area from the same block
 		# therefore, don't move but just create connection in schematic
-		#print(parent_block.name + " " + self.name + " other area " + other_area_parent_block.name + " " + snap_area_other_area.name )
 		connection_id = schematic_add_blocks(parent_block, polarity, connection_side, other_area_parent_block, snap_area_other_area.polarity, snap_area_other_area.connection_side)
 		snap_area_other_area.connection_id = connection_id
 		moving_connection_added = true
-	
-	
-	# only the master snap area executes the following
-	if !is_master:
-		return
-	
-	# decide which block is grabbed
-	if !snapping and !initial_grab and !snap_area_other_area.get_initial_grab():
-		# if both are grabbed or ungrabbed, return
-		if parent_block.is_grabbed == other_area_parent_block.is_grabbed:
-			return
-		
-		if parent_block.is_grabbed and !other_area_parent_block.is_grabbed:
-			initial_grab = true
-		elif !parent_block.is_grabbed and other_area_parent_block.is_grabbed:
-			snap_area_other_area.set_initial_grab(true)
-	
-	# start snapping process if one of the blocks has been grabbed initially but was now let go
-	if (initial_grab and !parent_block.is_grabbed) or (snap_area_other_area.get_initial_grab() and !other_area_parent_block.is_grabbed):
+
+
+	if !snapping and initial_grab and !parent_block.is_grabbed:
 		snapping = true
 	
 	# snapping has started
 	if snapping:
-		# either this or the other block must be ungrabbed
-		# snap
-		if initial_grab:
-			snap_to_block(snap_area_other_area)
-		elif snap_area_other_area.get_initial_grab():
-			snap_area_other_area.snap_to_block(self)
-		
-		
+		snap_to_block(snap_area_other_area)
 		snapping = false
-		initial_grab = false
-		snap_area_other_area.set_initial_grab(false)
 		
 		# set up connection in schematic
 		setup_connection(snap_area_other_area)
@@ -126,29 +99,25 @@ func _on_Snap_Area_area_entered(area):
 	if snapped:
 		return
 	
-	if snapping:
+	if area.snapped:
 		return
 	
 	if !area.is_class("SnapArea"):
 		return
 	
 	# don't allow adding length to length
-	if area.location_on_block == LocationOnBlock.LENGTH and location_on_block == LocationOnBlock.LENGTH :
+	if area.location_on_block == LocationOnBlock.LENGTH and location_on_block == LocationOnBlock.LENGTH:
 		return
-	
-	if area.snapped:
-		return
-	
-	# assign master area
-	if (!area.is_master):
-		is_master = true
 	
 	snap_area_other_area = area
 	other_area_parent_block = snap_area_other_area.get_parent()
+	
+	if parent_block.is_grabbed and !other_area_parent_block.is_grabbed:
+		initial_grab = true
 
 
-func _on_Snap_Area_area_exited(area):
-	pass
+#func _on_Snap_Area_area_exited(area):
+#	pass
 #	if !area.is_class("SnapArea"):
 #		return
 #
@@ -182,15 +151,15 @@ func check_for_removal():
 	# we have to do this check because it's possible the other area was deleted in the meantime
 	if !is_instance_valid(snap_area_other_area):
 		return
-	
-	if move_to_snap or snapping:
+
+	if move_to_snap:
 		return
 		
 	if other_area_distance() < 0.04:
 		return
 	
 	# if distance is greater, remove
-	if is_master and snapped:
+	if initial_grab and snapped:
 		schematic_remove_connection()
 		snap_area_other_area.unsnap()
 		unsnap()
@@ -236,8 +205,8 @@ func snap_to_block(other_snap_area: Area):
 
 
 func unsnap():
+	initial_grab = false
 	snapped = false
-	is_master = false
 	snap_area_other_area = null
 	other_area_parent_block = null
 	connection_id = ""
