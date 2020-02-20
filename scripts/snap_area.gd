@@ -101,10 +101,10 @@ func _on_Snap_Area_area_entered(area):
 	if snapped:
 		return
 	
-	if area.snapped:
+	if !area.is_class("SnapArea"):
 		return
 	
-	if !area.is_class("SnapArea"):
+	if area.snapped:
 		return
 	
 	# don't allow adding length to length

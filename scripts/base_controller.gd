@@ -4,6 +4,8 @@ extends Spatial
 class_name BaseController
 
 
+signal tool_changed
+
 var tools : Array
 var current_tool : int
 var joystick_x := 0.0
@@ -20,6 +22,9 @@ onready var grab_area_right = get_node(global_vars.CONTR_RIGHT_PATH + "/controll
 func set_selected(new_value):
 	selected = new_value
 	visible = new_value
+	# select first tool per default
+	if tools:
+		tools[0].select(true)
 
 
 func get_selected():
@@ -45,7 +50,7 @@ func _process(delta):
 		
 	if curr_joystick_pos > 0:
 		palette.visible = true
-		select_tool(curr_joystick_pos)
+		select_tool(curr_joystick_pos - 1)
 	
 	joystick_x_prev = joystick_x
 
@@ -70,5 +75,6 @@ func select_tool(tool_index : int):
 	
 	# check if tool exists
 	if tools.size() >= tool_index - 1:
-		tools[tool_index - 1].select(true)
+		tools[tool_index].select(true)
 		current_tool = tool_index
+		emit_signal("tool_changed")
