@@ -1,9 +1,7 @@
 extends BaseController
 
 
-class_name MeasureController
-
-onready var body_label = $BodyLabel
+class_name EditController
 
 
 func _ready():
@@ -26,10 +24,12 @@ func _on_right_ARVRController_button_pressed(button_number):
 		match current_tool:
 			0:
 				# voltmeter
-				body_label.set_label_text(str(body.current, " A"))
+				#body_label.set_label_text(str(body.current, " A"))
+				pass
 			1:
 				# ammeter
-				body_label.set_label_text(str(body.current, " A"))
+				#body_label.set_label_text(str(body.current, " A"))
+				pass
 		break
 
 

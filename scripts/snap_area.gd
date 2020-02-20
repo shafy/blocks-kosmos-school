@@ -19,6 +19,7 @@ var snap_start_transform : Transform
 var snap_end_transform : Transform
 var interpolation_progress : float
 var moving_connection_added := false
+var is_master := false
 
 var snapped := false setget , get_snapped
 var initial_grab := false setget set_initial_grab, get_initial_grab
@@ -90,6 +91,7 @@ func _process(delta):
 	if snapping:
 		snap_to_block(snap_area_other_area)
 		snapping = false
+		initial_grab = false
 		
 		# set up connection in schematic
 		setup_connection(snap_area_other_area)
@@ -114,6 +116,7 @@ func _on_Snap_Area_area_entered(area):
 	
 	if parent_block.is_grabbed and !other_area_parent_block.is_grabbed:
 		initial_grab = true
+		is_master = true
 
 
 #func _on_Snap_Area_area_exited(area):
@@ -159,7 +162,7 @@ func check_for_removal():
 		return
 	
 	# if distance is greater, remove
-	if initial_grab and snapped:
+	if is_master and snapped:
 		schematic_remove_connection()
 		snap_area_other_area.unsnap()
 		unsnap()
@@ -205,6 +208,7 @@ func snap_to_block(other_snap_area: Area):
 
 
 func unsnap():
+	is_master = false
 	initial_grab = false
 	snapped = false
 	snap_area_other_area = null
