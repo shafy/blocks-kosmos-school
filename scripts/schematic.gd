@@ -329,6 +329,9 @@ func calculate_element_attributes(loop_currents: Array):
 				print("element.resistance: ", element.resistance)
 				print("element.current: ", element.current)
 				print("element.potential: ", element.potential)
+			
+			if element is VoltageSource:
+				element.current = loop_currents[i]
 
 
 # loop through all loops and mark superpositions
@@ -501,3 +504,9 @@ func add_loop(new_loop: Array):
 			if (loop_unique):
 				loops_array.append(new_loop)
 				loop_unique = false
+
+
+# returns an array of blocks between two given connections
+func get_blocks_between(conn_id_1, conn_id_2) -> Array:
+	var conn_array = []
+	return conn_array

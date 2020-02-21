@@ -23,7 +23,7 @@ var collision_shape_mini_scale : Vector3
 
 onready var mesh_node = $MeshInstance
 onready var collision_shape_node = $CollisionShape
-onready var all_building_blocks = get_node("/root/Main/AllBuildingBlocks")
+onready var all_building_blocks = get_node(global_vars.ALL_BUILDING_BLOCKS_PATH)
 
 export(float) var mini_scale_factor
 export(Vector3) var extents_initial
@@ -122,7 +122,7 @@ func switch_to_maxi():
 	queue_free()
 	
 	# respawn this mini on the tablet
-	var tablet = get_node("/root/Main/Tablet")
+	var tablet = get_node(global_vars.TABLET_PATH)
 	tablet.refresh()
 	
 

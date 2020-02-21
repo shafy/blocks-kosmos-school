@@ -17,7 +17,7 @@ off_material = ExtResource( 3 )
 
 [node name="OQ_UILabel" parent="VoltmeterSelection" instance=ExtResource( 1 )]
 transform = Transform( -0.253583, -1.16541e-07, 1.70218e-14, 0, -1.30816e-08, -1, 9.87487e-08, -0.299273, 4.37114e-08, -3.45216e-17, 0.00202808, -8.86501e-11 )
-text = "Voltmeter"
+text = "Ammeter"
 resize_mode = 1
 font_size_multiplier = 4.0
 background_color = Color( 0, 0, 0, 0 )
@@ -35,7 +35,7 @@ off_material = ExtResource( 3 )
 
 [node name="OQ_UILabel" parent="AmmeterSelection" instance=ExtResource( 1 )]
 transform = Transform( -0.253583, -1.16541e-07, 1.70218e-14, 0, -1.30816e-08, -1, 9.87487e-08, -0.299273, 4.37114e-08, -3.45216e-17, 0.00202808, -8.86501e-11 )
-text = "Ammeter"
+text = "Voltmeter"
 resize_mode = 1
 font_size_multiplier = 4.0
 background_color = Color( 0, 0, 0, 0 )

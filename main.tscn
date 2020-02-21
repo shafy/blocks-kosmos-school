@@ -182,6 +182,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.245244, 0.923541, -0.814784 
 [node name="WireBlock2" parent="AllBuildingBlocks" instance=ExtResource( 32 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.245244, 0.923541, -0.958764 )
 
+[node name="AllMeasurePoints" type="Spatial" parent="."]
+
 [node name="Table" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.593, -0.83874 )
 mode = 3

@@ -26,7 +26,10 @@ var initial_grab := false setget set_initial_grab, get_initial_grab
 var move_to_snap := false setget , get_move_to_snap
 
 onready var parent_block := get_parent()
-onready var schematic  := get_node("/root/Main/Schematic")
+onready var schematic := get_node(global_vars.SCHEMATIC_PATH) 
+onready var all_measure_points  := get_node(global_vars.ALL_MEASURE_POINTS_PATH)
+onready var measure_point_scene = load(global_vars.MEASURE_POINT_FILE_PATH)
+
 
 enum Polarity {UNDEFINED, POSITIVE, NEGATIVE}
 export (Polarity) var polarity
@@ -82,6 +85,7 @@ func _process(delta):
 		connection_id = schematic_add_blocks(parent_block, polarity, connection_side, other_area_parent_block, snap_area_other_area.polarity, snap_area_other_area.connection_side)
 		snap_area_other_area.connection_id = connection_id
 		moving_connection_added = true
+		spawn_measure_point()
 
 
 	if !snapping and initial_grab and !parent_block.is_grabbed:
@@ -230,6 +234,7 @@ func update_pos_to_snap(delta: float) -> void:
 		snapped = true
 		snap_area_other_area.snapped = true
 		other_area_parent_block.set_snapped(true)
+		spawn_measure_point()
 		emit_signal("area_snapped")
 		
 		return
@@ -287,3 +292,20 @@ func schematic_add_blocks(
 func schematic_remove_connection():
 	schematic.remove_connection(connection_id)
 	schematic.loop_current_method()
+
+
+# creates a measure point on top of this connection
+func spawn_measure_point():
+	# instance scene and create node
+	var measure_point = measure_point_scene.instance()
+	all_measure_points.add_child(measure_point)
+	
+	# place it
+	var move_by = Vector3(0, 0.15, 0)
+	var extents = get_node("CollisionShape").shape.extents
+	move_by -= global_transform.basis.z.normalized() * extents
+	measure_point.global_transform.origin = global_transform.origin + move_by
+	
+	# update connection_id
+	measure_point.set_measure_point_type(MeasurePoint.MeasurePointType.CONNECTION)
+	measure_point.set_connection_id(connection_id)

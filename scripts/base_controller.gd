@@ -23,8 +23,7 @@ func set_selected(new_value):
 	selected = new_value
 	visible = new_value
 	# select first tool per default
-	if tools:
-		tools[0].select(true)
+	select_tool(0)
 
 
 func get_selected():
@@ -74,7 +73,7 @@ func select_tool(tool_index : int):
 		t.select(false)
 	
 	# check if tool exists
-	if tools.size() >= tool_index - 1:
+	if tools.size() > tool_index:
 		tools[tool_index].select(true)
 		current_tool = tool_index
 		emit_signal("tool_changed")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://materials/light_red_transparent.tres" type="Material" id=1]
+[ext_resource path="res://scenes/measure_point.tscn" type="PackedScene" id=2]
 [ext_resource path="res://materials/black_plastic.tres" type="Material" id=3]
 [ext_resource path="res://materials/dark_grey_wood.tres" type="Material" id=4]
 [ext_resource path="res://materials/yellow_lamp.tres" type="Material" id=5]
@@ -86,3 +87,7 @@ connection_side = 1
 
 [node name="CollisionShape" type="CollisionShape" parent="SnapArea6"]
 shape = SubResource( 3 )
+
+[node name="MeasurePoint" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0 )
+measure_point_type = 1
