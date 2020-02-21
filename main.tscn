@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -12,7 +12,6 @@
 [ext_resource path="res://scripts/controller_system.gd" type="Script" id=10]
 [ext_resource path="res://scripts/schematic.gd" type="Script" id=11]
 [ext_resource path="res://scripts/placer_system.gd" type="Script" id=12]
-[ext_resource path="res://OQ_Toolkit/OQ_Buttons/OQ_ButtonPressable.tscn" type="PackedScene" id=13]
 [ext_resource path="res://scripts/object_remover_system.gd" type="Script" id=14]
 [ext_resource path="res://materials/charcoal.tres" type="Material" id=15]
 [ext_resource path="res://scripts/tablet.gd" type="Script" id=16]
@@ -20,17 +19,11 @@
 [ext_resource path="res://meshes/table.mesh" type="ArrayMesh" id=18]
 [ext_resource path="res://materials/dark_grey_wood.tres" type="Material" id=19]
 [ext_resource path="res://table.png" type="Texture" id=20]
-[ext_resource path="res://scripts/button_lock_mode.gd" type="Script" id=21]
-[ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=22]
 [ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=23]
-[ext_resource path="res://materials/bright_metal.tres" type="Material" id=24]
 [ext_resource path="res://scenes/minis/switch_mini.tscn" type="PackedScene" id=25]
 [ext_resource path="res://scenes/minis/battery_mini.tscn" type="PackedScene" id=26]
 [ext_resource path="res://scenes/building_blocks/battery.tscn" type="PackedScene" id=27]
 [ext_resource path="res://scripts/block_lock_system.gd" type="Script" id=28]
-[ext_resource path="res://materials/green_wood.tres" type="Material" id=29]
-[ext_resource path="res://scripts/button_remove_mode.gd" type="Script" id=30]
-[ext_resource path="res://materials/bronce_cover.tres" type="Material" id=31]
 [ext_resource path="res://scenes/building_blocks/wire_block.tscn" type="PackedScene" id=32]
 
 [sub_resource type="BakedLightmapData" id=1]
@@ -88,35 +81,6 @@ tablet_item_scenes = [ ExtResource( 17 ), ExtResource( 26 ), ExtResource( 25 ) ]
 transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.005, 0, 0, 0 )
 mesh = SubResource( 2 )
 material/0 = ExtResource( 15 )
-
-[node name="ButtonLockMode" parent="Tablet" instance=ExtResource( 13 )]
-transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, 0.052441, -0.0632514, 0.00800005 )
-script = ExtResource( 21 )
-off_material = ExtResource( 24 )
-on_material = ExtResource( 29 )
-on_on_start = true
-
-[node name="OQ_UILabel2" parent="Tablet/ButtonLockMode" instance=ExtResource( 22 )]
-transform = Transform( -0.288362, 1.49012e-08, -3.57628e-07, 3.72529e-09, 0.328175, -3.27826e-07, 1.19209e-07, -1.19209e-07, -1, 8.9407e-08, 0, 0.00830704 )
-text = "Unlock Blocks"
-resize_mode = 1
-font_size_multiplier = 3.0
-font_color = Color( 0.156863, 0.141176, 0.141176, 1 )
-background_color = Color( 0, 0, 0, 0 )
-
-[node name="RemoveModeButton" parent="Tablet" instance=ExtResource( 13 )]
-transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 5.96046e-08, 1, -0.0259074, -0.0632513, 0.00800005 )
-script = ExtResource( 30 )
-off_material = ExtResource( 31 )
-on_material = ExtResource( 29 )
-
-[node name="OQ_UILabel2" parent="Tablet/RemoveModeButton" instance=ExtResource( 22 )]
-transform = Transform( -0.288362, 1.49012e-08, -3.57628e-07, 3.72529e-09, 0.328175, -3.27826e-07, 1.19209e-07, -1.19209e-07, -1, 8.9407e-08, 0, 0.00830704 )
-text = "Remove Mode"
-resize_mode = 1
-font_size_multiplier = 3.0
-font_color = Color( 0.156863, 0.141176, 0.141176, 1 )
-background_color = Color( 0, 0, 0, 0 )
 
 [node name="Positions" type="Spatial" parent="Tablet"]
 transform = Transform( 1, 0, 0, 0, 1, 1.49012e-08, 0, -1.49012e-08, 1, 0, 0, 0 )

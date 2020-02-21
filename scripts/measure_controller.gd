@@ -11,10 +11,6 @@ onready var body_label = $BodyLabel
 onready var title_label = $TitleLabel
 onready var schematic := get_node(global_vars.SCHEMATIC_PATH) 
 
-func _ready():
-	right_controller.connect("button_pressed", self, "_on_right_ARVRController_button_pressed")
-	connect("tool_changed", self, "_on_Base_Controller_tool_changed")
-	
 
 func _on_right_ARVRController_button_pressed(button_number):
 	if !selected:
@@ -43,6 +39,9 @@ func _on_right_ARVRController_button_pressed(button_number):
 
 
 func _on_Base_Controller_tool_changed():
+	if !selected:
+		return
+	
 	match current_tool:
 		0:
 			# ammeter
@@ -78,6 +77,9 @@ func handle_am(current : float):
 func calculate_pot_diff(blocks_array) -> float:
 	var pot_diff = 0.0
 	for block in blocks_array:
-		pot_diff + block.potential
+		if block is VoltageSource and block.directional_polarity == SnapArea.Polarity.POSITIVE:
+			pot_diff += block.potential
+		else:
+			pot_diff -= block.potential
 	
 	return pot_diff

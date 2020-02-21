@@ -12,16 +12,27 @@ var delta_orientation = Basis()
 var is_grabbed := false
 var impulse_offset : Vector3
 
+onready var object_remover_system_node = get_node(global_vars.OBJECT_REMOVER_SYSTEM_PATH)
+
 export var is_grabbable := true
 export var is_removable := false
 
 func _ready():
-	var object_remover_system_node = get_node("/root/Main/ObjectRemoverSystem")
 	object_remover_system_node.connect("remove_mode_toggled", self, "_on_Object_Remover_System_remove_mode_toggled")
+	object_remover_system_node.connect("remove_mode_disabled", self, "_on_Object_Remover_System_remove_mode_disabled")
+	object_remover_system_node.connect("remove_mode_enabled", self, "_on_Object_Remover_System_remove_mode_enabled")
 
 
 func _on_Object_Remover_System_remove_mode_toggled():
 	is_removable = !is_removable
+
+
+func _on_Object_Remover_System_remove_mode_disabled():
+	is_removable = false
+
+
+func _on_Object_Remover_System_remove_mode_enabled():
+	is_removable = true
 
 
 func grab_init(grab_offset):

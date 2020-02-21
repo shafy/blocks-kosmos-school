@@ -26,6 +26,7 @@ func _on_BuildingBlockSnappable_block_snapped_updated():
 
 
 func update_blocks(locked: bool):
+	blocks_locked = locked
 	var new_mode = RigidBody.MODE_STATIC
 	if !locked:
 		new_mode = RigidBody.MODE_RIGID
@@ -36,3 +37,7 @@ func update_blocks(locked: bool):
 		if building_block.get_snapped():
 			building_block.set_mode(new_mode)
 			building_block.is_grabbable = !locked
+
+
+func toggle_lock():
+	update_blocks(!blocks_locked)

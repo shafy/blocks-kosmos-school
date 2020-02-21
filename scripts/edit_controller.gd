@@ -4,9 +4,9 @@ extends BaseController
 class_name EditController
 
 
-func _ready():
-	right_controller.connect("button_pressed", self, "_on_right_ARVRController_button_pressed")
-	
+onready var block_lock_system = get_node(global_vars.BLOCK_LOCK_SYSTEM_PATH)
+onready var object_remover_system = get_node(global_vars.OBJECT_REMOVER_SYSTEM_PATH)
+
 
 func _on_right_ARVRController_button_pressed(button_number):
 	if !selected:
@@ -17,21 +17,25 @@ func _on_right_ARVRController_button_pressed(button_number):
 		return
 	
 	# check if is overlapping with a building block
-	var bodies = grab_area_right.get_overlapping_bodies()
-	for body in bodies:
-		if !(body is Resistor):
-			return
-		match current_tool:
-			0:
-				# voltmeter
-				#body_label.set_label_text(str(body.current, " A"))
-				pass
-			1:
-				# ammeter
-				#body_label.set_label_text(str(body.current, " A"))
-				pass
-		break
+	if current_tool == 1:
+		var bodies = grab_area_right.get_overlapping_bodies()
+		for body in bodies:
+			if !(body is BuildingBlock):
+				return
+			# delete
+			body.start_remove()
+			break
 
-
-#func select_tool(tool_index : int):
-#	.select_tool(tool_index)
+func _on_Base_Controller_tool_changed():
+	if !selected:
+		return
+	
+	match current_tool:
+		0:
+			# lock mode
+			block_lock_system.toggle_lock()
+			object_remover_system.disable_remove_mode()
+		1:
+			# remover
+			object_remover_system.toggle_remove_mode()
+			block_lock_system.update_blocks(false)

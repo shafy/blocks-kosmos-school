@@ -36,6 +36,10 @@ func _ready():
 		palette.visible = false
 	else:
 		print("Error: Palette not found in ", name)
+	
+	connect("tool_changed", self, "_on_Base_Controller_tool_changed")
+	right_controller.connect("button_pressed", self, "_on_right_ARVRController_button_pressed")
+	
 
 
 func _process(delta):
@@ -52,6 +56,16 @@ func _process(delta):
 		select_tool(curr_joystick_pos - 1)
 	
 	joystick_x_prev = joystick_x
+
+
+# implement this in child
+func _on_Base_Controller_tool_changed():
+	pass
+
+
+# implement this in child
+func _on_right_ARVRController_button_pressed(button_number):
+	pass
 
 
 func joystick_position() -> int:
