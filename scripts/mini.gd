@@ -13,7 +13,7 @@ var mesh_maxi_scale
 var collision_shape_node_shape
 var collision_shape_initial_extents
 var collision_shape_maxi_extents
-var expand_speed := 2.0
+var expand_speed := 0.5
 var lerp_weight := 0.0
 var start_time := 0.0
 var mesh_initial_scale : Vector3
@@ -24,6 +24,12 @@ var collision_shape_mini_scale : Vector3
 onready var mesh_node = $MeshInstance
 onready var collision_shape_node = $CollisionShape
 onready var all_building_blocks = get_node(global_vars.ALL_BUILDING_BLOCKS_PATH)
+onready var right_controller = get_node(global_vars.CONTR_RIGHT_PATH)
+onready var right_controller_grab = get_node(global_vars.CONTR_RIGHT_PATH + "/controller_grab")
+onready var grab_area_right = get_node(global_vars.CONTR_RIGHT_PATH + "/controller_grab/GrabArea")
+onready var left_controller = get_node(global_vars.CONTR_LEFT_PATH)
+onready var left_controller_grab = get_node(global_vars.CONTR_LEFT_PATH + "/controller_grab")
+onready var grab_area_left = get_node(global_vars.CONTR_LEFT_PATH + "/controller_grab/GrabArea")
 
 export(float) var mini_scale_factor
 export(Vector3) var extents_initial
@@ -33,7 +39,6 @@ export(NodePath) var collision_shape_node_path
 export(PackedScene) var maxi_scene
 
 func _ready():
-	connect("body_entered", self, "_on_Mini_body_entered")
 	
 	# get nodes and apply the scale factor
 	#mesh_node = get_node(mesh_node_path)
@@ -90,20 +95,17 @@ func _on_Object_Remover_System_remove_mode_toggled():
 	is_grabbable = !is_grabbable
 
 
-func _on_Mini_body_entered(body):
-	if body.name == "Table":
-		maximize()
-
-
-func grab_init(node):
-	.grab_init(node)
+func grab_init(node, grabber):
+	.grab_init(node, grabber)
 	# turn on gravity
 	gravity_scale = 1.0
+	maximize()
 
 
 # maximizes a mini
 func maximize():
-	if is_max or scaling_up or is_grabbed: return
+	if is_max or scaling_up:
+		return
 	
 	# scale up
 	ready_to_scale = true
@@ -118,11 +120,27 @@ func switch_to_maxi():
 	new_maxi.transform.origin = global_transform.origin
 	new_maxi.transform.basis = global_transform.basis
 	
-	# destroy this node
+	# check if mini still held by controller
+	var held_right = false
+	var held_left = false
+	if grabbed_by:
+		if grabbed_by.get_parent().name == global_vars.CONTR_RIGHT_NAME:
+			held_right = true
+		if grabbed_by.get_parent().name == global_vars.CONTR_LEFT_NAME:
+			held_left = true
+	
+	if held_right:
+		right_controller_grab.release_grab_velocity()
+		right_controller_grab.start_grab_velocity(new_maxi)
+	if held_left:
+		left_controller_grab.release_grab_velocity()
+		left_controller_grab.start_grab_velocity(new_maxi)
+		
+	
+	# destroy this mini node
 	queue_free()
 	
 	# respawn this mini on the tablet
 	var tablet = get_node(global_vars.TABLET_PATH)
 	tablet.refresh()
 	
-

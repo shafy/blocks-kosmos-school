@@ -11,6 +11,7 @@ var target_node = null
 var delta_orientation = Basis()
 var is_grabbed := false
 var impulse_offset : Vector3
+var grabbed_by : Node
 
 onready var object_remover_system_node = get_node(global_vars.OBJECT_REMOVER_SYSTEM_PATH)
 
@@ -35,13 +36,14 @@ func _on_Object_Remover_System_remove_mode_enabled():
 	is_removable = true
 
 
-func grab_init(grab_offset):
+func grab_init(grab_offset, grabber):
 	impulse_offset = grab_offset
 	#target_node = node
 	#var node_basis = node.get_global_transform().basis;
 	# get relative position to where the grab was initiated
 	#delta_vector = target_node.get_global_transform().origin - get_global_transform().origin
 	is_grabbed = true
+	grabbed_by = grabber
 
 
 func grab_release(node):
@@ -49,6 +51,7 @@ func grab_release(node):
 	target_node = null
 	apply_impulse(impulse_offset, linear_velocity)
 	apply_torque_impulse(angular_velocity * 0.001)
+	grabbed_by = null
 
 
 func start_remove():

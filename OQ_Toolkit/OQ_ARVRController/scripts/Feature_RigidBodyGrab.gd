@@ -48,10 +48,14 @@ func start_grab_velocity(grabbable_rigid_body: GrabbableRigidBody):
 	held_object.global_transform = initial_transform
 	held_object.set_mode(RigidBody.MODE_KINEMATIC)
 	
-	held_object.grab_init(held_object.to_local(global_transform.origin))
+	held_object.grab_init(held_object.to_local(global_transform.origin), self)
 
 
 func release_grab_velocity():
+	
+	if !is_instance_valid(held_object):
+		return
+	
 	# keep initial transform
 	var initial_transform = held_object.get_global_transform()
 	
