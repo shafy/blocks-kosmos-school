@@ -509,4 +509,65 @@ func add_loop(new_loop: Array):
 # returns an array of blocks between two given connections
 func get_blocks_between(conn_id_1, conn_id_2) -> Array:
 	var conn_array = []
+	
+	# get blocks
+	var conn_1_index = find_connection_by_id(conn_id_1)
+	if conn_1_index == -1:
+		return conn_array
+	var conn_1 = connections[conn_1_index]
+	var block_1_1 = conn_1[0]["block"]
+	var block_1_2 = conn_1[1]["block"]
+	
+	var conn_2_index = find_connection_by_id(conn_id_2)
+	if conn_2_index == -1:
+		return conn_array
+	var conn_2 = connections[conn_2_index]
+	var block_2_1 = conn_2[0]["block"]
+	var block_2_2 = conn_1[1]["block"]
+	
+	# find loop that contains both blocks
+	var loop = []
+	var block_1_1_index
+	var block_2_1_index
+	for l in loops_array:
+		block_1_1_index = l.find(block_1_1)
+		block_2_1_index = l.find(block_2_1)
+		if block_1_1_index != -1 and block_2_1_index != 1:
+			loop = l
+			break
+	
+	if loop.empty():
+		return conn_array
+	
+	var start_block
+	# we need to find out which blocks to include in return value based on order
+	# for block 1
+	var next_index = block_1_1_index
+	if loop.size() > block_1_1_index + 1:
+		next_index == 0
+	if loop[next_index] == block_1_2:
+		start_block = block_1_1
+	else:
+		start_block = block_1_2
+	
+	var end_block
+	# for block 2
+	next_index = block_1_1_index
+	if loop.size() > block_2_1_index + 1:
+		next_index == 0
+	if loop[next_index] == block_2_2:
+		end_block = block_2_1
+	else:
+		end_block = block_2_2
+	
+	# now add all the blocks to conn_array, including start and end block
+	var running = true
+	var i = loop.find(start_block)
+	while running:
+		var curr_block = loop[i]
+		conn_array.append(loop[i])
+		if curr_block == end_block:
+			running = false
+		i += 1
+	
 	return conn_array
