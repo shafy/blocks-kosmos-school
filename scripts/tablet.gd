@@ -3,21 +3,21 @@ extends Spatial
 # this is the tablet the player can display in order to add blocks etc.
 class_name Tablet
 
+
 var positions_array: Array
-var tablet_items
+onready var tablet_items = $TabletItems
+onready var positions = $Positions
 
 export(Array, PackedScene) var tablet_item_scenes
 
+
 func _ready():
 	# get this child node so we can add instanced scenes as children later
-	
-	tablet_items = $TabletItems
 	if !tablet_items:
 		print("No Node with name TabletItems found as child of Tablet")
 		
 	
 	# set up positions_array
-	var positions = $Positions
 	if !positions:
 		print("No Node with name Positions found as child of Tablet")
 	else:
