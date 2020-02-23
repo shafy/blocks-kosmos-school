@@ -27,12 +27,10 @@ transform = Transform( 1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0.013, -0.0
 
 [node name="TitleLabel" parent="MeasureController" instance=ExtResource( 2 )]
 transform = Transform( -0.390134, -6.48144e-08, -2.75358e-07, 0, 0.166441, -0.707107, 1.51924e-07, -0.166441, -0.707107, 0.00928737, 0.0605644, -0.0574359 )
-font_size_multiplier = 1.0
 background_color = Color( 0, 0, 0, 0 )
 
 [node name="BodyLabel" parent="MeasureController" instance=ExtResource( 2 )]
 transform = Transform( -0.390134, -8.26273e-08, -2.75358e-07, 0, 0.212183, -0.707107, 1.51924e-07, -0.212183, -0.707107, 0.00928738, 0.0375434, -0.0344149 )
-font_size_multiplier = 1.0
 background_color = Color( 0, 0, 0, 0 )
 
 [node name="OculusQuestTouchController_Right2" parent="MeasureController" instance=ExtResource( 1 )]

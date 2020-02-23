@@ -24,12 +24,8 @@ var collision_shape_mini_scale : Vector3
 onready var mesh_node = $MeshInstance
 onready var collision_shape_node = $CollisionShape
 onready var all_building_blocks = get_node(global_vars.ALL_BUILDING_BLOCKS_PATH)
-onready var right_controller = get_node(global_vars.CONTR_RIGHT_PATH)
 onready var right_controller_grab = get_node(global_vars.CONTR_RIGHT_PATH + "/controller_grab")
-onready var grab_area_right = get_node(global_vars.CONTR_RIGHT_PATH + "/controller_grab/GrabArea")
-onready var left_controller = get_node(global_vars.CONTR_LEFT_PATH)
 onready var left_controller_grab = get_node(global_vars.CONTR_LEFT_PATH + "/controller_grab")
-onready var grab_area_left = get_node(global_vars.CONTR_LEFT_PATH + "/controller_grab/GrabArea")
 
 export(float) var mini_scale_factor
 export(Vector3) var extents_initial

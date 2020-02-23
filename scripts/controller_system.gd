@@ -7,22 +7,12 @@ enum ControllerType {EDIT, MEASURE}
 var controller_type = ControllerType.EDIT
 
 var right_controller_models
-var lock_selection_node
-var remove_selection_node
-var voltmeter_selection_node
-var ammeter_selection_node
-var remove_mode_on := false
-var lock_mode_on := false
-var joystick_x := 0.0
-var joystick_x_prev := 0.0
 var selected_controller
 
-#export(NodePath) onready var block_lock_system = get_node(block_lock_system)
-#export(NodePath) onready var object_remover_system = get_node(object_remover_system)
-#export(NodePath) onready var edit_palette = get_node(edit_palette)
-#export(NodePath) onready var measure_palette = get_node(measure_palette)
-
 onready var right_controller = get_node(global_vars.CONTR_RIGHT_PATH)
+onready var left_controller = get_node(global_vars.CONTR_LEFT_PATH)
+onready var tablet = get_node(global_vars.TABLET_PATH)
+
 
 func _ready():
 	if right_controller:
@@ -30,50 +20,9 @@ func _ready():
 		right_controller_models = right_controller.get_node("Feature_ControllerModel_Right")
 		set_controller_type(controller_type)
 	
-#	lock_selection_node = edit_palette.get_node("LockSelection")
-#	remove_selection_node = edit_palette.get_node("RemoveSelection")
-#	voltmeter_selection_node = measure_palette.get_node("VoltmeterSelection")
-#	ammeter_selection_node = measure_palette.get_node("AmmeterSelection")
-#	edit_palette.visible = false
-#	measure_palette.visible = false
-
-
-func _process(delta):
-	pass
-#	joystick_x = right_controller.get_joystick_axis(vr.CONTROLLER_AXIS.JOYSTICK_X)
-#	var curr_joystick_pos = joystick_position()
-#	if curr_joystick_pos == 0 and selected_controller.get_palette_visible():
-#		selected_controller.set_palette_visible(false)
-#
-#		if curr_joystick_pos > 0:
-#			selected_controller.set_palette_visible(true)
-#			selected_controller.select_tool(curr_joystick_pos)
-
-#	match controller_type:
-#		ControllerType.EDIT:
-#			if joystick_position() == 0 and edit_palette.visible:
-#				edit_palette.visible = false
-#
-#			if joystick_position() == 1:
-#				edit_palette.visible = true
-#				select_tool("lock")
-#
-#			if joystick_position() == 2:
-#				edit_palette.visible = true
-#				select_tool("remove")
-#		ControllerType.MEASURE:
-#			if joystick_position() == 0 and measure_palette.visible:
-#				measure_palette.visible = false
-#
-#			if joystick_position() == 1:
-#				measure_palette.visible = true
-#				select_tool("voltmeter")
-#
-#			if joystick_position() == 2:
-#				measure_palette.visible = true
-#				select_tool("ammeter")
-				
-#	joystick_x_prev = joystick_x
+	if left_controller:
+		left_controller.connect("button_pressed", self, "_on_left_ARVRController_button_pressed")
+		tablet.visible = false
 
 
 func _on_right_ARVRController_button_pressed(button_number):
@@ -84,40 +33,12 @@ func _on_right_ARVRController_button_pressed(button_number):
 	roundrobin()
 
 
-#func joystick_position() -> int:
-#	if joystick_x <= 0.5 and joystick_x >= -0.5:
-#		return 0
-#
-#	if joystick_x > 0.5 and joystick_x_prev <= 0.5:
-#		return 1
-#
-#	if joystick_x < -0.5 and joystick_x_prev >= -0.5:
-#		return 2
-#
-#	return -1
-
-
-# selects a tool to use
-#func select_tool(tool_name : String) -> void:
-#	match tool_name:
-#		"lock":
-#			lock_mode_on = !lock_mode_on
-#			block_lock_system.update_blocks(!lock_mode_on)
-#			lock_selection_node.select(lock_mode_on)
-#			remove_selection_node.select(false)
-#		"remove":
-#			object_remover_system.toggle_remove_mode()
-#			lock_selection_node.select(false)
-#			remove_mode_on = !remove_mode_on
-#			remove_selection_node.select(remove_mode_on)
-#		"voltmeter":
-#			voltmeter_selection_node.select(true)
-#			ammeter_selection_node.select(false)
-#		"ammeter":
-#			voltmeter_selection_node.select(false)
-#			ammeter_selection_node.select(true)
-#
-#	selected_controller.select_tool(tool_name)
+func _on_left_ARVRController_button_pressed(button_number):
+	# check for A button press
+	if button_number != vr.CONTROLLER_BUTTON.XA:
+		return
+	
+	toggle_tablet()
 
 
 # switches to the next controller type
@@ -139,3 +60,7 @@ func set_controller_type(new_ct : int) -> void:
 		# show the new one. this assumes meshes are in the same order as the enum ControllerType
 		selected_controller = right_controller_models.get_child(new_ct)
 		selected_controller.set_selected(true)
+
+
+func toggle_tablet():
+	tablet.visible = !tablet.visible
