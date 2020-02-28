@@ -4,44 +4,8 @@ extends Node
 # a single challenge
 class_name Challenge
 
-var objectives : Array
 
-onready var measure_controller = get_node(global_vars.MEASURE_CONTR_PATH)
-
-
-# define Objective as inner class. a Challenge has one or more Objectives.
-class Objective:
-	enum TargetType {AMPERE, VOLT}
-	
-	var title : String
-	var description : String
-	var target_type : int
-	var target_value : float
-	var target_objects_by_name : Array
-	var target_object_by_class : Array
-
-
-func _ready():
-	# connect signals
-	measure_controller.connect("ampere_measured", self, "_on_Measure_Controller_ampere_measured")
-	measure_controller.connect("volt_measured", self, "_on_Measure_Controller_volt_measured")
-	
-	# example objective
-	var objective = Objective.new()
-	objective.title = "5 Ampere"
-	objective.description = "Create a circuit with 5 Amperes of current"
-	objective.target_type = Objective.TargetType.AMPERE
-	objective.target_value = 5.0
-	
-	objectives.append(objective)
-
-
-func _on_Measure_Controller_ampere_measured(measure_point):
-	objective_hit(measure_point.get_current(), [measure_point.parent_block], Objective.TargetType.AMPERE)
-
-
-func _on_Measure_Controller_volt_measured(volt, blocks_array):
-	objective_hit(volt, blocks_array, Objective.TargetType.VOLT)
+onready var objectives = get_children()
 
 
 # checks if objective is hit, if yes, updates it
@@ -50,15 +14,43 @@ func objective_hit(obj_target_value : float, obj_target_blocks : Array, obj_targ
 		if obj.target_type != obj_target_type:
 			continue
 		
-		if obj.obj_target_value != obj_target_value:
+		
+		if stepify(obj.target_value, 0.1) != stepify(obj_target_value, 0.1):
 			continue
 		
-		if !obj.target_object_by_class.empty():
+		if !obj.target_objects_by_class.empty():
 			# check if classes match. all need to match
-			pass
+			var all_matched = true
+			for block in obj_target_blocks:
+				if block.get_class() != obj.target_objects_by_class:
+					all_matched = false
+					break
+			
+			if !all_matched:
+				continue
+		
 		
 		if !obj.target_objects_by_name.empty():
 			# check if names match. all need to match
-			pass
+			var all_matched = true
+			for block in obj_target_blocks:
+				if block.name != obj.target_objects_by_name:
+					all_matched = false
+					break
+			
+			if !all_matched:
+				continue
 		
-		print("objective reached!")
+		# set as true
+		obj.set_objective_hit(true)
+
+
+# returns true if all objectives are hit
+func all_objectives_hit():
+	var all_hit = true
+	for obj in objectives:
+		if !obj.get_objective_hit():
+			all_hit = false
+			break
+	
+	return all_hit

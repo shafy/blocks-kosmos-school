@@ -10,6 +10,10 @@ var max_power := 30.0
 onready var mesh_instance := $MeshInstance
 
 
+func get_class():
+	return "Lamp"
+
+
 func _ready():
 	if mesh_instance:
 		# expecting bulb material at index 3

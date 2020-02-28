@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://scripts/placer_system.gd" type="Script" id=12]
 [ext_resource path="res://scripts/challenge.gd" type="Script" id=13]
 [ext_resource path="res://scripts/object_remover_system.gd" type="Script" id=14]
+[ext_resource path="res://scripts/challenge_system.gd" type="Script" id=15]
+[ext_resource path="res://scripts/objective.gd" type="Script" id=16]
 [ext_resource path="res://meshes/table.mesh" type="ArrayMesh" id=18]
 [ext_resource path="res://materials/dark_grey_wood.tres" type="Material" id=19]
 [ext_resource path="res://table.png" type="Texture" id=20]
@@ -61,9 +63,23 @@ script = ExtResource( 28 )
 all_building_blocks = NodePath("../AllBuildingBlocks")
 
 [node name="ChallengeSystem" type="Node" parent="."]
+script = ExtResource( 15 )
 
 [node name="Challenge1" type="Node" parent="ChallengeSystem"]
 script = ExtResource( 13 )
+
+[node name="Objective1" type="Node" parent="ChallengeSystem/Challenge1"]
+script = ExtResource( 16 )
+title = "4 Amps"
+description = "Measure 4 Amperes in your circuit"
+target_value = 4.0
+
+[node name="Objective2" type="Node" parent="ChallengeSystem/Challenge1"]
+script = ExtResource( 16 )
+title = "20 Volts"
+description = "Measure 20 Volts in your circuit"
+target_type = 1
+target_value = 20.0
 
 [node name="ControllerSystem" type="Node" parent="."]
 script = ExtResource( 10 )

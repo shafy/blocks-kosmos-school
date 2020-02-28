@@ -16,6 +16,10 @@ onready var title_label = $TitleLabel
 onready var schematic := get_node(global_vars.SCHEMATIC_PATH) 
 
 
+func _ready():
+	select_default = true
+
+
 func _on_right_ARVRController_button_pressed(button_number):
 	if !selected:
 		return
@@ -75,7 +79,7 @@ func handle_vm(conn_id : String):
 
 
 func handle_am(measure_point):
-	body_label.set_label_text(str(measure_point.get_current(), " A"))
+	body_label.set_label_text("%.1f A" % measure_point.get_current())
 	emit_signal("ampere_measured", measure_point)
 
 

@@ -20,6 +20,7 @@ var snap_end_transform : Transform
 var interpolation_progress : float
 var moving_connection_added := false
 var is_master := false
+var measure_point : Node
 
 var snapped := false setget , get_snapped
 var initial_grab := false setget set_initial_grab, get_initial_grab
@@ -212,6 +213,7 @@ func snap_to_block(other_snap_area: Area):
 
 
 func unsnap():
+	destroy_measure_point()
 	is_master = false
 	initial_grab = false
 	snapped = false
@@ -297,7 +299,7 @@ func schematic_remove_connection():
 # creates a measure point on top of this connection
 func spawn_measure_point():
 	# instance scene and create node
-	var measure_point = measure_point_scene.instance()
+	measure_point = measure_point_scene.instance()
 	all_measure_points.add_child(measure_point)
 	
 	# place it
@@ -309,3 +311,9 @@ func spawn_measure_point():
 	# update connection_id
 	measure_point.set_measure_point_type(MeasurePoint.MeasurePointType.CONNECTION)
 	measure_point.set_connection_id(connection_id)
+
+
+func destroy_measure_point():
+	if measure_point:
+		measure_point.queue_free()
+		measure_point = null

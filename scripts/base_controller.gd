@@ -11,6 +11,7 @@ var current_tool : int
 var joystick_x := 0.0
 var joystick_x_prev := 0.0
 var palette_visible
+var select_default := false
 
 var selected := false setget set_selected, get_selected
 
@@ -22,8 +23,9 @@ onready var grab_area_right = get_node(global_vars.CONTR_RIGHT_PATH + "/controll
 func set_selected(new_value):
 	selected = new_value
 	visible = new_value
-	# select first tool per default
-	select_tool(0)
+	# select first tool by default
+	if select_default:
+		select_tool(0)
 
 
 func get_selected():
