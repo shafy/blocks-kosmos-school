@@ -4,6 +4,7 @@ extends Spatial
 # logic for challenge screen
 class_name ChallengeScreen
 
+var BODY_STANDARD_TEXT = "Reach the following objectives to complete this challenge:"
 
 export var challenge_index : int
 
@@ -17,8 +18,11 @@ onready var description_label = $DescriptionLabel
 func _ready():
 	challenge_system.connect("objective_hit", self, "_on_Challenge_System_objective_hit")
 	challenge_system.connect("challenge_completed", self, "_on_Challenge_System_challenge_completed")
+	challenge_system.connect("challenge_started", self, "_on_Challenge_System_challenge_started")
+	challenge_system.connect("challenge_stopped", self, "_on_Challenge_System_challenge_stopped")
 	
 	title_label.set_label_text(str("Challenge ", challenge_index + 1))
+	body_label.set_label_text(BODY_STANDARD_TEXT)
 	update_text()
 
 
@@ -34,6 +38,21 @@ func _on_Challenge_System_challenge_completed(new_challenge_index):
 		return
 	
 	body_label.set_label_text("This Challenge is completed!")
+
+
+func _on_Challenge_System_challenge_started(new_challenge_index):
+	if new_challenge_index != challenge_index:
+		return
+		
+	var new_text = "*Challenge currently running*\n" + BODY_STANDARD_TEXT
+	body_label.set_label_text(new_text)
+
+
+func _on_Challenge_System_challenge_stopped(new_challenge_index):
+	if new_challenge_index != challenge_index:
+		return
+	
+	body_label.set_label_text(BODY_STANDARD_TEXT)
 
 
 func update_text(hit_objective_indices : Array = []):

@@ -7,10 +7,12 @@ class_name ChallengeSystem
 
 signal objective_hit
 signal challenge_completed
+signal challenge_started
+signal challenge_stopped
 
 var all_challenges
 var current_challenge
-var current_challenge_index : int
+var current_challenge_index = null
 
 onready var measure_controller = get_node(global_vars.MEASURE_CONTR_PATH)
 
@@ -47,16 +49,6 @@ func objective_hit_update():
 		challenge_completed()
 
 
-# connected in button_challenge.gd
-func _on_Button_Challenge_challenge_started(challenge_index : int):
-	start_challenge(challenge_index)
-
-
-# connected in button_challenge.gd
-func _on_Button_Challenge_challenge_stopped(challenge_index : int):
-	stop_challenge(challenge_index)
-
-
 func challenge_completed():
 	emit_signal("challenge_completed", current_challenge_index)
 
@@ -64,10 +56,13 @@ func challenge_completed():
 func start_challenge(challenge_index : int):
 	current_challenge = all_challenges[challenge_index]
 	current_challenge_index = challenge_index
+	emit_signal("challenge_started", current_challenge_index)
 
 
 func stop_challenge(challenge_index : int):
+	emit_signal("challenge_stopped", current_challenge_index)
 	current_challenge = null
+	current_challenge_index = null
 
 
 # returns challenge objectives

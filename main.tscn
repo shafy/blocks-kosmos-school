@@ -171,6 +171,7 @@ material/0 = ExtResource( 17 )
 
 [node name="Screens" type="Spatial" parent="UITest"]
 script = ExtResource( 25 )
+initial_screen = "ChallengesOverview"
 
 [node name="ChallengesOverview" type="Spatial" parent="UITest/Screens"]
 
@@ -215,12 +216,12 @@ navigate_to = "ChallengesOverview"
 
 [node name="Navigation" type="Spatial" parent="UITest"]
 
-[node name="ButtonPressable3" parent="UITest/Navigation" instance=ExtResource( 22 )]
+[node name="BlocksButton" parent="UITest/Navigation" instance=ExtResource( 22 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -8.9407e-08, 0, -2.98023e-08, 1, 0.140772, 0.0808799, 0.0219712 )
 script = ExtResource( 24 )
 navigate_to = "Blocks"
 
-[node name="ButtonPressable4" parent="UITest/Navigation" instance=ExtResource( 22 )]
+[node name="ChallengesButton" parent="UITest/Navigation" instance=ExtResource( 22 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -8.9407e-08, 0, -2.98023e-08, 1, 0.140772, 0.0365279, 0.0219713 )
 script = ExtResource( 24 )
 navigate_to = "ChallengesOverview"
