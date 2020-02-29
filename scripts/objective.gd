@@ -15,10 +15,10 @@ export(TargetType) var target_type
 export(float) var target_value
 export(String) var target_objects_by_class
 export(String) var target_objects_by_name
+export(int) var number_of_blocks := 0
 
 
 func set_objective_hit(new_value):
-	print("set_objective_hit ", new_value)
 	objective_hit = new_value
 
 

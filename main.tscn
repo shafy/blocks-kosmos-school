@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -16,12 +16,19 @@
 [ext_resource path="res://scripts/object_remover_system.gd" type="Script" id=14]
 [ext_resource path="res://scripts/challenge_system.gd" type="Script" id=15]
 [ext_resource path="res://scripts/objective.gd" type="Script" id=16]
+[ext_resource path="res://materials/black_plastic.tres" type="Material" id=17]
 [ext_resource path="res://meshes/table.mesh" type="ArrayMesh" id=18]
 [ext_resource path="res://materials/dark_grey_wood.tres" type="Material" id=19]
 [ext_resource path="res://table.png" type="Texture" id=20]
+[ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=21]
+[ext_resource path="res://OQ_Toolkit/OQ_Buttons/OQ_ButtonPressable.tscn" type="PackedScene" id=22]
 [ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=23]
+[ext_resource path="res://scripts/button_screen_nav.gd" type="Script" id=24]
+[ext_resource path="res://scripts/screens_controller.gd" type="Script" id=25]
+[ext_resource path="res://scripts/button_challenge.gd" type="Script" id=26]
 [ext_resource path="res://scenes/building_blocks/battery.tscn" type="PackedScene" id=27]
 [ext_resource path="res://scripts/block_lock_system.gd" type="Script" id=28]
+[ext_resource path="res://scripts/challenge_screen.gd" type="Script" id=29]
 [ext_resource path="res://scenes/building_blocks/wire_block.tscn" type="PackedScene" id=32]
 
 [sub_resource type="BakedLightmapData" id=1]
@@ -42,6 +49,8 @@ glow_blend_mode = 1
 
 [sub_resource type="BoxShape" id=3]
 extents = Vector3( 0.513476, 0.0379334, 0.5051 )
+
+[sub_resource type="CubeMesh" id=4]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 8 )
@@ -76,10 +85,10 @@ target_value = 4.0
 
 [node name="Objective2" type="Node" parent="ChallengeSystem/Challenge1"]
 script = ExtResource( 16 )
-title = "20 Volts"
-description = "Measure 20 Volts in your circuit"
+title = "8 Volts"
+description = "Measure 8 Volts in your circuit"
 target_type = 1
-target_value = 20.0
+target_value = 8.0
 
 [node name="ControllerSystem" type="Node" parent="."]
 script = ExtResource( 10 )
@@ -151,3 +160,67 @@ shape = SubResource( 3 )
 use_in_baked_light = true
 mesh = ExtResource( 18 )
 material/0 = ExtResource( 19 )
+
+[node name="UITest" type="Spatial" parent="."]
+transform = Transform( 0.996189, 0, 0, 0, 0.982857, 0.5, 0, -0.567453, 0.866025, -0.311915, 1.03472, -0.540859 )
+
+[node name="MeshInstance" type="MeshInstance" parent="UITest"]
+transform = Transform( 0.183539, 0, 0, 0, 0.109661, 0, 0, 0, 0.0151285, 0, 0, 0 )
+mesh = SubResource( 4 )
+material/0 = ExtResource( 17 )
+
+[node name="Screens" type="Spatial" parent="UITest"]
+script = ExtResource( 25 )
+
+[node name="ChallengesOverview" type="Spatial" parent="UITest/Screens"]
+
+[node name="ButtonPressable" parent="UITest/Screens/ChallengesOverview" instance=ExtResource( 22 )]
+transform = Transform( 1, 1.49012e-08, 0, 0, 1, -8.9407e-08, 0, -2.98023e-08, 1, -0.0986588, 0, 0.0219712 )
+script = ExtResource( 24 )
+navigate_to = "Challenge1"
+
+[node name="Challenge1" type="Spatial" parent="UITest/Screens"]
+visible = false
+script = ExtResource( 29 )
+
+[node name="TitleLabel" parent="UITest/Screens/Challenge1" instance=ExtResource( 21 )]
+transform = Transform( -1, 0, -3.25841e-07, -2.84217e-14, 1, 0, 3.25841e-07, 0, -1, 0.0100835, 0.0561409, 0.0181428 )
+text = "Challenge 1"
+font_size_multiplier = 2.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0, 0, 0, 0 )
+
+[node name="BodyLabel" parent="UITest/Screens/Challenge1" instance=ExtResource( 21 )]
+transform = Transform( -1, 0, -3.25841e-07, -7.10543e-14, 1, 0, 3.25841e-07, 0, -1, 0.0100836, 0.0339241, 0.0181427 )
+text = "Reach the following objectives to complete this challenge:"
+font_size_multiplier = 2.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0, 0, 0, 0 )
+
+[node name="DescriptionLabel" parent="UITest/Screens/Challenge1" instance=ExtResource( 21 )]
+transform = Transform( -1, 0, -3.25841e-07, -7.10543e-14, 1, 0, 3.25841e-07, 0, -1, 0.0100837, -0.0478383, 0.0181427 )
+text = "Reach the following objectives to complete this challenge:"
+font_size_multiplier = 2.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0, 0, 0, 0 )
+
+[node name="ButtonPressable" parent="UITest/Screens/Challenge1" instance=ExtResource( 22 )]
+transform = Transform( 1, 1.49012e-08, 0, 0, 1, -8.9407e-08, 0, -2.98023e-08, 1, 0.112606, -0.0665539, 0.0219712 )
+script = ExtResource( 26 )
+
+[node name="ButtonPressable2" parent="UITest/Screens/Challenge1" instance=ExtResource( 22 )]
+transform = Transform( 1, 1.49012e-08, 0, 0, 1, -8.9407e-08, 0, -2.98023e-08, 1, -0.143173, 0.0808799, 0.0219712 )
+script = ExtResource( 24 )
+navigate_to = "ChallengesOverview"
+
+[node name="Navigation" type="Spatial" parent="UITest"]
+
+[node name="ButtonPressable3" parent="UITest/Navigation" instance=ExtResource( 22 )]
+transform = Transform( 1, 1.49012e-08, 0, 0, 1, -8.9407e-08, 0, -2.98023e-08, 1, 0.140772, 0.0808799, 0.0219712 )
+script = ExtResource( 24 )
+navigate_to = "Blocks"
+
+[node name="ButtonPressable4" parent="UITest/Navigation" instance=ExtResource( 22 )]
+transform = Transform( 1, 1.49012e-08, 0, 0, 1, -8.9407e-08, 0, -2.98023e-08, 1, 0.140772, 0.0365279, 0.0219713 )
+script = ExtResource( 24 )
+navigate_to = "ChallengesOverview"

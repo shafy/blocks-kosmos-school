@@ -1,5 +1,9 @@
 extends Spatial
 
+
+class_name OQ_UI2DLabel
+
+
 export (String, MULTILINE) var text = "I am a Label\nWith a new line"
 export var margin = 16;
 export var billboard = false;
@@ -12,7 +16,7 @@ export (Color) var font_color
 export (Color) var background_color
 #export var line_to_parent = false;
 
-onready var ui_label : Label = $Viewport/ColorRect/CenterContainer/Label
+onready var ui_label = $Viewport/ColorRect/CenterContainer/Label
 onready var ui_container : CenterContainer = $Viewport/ColorRect/CenterContainer
 onready var ui_color_rect : CenterContainer = $Viewport/ColorRect
 onready var ui_viewport : Viewport = $Viewport
