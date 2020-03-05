@@ -5,8 +5,8 @@ class_name Tablet
 
 
 var positions_array: Array
-onready var tablet_items = $TabletItems
-onready var positions = $Positions
+onready var tablet_items = $Screens/Blocks/TabletItems
+onready var positions = $Screens/Blocks/Positions
 
 export(Array, PackedScene) var tablet_item_scenes
 

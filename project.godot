@@ -195,6 +195,11 @@ _global_script_classes=[ {
 "path": "res://scripts/tablet.gd"
 }, {
 "base": "Spatial",
+"class": "TextLabel2D",
+"language": "GDScript",
+"path": "res://scripts/text_label_2d.gd"
+}, {
+"base": "Spatial",
 "class": "ToolPaletteSelection",
 "language": "GDScript",
 "path": "res://scripts/tool_palette_selection.gd"
@@ -272,6 +277,7 @@ _global_script_class_icons={
 "SnapArea": "",
 "Switch": "",
 "Tablet": "",
+"TextLabel2D": "",
 "ToolPaletteSelection": "",
 "VoltageSource": "",
 "Voltmeter": "",

@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scripts/text_label_2d.gd" type="Script" id=1]
+[ext_resource path="res://OQ_Toolkit/OQ_UI2D/theme/oq_ui2d_standard_font.tres" type="DynamicFont" id=2]
+
+[sub_resource type="ViewportTexture" id=1]
+viewport_path = NodePath("Viewport")
+
+[sub_resource type="SpatialMaterial" id=2]
+resource_local_to_scene = true
+flags_unshaded = true
+params_cull_mode = 2
+albedo_texture = SubResource( 1 )
+
+[sub_resource type="PlaneMesh" id=3]
+resource_local_to_scene = true
+material = SubResource( 2 )
+size = Vector2( 0.2, 0.1 )
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_unshaded = true
+params_cull_mode = 2
+params_billboard_mode = 2
+albedo_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="QuadMesh" id=5]
+material = SubResource( 4 )
+size = Vector2( 0.01, 1 )
+
+[node name="2DTextLabel" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 512, 256 )
+transparent_bg = true
+msaa = 2
+hdr = false
+usage = 0
+
+[node name="ColorRect" type="ColorRect" parent="Viewport"]
+color = Color( 0, 0, 0, 1 )
+
+[node name="CenterContainer" type="CenterContainer" parent="Viewport/ColorRect"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Label" type="Label" parent="Viewport/ColorRect/CenterContainer"]
+margin_top = 3.0
+margin_right = 185.0
+margin_bottom = 36.0
+custom_fonts/font = ExtResource( 2 )
+text = "Text Text Text"
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( -1, -1.50996e-07, -6.60024e-15, 0, -4.37114e-08, 1, -1.50996e-07, 1, 4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="LineMesh" type="MeshInstance" parent="."]
+transform = Transform( 0.823077, -0.56793, 0, 0.56793, 0.823077, 0, 0, 0, 1, 0, -0.333345, 0 )
+visible = false
+mesh = SubResource( 5 )
+material/0 = null

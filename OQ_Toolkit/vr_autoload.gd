@@ -1,6 +1,6 @@
 extends Node
 
-const UI_PIXELS_TO_METER = 1.0 / 2048; # defines the (auto) size of UI elements in 3D
+const UI_PIXELS_TO_METER = 1.0 / 1024; # defines the (auto) size of UI elements in 3D
 
 var inVR = false;
 
