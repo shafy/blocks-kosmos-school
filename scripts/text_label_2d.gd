@@ -25,8 +25,8 @@ enum ResizeModes {AUTO_RESIZE, FIXED}
 export (ResizeModes) var resize_mode 
 
 export var font_size_multiplier = 1.0
-export (Color) var font_color
-export (Color) var background_color
+export (Color) var font_color = Color(1, 1, 1, 1)
+export (Color) var background_color = Color(0, 0, 0, 1)
 
 enum Align {ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, ALIGN_FILL}
 export (Align) var h_align
@@ -98,6 +98,8 @@ func _process(delta):
 		prev_font_size_multiplier = font_size_multiplier
 		prev_scale_x = scale.x
 		prev_scale_y = scale.y
+		prev_h_align = h_align
+		prev_v_align = v_align
 		
 		
 

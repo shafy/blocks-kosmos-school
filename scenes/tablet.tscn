@@ -60,34 +60,30 @@ navigate_to = "Challenge1"
 [node name="Challenge1" type="Spatial" parent="Screens"]
 script = ExtResource( 13 )
 
-[node name="TextLabel2D" parent="Screens/Challenge1" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, -1.47122e-08, 0, 1.47122e-08, 1, -2.98023e-08, 0, 0.104201 )
+[node name="TitleLabel" parent="Screens/Challenge1" instance=ExtResource( 9 )]
+transform = Transform( 1, 7.45058e-09, 0, 0, 0.5, -5.96046e-08, 0, 0, 1, -0.0240185, 0.0905328, 0.018392 )
+text = "Challenge 1"
 resize_mode = 1
-font_size_multiplier = 2.0
+font_size_multiplier = 5.0
 font_color = Color( 1, 1, 1, 1 )
 h_align = 1
 v_align = 1
 
-[node name="TitleLabel" parent="Screens/Challenge1" instance=ExtResource( 7 )]
-transform = Transform( -1, 0, -3.25841e-07, -2.84217e-14, 1, 0, 3.25841e-07, 0, -1, 0.0100835, 0.0561409, 0.0181428 )
-text = "Challenge 1"
-font_size_multiplier = 2.0
-font_color = Color( 1, 1, 1, 1 )
-background_color = Color( 0, 0, 0, 0 )
-
-[node name="BodyLabel" parent="Screens/Challenge1" instance=ExtResource( 7 )]
-transform = Transform( -1, 0, -3.25841e-07, -7.10543e-14, 1, 0, 3.25841e-07, 0, -1, 0.0100836, 0.0339241, 0.0181427 )
+[node name="BodyLabel" parent="Screens/Challenge1" instance=ExtResource( 9 )]
+transform = Transform( 2.37804, 7.45058e-09, 2.98023e-08, -5.96046e-08, 0.608197, -5.96046e-08, -5.96046e-08, 5.96046e-08, 1, -0.043561, 0.0135134, 0.0183922 )
 text = "Reach the following objectives to complete this challenge:"
-font_size_multiplier = 2.0
+resize_mode = 1
+font_size_multiplier = 4.0
 font_color = Color( 1, 1, 1, 1 )
-background_color = Color( 0, 0, 0, 0 )
 
-[node name="DescriptionLabel" parent="Screens/Challenge1" instance=ExtResource( 7 )]
-transform = Transform( -1, 0, -3.25841e-07, -7.10543e-14, 1, 0, 3.25841e-07, 0, -1, 0.0100837, -0.0478383, 0.0181427 )
-text = "Reach the following objectives to complete this challenge:"
-font_size_multiplier = 2.0
+[node name="DescriptionLabel" parent="Screens/Challenge1" instance=ExtResource( 9 )]
+transform = Transform( 2.37804, 7.45058e-09, 2.98023e-08, -5.96046e-08, 0.608197, -5.96046e-08, -5.96046e-08, 5.96046e-08, 1, -0.043561, -0.0606223, 0.0183922 )
+text = "- Obj 1: Have fun!
+- Obj2: Have even mor fun!!
+- Obj3: Shut up :-)"
+resize_mode = 1
+font_size_multiplier = 4.0
 font_color = Color( 1, 1, 1, 1 )
-background_color = Color( 0, 0, 0, 0 )
 
 [node name="StartStopButton" parent="Screens/Challenge1" instance=ExtResource( 12 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -8.9407e-08, 0, -2.98023e-08, 1, 0.112606, -0.0665539, 0.0219712 )
