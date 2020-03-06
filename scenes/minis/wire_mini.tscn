@@ -1,15 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/minis/mini_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/building_blocks/wire_block.tscn" type="PackedScene" id=2]
-[ext_resource path="res://materials/green_wood.tres" type="Material" id=3]
-
-[sub_resource type="CubeMesh" id=1]
 
 [node name="WireMini" instance=ExtResource( 1 )]
 maxi_scene = ExtResource( 2 )
 
 [node name="MeshInstance" parent="." index="1"]
-transform = Transform( 0.0197203, 0, 0, 0, 0.001987, 0, 0, 0, 0.01, 0, -0.0105204, 0 )
-mesh = SubResource( 1 )
-material/0 = ExtResource( 3 )
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.000653259, 0 )

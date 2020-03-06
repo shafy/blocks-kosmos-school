@@ -1,14 +1,21 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/building_blocks/building_block_snappable.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/voltage_source.gd" type="Script" id=2]
-[ext_resource path="res://meshes/battery_base.mesh" type="ArrayMesh" id=3]
-[ext_resource path="res://materials/bronce_cover.tres" type="Material" id=4]
+[ext_resource path="res://materials/light_grey.tres" type="Material" id=3]
+[ext_resource path="res://materials/dark_dark_grey.tres" type="Material" id=4]
+[ext_resource path="res://materials/medium_grey.tres" type="Material" id=5]
+[ext_resource path="res://materials/light_blue.tres" type="Material" id=6]
+[ext_resource path="res://materials/medium_blue.tres" type="Material" id=7]
+[ext_resource path="res://meshes/battery_block.mesh" type="ArrayMesh" id=8]
+[ext_resource path="res://materials/dark_grey.tres" type="Material" id=9]
+[ext_resource path="res://materials/dark_ocean_blue.tres" type="Material" id=10]
+[ext_resource path="res://materials/ocean_blue.tres" type="Material" id=11]
 
 [sub_resource type="BoxShape" id=1]
 resource_local_to_scene = true
 margin = 0.001
-extents = Vector3( 0.0999421, 0.0253566, 0.0317375 )
+extents = Vector3( 0.105877, 0.0269744, 0.0317375 )
 
 [sub_resource type="BoxShape" id=2]
 margin = 0.001
@@ -19,53 +26,62 @@ script = ExtResource( 2 )
 potential = 9.0
 
 [node name="CollisionShape" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0115887, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0169006, 0 )
 shape = SubResource( 1 )
 
 [node name="MeshInstance" parent="." index="1"]
-mesh = ExtResource( 3 )
-material/0 = null
-material/1 = null
-material/2 = null
-material/3 = ExtResource( 4 )
+mesh = ExtResource( 8 )
+material/0 = ExtResource( 3 )
+material/1 = ExtResource( 5 )
+material/2 = ExtResource( 6 )
+material/3 = ExtResource( 7 )
+material/4 = ExtResource( 5 )
+material/5 = ExtResource( 3 )
+material/6 = ExtResource( 9 )
+material/7 = ExtResource( 4 )
+material/8 = ExtResource( 11 )
+material/9 = ExtResource( 10 )
+
+[node name="OutlineBubble" parent="." index="2"]
+transform = Transform( -1.30337e-08, 0, 0.08, 0, 0.08, 0, -0.08, 0, -1.30337e-08, 0, 0.0510378, 0 )
 
 [node name="SnapArea1" parent="." index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, -0.00439964, 0.0458475 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, -6.7798e-05, 0.0458475 )
 polarity = 2
 
 [node name="CollisionShape" parent="SnapArea1" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea2" parent="." index="4"]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.116055, -0.00439965, 8.05601e-10 )
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.116055, -6.78077e-05, 8.05601e-10 )
 polarity = 2
 
 [node name="CollisionShape" parent="SnapArea2" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea3" parent="." index="5"]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.07, -0.00439965, -0.0458455 )
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.07, -6.78077e-05, -0.0458455 )
 polarity = 2
 
 [node name="CollisionShape" parent="SnapArea3" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea4" parent="." index="6"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0705971, -0.00439964, 0.0458475 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0705971, -6.7798e-05, 0.0458475 )
 polarity = 1
 
 [node name="CollisionShape" parent="SnapArea4" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea5" parent="." index="7"]
-transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.116302, -0.00439965, 4.31237e-08 )
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.116302, -6.78077e-05, 4.31237e-08 )
 polarity = 1
 
 [node name="CollisionShape" parent="SnapArea5" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea6" parent="." index="8"]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.07, -0.00439965, -0.0458455 )
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.07, -6.78077e-05, -0.0458455 )
 polarity = 1
 
 [node name="CollisionShape" parent="SnapArea6" index="0"]
