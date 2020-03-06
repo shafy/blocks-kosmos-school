@@ -67,6 +67,10 @@ script = ExtResource( 15 )
 
 [node name="Challenge1" type="Node" parent="ChallengeSystem"]
 script = ExtResource( 13 )
+lamps = 2
+batteries = 1
+switches = 3
+wires = 15
 
 [node name="Objective1" type="Node" parent="ChallengeSystem/Challenge1"]
 script = ExtResource( 16 )

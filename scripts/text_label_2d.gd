@@ -17,33 +17,50 @@ var prev_scale_y : float
 var prev_h_align : int
 var prev_v_align : int
 
-export (String, MULTILINE) var text = "I am a Label\nWith a new line"
+export (String, MULTILINE) var text = "I am a Label\nWith a new line" setget set_text
 export var margin = 16;
 export var billboard = false;
 
 enum ResizeModes {AUTO_RESIZE, FIXED}
 export (ResizeModes) var resize_mode = ResizeModes.FIXED
 
-export var font_size_multiplier = 1.0
+export var font_size_multiplier = 1.0 setget set_font_size_multiplier
 export (Color) var font_color = Color(1, 1, 1, 1)
 export (Color) var background_color = Color(0, 0, 0, 1)
 
 enum Align {ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, ALIGN_FILL}
-export (Align) var h_align
+export (Align) var h_align setget set_h_align
 enum VAlign {VALIGN_TOP, VALIGN_CENTER, VALIGN_BOTTOM, VALIGN_FILL}
-export (VAlign) var v_align
+export (VAlign) var v_align setget set_v_align
 
 onready var ui_label = $Viewport/ColorRect/Label
-#onready var ui_container : CenterContainer = $Viewport/ColorRect/CenterContainer
 onready var ui_color_rect : ColorRect = $Viewport/ColorRect
 onready var ui_viewport : Viewport = $Viewport
 onready var mesh_instance : MeshInstance = $MeshInstance
 
 
+func set_text(new_value):
+	text = new_value
+	set_label_text(text)
+
+
+func set_font_size_multiplier(new_value):
+	font_size_multiplier = new_value
+	resize()
+
+
+func set_h_align(new_value):
+	h_align = new_value
+	set_alignment()
+
+
+func set_v_align(new_value):
+	v_align = new_value
+	set_alignment()
+
+
 func _ready():
 	ui_mesh = mesh_instance.mesh;
-	
-#	resize()
 	
 	set_alignment()
 	
@@ -140,6 +157,9 @@ func resize_fixed():
 	
 	var new_size = Vector2(parent_width * 1024 / font_size_multiplier, parent_height * 1024 / font_size_multiplier)
 	
+	if !ui_viewport:
+		return
+	
 	ui_viewport.set_size(new_size)
 	ui_color_rect.set_size(new_size)
 	ui_label.set_size(new_size)
@@ -151,8 +171,10 @@ func resize_fixed():
 	
 
 func set_label_text(t: String):
+	if !ui_label:
+		return
+	
 	ui_label.set_text(t)
-#	resize()
 
 
 func set_alignment():

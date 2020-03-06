@@ -5,6 +5,12 @@ extends Node
 class_name Challenge
 
 
+# -1 means infinite
+export var lamps := -1
+export var batteries := -1
+export var switches := -1
+export var wires := -1
+
 onready var objectives = get_children() setget , get_objectives
 
 

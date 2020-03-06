@@ -15,6 +15,7 @@ var current_challenge
 var current_challenge_index = null
 
 onready var measure_controller = get_node(global_vars.MEASURE_CONTR_PATH)
+onready var tablet = get_node(global_vars.TABLET_PATH)
 
 
 func _ready():
@@ -56,10 +57,12 @@ func challenge_completed():
 func start_challenge(challenge_index : int):
 	current_challenge = all_challenges[challenge_index]
 	current_challenge_index = challenge_index
+	setup_tablet()
 	emit_signal("challenge_started", current_challenge_index)
 
 
 func stop_challenge(challenge_index : int):
+	tablet.clear_tablet()
 	emit_signal("challenge_stopped", current_challenge_index)
 	current_challenge = null
 	current_challenge_index = null
@@ -71,3 +74,14 @@ func challenge_objectives(challenge_index : int) -> Array:
 		return all_challenges[challenge_index].get_objectives()
 	
 	return []
+
+
+# puts correct number of blöcks on tablet for the current challenge
+func setup_tablet():
+	var current_setup = {
+		"Lamps": current_challenge.lamps,
+		"Batteries": current_challenge.batteries,
+		"Switches": current_challenge.switches,
+		"Wires": current_challenge.wires
+	}
+	tablet.create_setup(current_setup)

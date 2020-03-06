@@ -20,24 +20,29 @@ var mesh_initial_scale : Vector3
 var collision_shape_initial_scale : Vector3
 var mesh_mini_scale : Vector3
 var collision_shape_mini_scale : Vector3
+var tablet_pos_id : int
+
 
 onready var mesh_node = $MeshInstance
 onready var collision_shape_node = $CollisionShape
 onready var all_building_blocks = get_node(global_vars.ALL_BUILDING_BLOCKS_PATH)
 onready var right_controller_grab = get_node(global_vars.CONTR_RIGHT_PATH + "/controller_grab")
 onready var left_controller_grab = get_node(global_vars.CONTR_LEFT_PATH + "/controller_grab")
+onready var tablet = get_node(global_vars.TABLET_PATH)
 
 export(float) var mini_scale_factor
 export(Vector3) var extents_initial
 export(NodePath) var mesh_node_path
 export(NodePath) var collision_shape_node_path
-
 export(PackedScene) var maxi_scene
+
 
 func _ready():
 	
 	# get nodes and apply the scale factor
 	#mesh_node = get_node(mesh_node_path)
+	
+	connect("visibility_changed", self, "_on_Mini_visibility_changed")
 	
 	if mesh_node and mini_scale_factor != 0.0:
 		mesh_initial_scale = mesh_node.scale
@@ -54,6 +59,10 @@ func _ready():
 		collision_shape_maxi_extents = extents_initial / mini_scale_factor
 	else:
 		print("No CollisionShape node assigned")
+	
+	if !is_visible_in_tree():
+		set_process(false)
+		set_physics_process(false)
 
 
 func _process(delta):
@@ -89,6 +98,16 @@ func _process(delta):
 
 func _on_Object_Remover_System_remove_mode_toggled():
 	is_grabbable = !is_grabbable
+
+
+func _on_Mini_visibility_changed():
+	# make sure we can't interact with this button if invisible
+	if !is_visible_in_tree():
+		set_process(false)
+		set_physics_process(false)
+	else:
+		set_process(true)
+		set_physics_process(true)
 
 
 func grab_init(node, grabber):
@@ -131,12 +150,9 @@ func switch_to_maxi():
 	if held_left:
 		left_controller_grab.release_grab_velocity()
 		left_controller_grab.start_grab_velocity(new_maxi)
-		
+	
+	# respawn this mini on the tablet
+	tablet.respawn_mini(tablet_pos_id)
 	
 	# destroy this mini node
 	queue_free()
-	
-	# respawn this mini on the tablet
-	var tablet = get_node(global_vars.TABLET_PATH)
-	tablet.refresh()
-	

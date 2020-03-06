@@ -18,7 +18,11 @@
 [node name="Tablet" type="Spatial"]
 transform = Transform( 0.866025, -0.17101, 0.469846, 0, 0.939693, 0.34202, -0.5, -0.296198, 0.813798, -0.37538, 0.998466, -0.686098 )
 script = ExtResource( 5 )
-tablet_item_scenes = [ ExtResource( 3 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 2 ) ]
+lamp = ExtResource( 3 )
+battery = ExtResource( 6 )
+switch = ExtResource( 4 )
+wire = ExtResource( 2 )
+text_label_2d_scene = ExtResource( 9 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 0.18284, 0, 0, 0, 0.124455, 0, 0, 0, 0.0151285, 0, 0, 0 )

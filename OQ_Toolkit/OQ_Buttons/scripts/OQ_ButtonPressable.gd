@@ -34,6 +34,7 @@ func _ready():
 	# connect to signals
 	$ButtonArea.connect("area_entered", self, "_on_ButtonArea_area_entered")
 	$ButtonArea.connect("area_exited", self, "_on_ButtonArea_area_exited")
+	connect("visibility_changed", self, "_on_Button_Pressable_visibility_changed")
 	
 	button_half_length_vector = initial_pos_local + button_forward_vector_norm * z_scale / 2
 	
@@ -43,6 +44,10 @@ func _ready():
 		button_turn_on()
 	else:
 		button_turn_off()
+	
+	if !is_visible_in_tree():
+		set_process(false)
+		set_physics_process(false)
 
 
 func _process(delta):
@@ -83,7 +88,6 @@ func _process(delta):
 			start_time = 0.0
 			at_default_pos = true
 			triggering = false
-		
 
 
 func _on_ButtonArea_area_entered(area):
@@ -97,6 +101,16 @@ func _on_ButtonArea_area_entered(area):
 
 func _on_ButtonArea_area_exited(area):
 	touching = false
+
+
+func _on_Button_Pressable_visibility_changed():
+	# make sure we can't interact with this button if invisible
+	if !is_visible_in_tree():
+		set_process(false)
+		set_physics_process(false)
+	else:
+		set_process(true)
+		set_physics_process(true)
 
 
 func button_press(other_area: Area):
