@@ -8,6 +8,7 @@ viewport_path = NodePath("Viewport")
 
 [sub_resource type="SpatialMaterial" id=2]
 resource_local_to_scene = true
+flags_transparent = true
 flags_unshaded = true
 params_cull_mode = 2
 albedo_texture = SubResource( 1 )
@@ -22,21 +23,22 @@ script = ExtResource( 1 )
 font_color = Color( 0, 0, 0, 1 )
 
 [node name="Viewport" type="Viewport" parent="."]
-size = Vector2( 512, 256 )
+size = Vector2( 33, 1109 )
 transparent_bg = true
 msaa = 2
 hdr = false
 usage = 0
 
 [node name="ColorRect" type="ColorRect" parent="Viewport"]
+margin_right = 33.0
+margin_bottom = 1109.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="Label" type="Label" parent="Viewport/ColorRect"]
 custom_fonts/font = ExtResource( 2 )
-text = "Text Text Text
-Text Text"
-align = 1
-valign = 1
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "I am a Label
+With a new line"
 autowrap = true
 
 [node name="MeshInstance" type="MeshInstance" parent="."]

@@ -42,9 +42,8 @@ onready var mesh_instance : MeshInstance = $MeshInstance
 
 func _ready():
 	ui_mesh = mesh_instance.mesh;
-	set_label_text(text)
 	
-	resize()
+#	resize()
 	
 	set_alignment()
 	
@@ -55,6 +54,8 @@ func _ready():
 	ui_color_rect.color = background_color
 	
 	mesh_instance.mesh.surface_get_material(0).set_feature(SpatialMaterial.FEATURE_TRANSPARENT, true)
+	
+	set_label_text(text)
 	
 	#if (line_to_parent):
 		#var p = get_parent();
@@ -72,19 +73,19 @@ func _process(delta):
 			
 		if text != prev_text:
 			set_label_text(text)
-		
+	
 		if font_color != prev_font_color:
 			ui_label.add_color_override("font_color", font_color)
-		
+	
 		if background_color != prev_background_color:
 			ui_color_rect.color = background_color
-		
+	
 		if resize_mode != prev_resize_mode:
 			resize()
-		
+	
 		if font_size_multiplier != prev_font_size_multiplier:
 			resize()
-		
+	
 		if scale.x != prev_scale_x or scale.y != prev_scale_y:
 			resize()
 		
@@ -100,9 +101,9 @@ func _process(delta):
 		prev_scale_y = scale.y
 		prev_h_align = h_align
 		prev_v_align = v_align
-		
-		
-
+	
+	if text != prev_text:
+		resize()
 
 func resize():
 	match resize_mode:
@@ -131,7 +132,6 @@ func resize_auto():
 
 func resize_fixed():
 	# resize container and viewport while parent and mesh stay fixed
-
 	var parent_width = scale.x
 	var parent_height = scale.y
 	
@@ -140,6 +140,7 @@ func resize_fixed():
 	ui_viewport.set_size(new_size)
 	ui_color_rect.set_size(new_size)
 	ui_label.set_size(new_size)
+	
 	#ui_container.set_size(new_size)
 
 #	if new_size.x < ui_container.get_size().x or new_size.y < ui_container.get_size().y:
@@ -148,7 +149,7 @@ func resize_fixed():
 
 func set_label_text(t: String):
 	ui_label.set_text(t)
-	resize()
+#	resize()
 
 
 func set_alignment():
