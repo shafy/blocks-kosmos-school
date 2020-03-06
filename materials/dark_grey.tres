@@ -1,32 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=2]
 
-[sub_resource type="Shader" id=1]
-code = "shader_type spatial;
-
-render_mode unshaded, cull_disabled;
-
-void vertex() {
-// Output:0
-
-}
-
-void fragment() {
-// Color:2
-	vec3 n_out2p0;
-	float n_out2p1;
-	n_out2p0 = vec3(0.2,0.2,0.2);
-	n_out2p1 = 1.000000; 
-
-// Output:0
-	ALBEDO = n_out2p0;
-
-}
-
-void light() {
-// Output:0
-
-}
-"
+[ext_resource path="res://shaders/unshaded_color.shader" type="Shader" id=1]
 
 [resource]
-shader = SubResource( 1 )
+shader = ExtResource( 1 )
+shader_param/color = Vector3( 0.2, 0.2, 0.2 )

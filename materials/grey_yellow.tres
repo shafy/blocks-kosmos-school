@@ -1,6 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=2]
 
-[ext_resource path="res://shaders/grey_yellow.shader" type="Shader" id=1]
+[ext_resource path="res://shaders/unshaded_color.shader" type="Shader" id=1]
 
 [resource]
 shader = ExtResource( 1 )
+shader_param/color = Vector3( 0.87, 0.87, 0.7 )
