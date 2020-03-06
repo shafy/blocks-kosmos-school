@@ -22,7 +22,7 @@ export var margin = 16;
 export var billboard = false;
 
 enum ResizeModes {AUTO_RESIZE, FIXED}
-export (ResizeModes) var resize_mode 
+export (ResizeModes) var resize_mode = ResizeModes.FIXED
 
 export var font_size_multiplier = 1.0
 export (Color) var font_color = Color(1, 1, 1, 1)
@@ -105,29 +105,32 @@ func _process(delta):
 	if text != prev_text:
 		resize()
 
+
 func resize():
 	match resize_mode:
 		ResizeModes.AUTO_RESIZE:
-			resize_auto()
+			#resize_auto()
+			pass
 		ResizeModes.FIXED:
 			resize_fixed()
 
 
-func resize_auto():
-	# make sure parent is at uniform scale
-	scale = Vector3(1, 1, 1)
-	
-	var size = ui_label.get_minimum_size()
-	var res = Vector2(size.x + margin * 2, size.y + margin * 2)
-	
-	#ui_container.set_size(res)
-	ui_viewport.set_size(res)
-	ui_color_rect.set_size(res)
-
-	var aspect = res.x / res.y
-
-	ui_mesh.size.x = font_size_multiplier * res.x / 1024
-	ui_mesh.size.y = font_size_multiplier * res.y / 1024
+# turned off for now
+#func resize_auto():
+#	# make sure parent is at uniform scale
+#	scale = Vector3(1, 1, 1)
+#
+#	var size = ui_label.get_minimum_size()
+#	var res = Vector2(size.x + margin * 2, size.y + margin * 2)
+#
+#	#ui_container.set_size(res)
+#	ui_viewport.set_size(res)
+#	ui_color_rect.set_size(res)
+#
+#	var aspect = res.x / res.y
+#
+#	ui_mesh.size.x = font_size_multiplier * res.x / 1024
+#	ui_mesh.size.y = font_size_multiplier * res.y / 1024
 
 
 func resize_fixed():

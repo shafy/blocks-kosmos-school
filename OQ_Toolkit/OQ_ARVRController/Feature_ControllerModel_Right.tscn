@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/models3d/OculusQuestTouchController_Right.gltf" type="PackedScene" id=1]
-[ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/text_label_2d.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/measure_controller.gd" type="Script" id=3]
 [ext_resource path="res://scenes/edit_palette.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/measure_palette.tscn" type="PackedScene" id=6]
@@ -26,12 +26,18 @@ script = ExtResource( 3 )
 transform = Transform( 1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0.013, -0.003, 0.021 )
 
 [node name="TitleLabel" parent="MeasureController" instance=ExtResource( 2 )]
-transform = Transform( -0.390134, -6.48144e-08, -2.75358e-07, 0, 0.166441, -0.707107, 1.51924e-07, -0.166441, -0.707107, 0.00928737, 0.0605644, -0.0574359 )
-background_color = Color( 0, 0, 0, 0 )
+transform = Transform( 0.764953, 0, 0, 0, 0.172547, 0.707107, 0, -0.172548, 0.707107, 0.009, 0.061, -0.057 )
+text = "Amperemeter"
+font_size_multiplier = 3.0
+h_align = 1
+v_align = 1
 
 [node name="BodyLabel" parent="MeasureController" instance=ExtResource( 2 )]
-transform = Transform( -0.390134, -8.26273e-08, -2.75358e-07, 0, 0.212183, -0.707107, 1.51924e-07, -0.212183, -0.707107, 0.00928738, 0.0375434, -0.0344149 )
-background_color = Color( 0, 0, 0, 0 )
+transform = Transform( 0.764953, 0, 0, 0, 0.172547, 0.707107, 0, -0.172548, 0.707107, 0.009, 0.0389313, -0.0349313 )
+text = "5.0 A"
+font_size_multiplier = 2.0
+h_align = 1
+v_align = 1
 
 [node name="OculusQuestTouchController_Right2" parent="MeasureController" instance=ExtResource( 1 )]
 
