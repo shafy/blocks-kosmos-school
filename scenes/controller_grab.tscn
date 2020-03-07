@@ -1,14 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://OQ_Toolkit/OQ_ARVRController/scripts/Feature_RigidBodyGrab.gd" type="Script" id=1]
+[ext_resource path="res://scripts/ks_rigid_body_grab.gd" type="Script" id=1]
 [ext_resource path="res://materials/dark_ocean_blue.tres" type="Material" id=2]
-
 
 [sub_resource type="SphereShape" id=1]
 margin = 0.001
 radius = 0.0149247
 
 [sub_resource type="SphereMesh" id=2]
+
+[sub_resource type="SphereShape" id=3]
+radius = 0.0150348
 
 [node name="ControllerGrab" type="Spatial"]
 script = ExtResource( 1 )
@@ -24,3 +26,18 @@ shape = SubResource( 1 )
 transform = Transform( 0.015, 0, 0, 0, 0.015, 0, 0, 0, 0.015, 0, 0, 0 )
 mesh = SubResource( 2 )
 material/0 = ExtResource( 2 )
+
+[node name="HingeJoint" type="HingeJoint" parent="."]
+nodes/node_a = NodePath("../CollisionKinematicBody")
+params/bias = 0.99
+angular_limit/enable = true
+angular_limit/upper = 0.0
+angular_limit/lower = 0.0
+angular_limit/bias = 0.99
+angular_limit/relaxation = 0.5
+
+[node name="CollisionKinematicBody" type="KinematicBody" parent="."]
+
+[node name="CollisionBodyShape" type="CollisionShape" parent="CollisionKinematicBody"]
+shape = SubResource( 3 )
+disabled = true

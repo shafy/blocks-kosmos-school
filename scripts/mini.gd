@@ -1,4 +1,4 @@
-extends GrabbableRigidBody
+extends KSGrabbableRigidBody
 
 
 class_name Mini
@@ -22,13 +22,13 @@ var mesh_mini_scale : Vector3
 var collision_shape_mini_scale : Vector3
 var tablet_pos_id : int
 
-
 onready var mesh_node = $MeshInstance
 onready var collision_shape_node = $CollisionShape
 onready var all_building_blocks = get_node(global_vars.ALL_BUILDING_BLOCKS_PATH)
 onready var right_controller_grab = get_node(global_vars.CONTR_RIGHT_PATH + "/controller_grab")
 onready var left_controller_grab = get_node(global_vars.CONTR_LEFT_PATH + "/controller_grab")
 onready var tablet = get_node(global_vars.TABLET_PATH)
+onready var main_node = get_node("/root/Main")
 
 export(float) var mini_scale_factor
 export(Vector3) var extents_initial
@@ -38,7 +38,6 @@ export(PackedScene) var maxi_scene
 
 
 func _ready():
-	
 	# get nodes and apply the scale factor
 	#mesh_node = get_node(mesh_node_path)
 	
@@ -110,10 +109,18 @@ func _on_Mini_visibility_changed():
 		set_physics_process(true)
 
 
-func grab_init(node, grabber):
-	.grab_init(node, grabber)
+func grab_init(node, grab_type):
+	.grab_init(node, grab_type)
 	# turn on gravity
 	gravity_scale = 1.0
+	
+	# reparent because else we can't grab it
+	var prev_transform = self.global_transform
+	var current_parent = get_parent()
+	current_parent.remove_child(self)
+	main_node.add_child(self)
+	global_transform = prev_transform
+	
 	maximize()
 
 
@@ -148,11 +155,11 @@ func switch_to_maxi():
 			held_left = true
 	
 	if held_right:
-		right_controller_grab.release_grab_velocity()
-		right_controller_grab.start_grab_velocity(new_maxi)
+		right_controller_grab.release_grab_hinge_joint()
+		right_controller_grab.start_grab_hinge_joint(new_maxi)
 	if held_left:
-		left_controller_grab.release_grab_velocity()
-		left_controller_grab.start_grab_velocity(new_maxi)
+		left_controller_grab.release_grab_hinge_joint()
+		left_controller_grab.start_grab_hinge_joint(new_maxi)
 	
 	# respawn this mini on the tablet
 	tablet.respawn_mini(tablet_pos_id)

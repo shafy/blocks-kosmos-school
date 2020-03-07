@@ -27,6 +27,8 @@ shape = SubResource( 1 )
 mesh = ExtResource( 8 )
 material/0 = ExtResource( 7 )
 material/1 = ExtResource( 9 )
+material/2 = null
+material/3 = null
 material/4 = ExtResource( 2 )
 material/5 = ExtResource( 3 )
 

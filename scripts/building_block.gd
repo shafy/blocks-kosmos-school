@@ -1,4 +1,4 @@
-extends GrabbableRigidBody
+extends KSGrabbableRigidBody
 
 
 # fundamental buildingblock class from which all other inherit
