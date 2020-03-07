@@ -16,6 +16,7 @@ var current_challenge_index = null
 
 onready var measure_controller = get_node(global_vars.MEASURE_CONTR_PATH)
 onready var tablet = get_node(global_vars.TABLET_PATH)
+onready var all_blocks = get_node(global_vars.ALL_BUILDING_BLOCKS_PATH)
 
 
 func _ready():
@@ -63,6 +64,7 @@ func start_challenge(challenge_index : int):
 
 func stop_challenge(challenge_index : int):
 	tablet.clear_tablet()
+	clear_table()
 	emit_signal("challenge_stopped", current_challenge_index)
 	current_challenge = null
 	current_challenge_index = null
@@ -85,3 +87,9 @@ func setup_tablet():
 		"Wires": current_challenge.wires
 	}
 	tablet.create_setup(current_setup)
+
+
+# deletes all building blocks that have been spawned
+func clear_table():
+	for block in all_blocks:
+		block.queue_free()

@@ -43,24 +43,6 @@ func _on_Building_Block_block_deleted(block):
 	tablet_config[pos_id]["quantity"] += 1
 	tablet_config[pos_id]["label_ref"].set_label_text(str(tablet_config[pos_id]["quantity"]))
 
-#func refresh():
-#	# destroy all items
-#	var tablet_items_children = tablet_items.get_children()
-#	for i in range(tablet_items_children.size()):
-#		tablet_items_children[i].queue_free()
-#
-#	# instance tablet items
-#	for i in range(tablet_item_scenes.size()):
-#		# instance a new item
-#		var current_item = tablet_item_scenes[i].instance()
-#
-#		if !(current_item is Mini):
-#			print("Make sure that item is a BuildingBlock for Tablet")
-#			return
-#
-#		tablet_items.add_child(current_item)
-#		current_item.transform.origin = positions_array[i].transform.origin
-
 
 func create_setup(setup_params : Dictionary):
 	var curr_pos = 0

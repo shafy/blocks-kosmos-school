@@ -1,7 +1,11 @@
 extends Node
 
+
 # takes care of the logic for the different typess of controllers
 class_name ControllerSystem
+
+
+signal controller_type_changed
 
 enum ControllerType {EDIT, MEASURE}
 var controller_type = ControllerType.EDIT
@@ -46,6 +50,7 @@ func roundrobin() -> void:
 	var new_ct = 0
 	if controller_type + 1 < ControllerType.size():
 		new_ct = controller_type + 1
+	emit_signal("controller_type_changed")
 	set_controller_type(new_ct)
 
 

@@ -41,8 +41,6 @@ material/3 = ExtResource( 1 )
 material/4 = ExtResource( 1 )
 material/5 = ExtResource( 10 )
 
-[node name="OutlineBubble" parent="." index="2"]
-transform = Transform( -1.30337e-08, 0, 0.08, 0, 0.08, 0, -0.08, 0, -1.30337e-08, 0, 0.0606814, 0 )
 
 [node name="SnapArea1" parent="." index="3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, -6.45518e-05, 0.0463212 )

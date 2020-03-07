@@ -6,6 +6,8 @@ class_name MeasureController
 
 signal ampere_measured
 signal volt_measured
+signal ammeter_selected
+signal voltmeter_selected
 
 var vm_first_click := false
 var vm_second_click := false
@@ -13,7 +15,7 @@ var vm_conn_id_1 : String
 
 onready var body_label = $BodyLabel
 onready var title_label = $TitleLabel
-onready var schematic := get_node(global_vars.SCHEMATIC_PATH) 
+onready var schematic := get_node(global_vars.SCHEMATIC_PATH)
 
 
 func _ready():
@@ -49,16 +51,17 @@ func _on_right_ARVRController_button_pressed(button_number):
 func _on_Base_Controller_tool_changed():
 	if !selected:
 		return
-	
 	match current_tool:
 		0:
 			# ammeter
 			title_label.set_label_text("Ammeter")
 			body_label.set_label_text("Touch a Blöck and press Trigger")
+			emit_signal("ammeter_selected")
 		1:
 			#voltmeter
 			title_label.set_label_text("Voltmeter")
 			body_label.set_label_text("Touch first Blöck and press Trigger")
+			emit_signal("voltmeter_selected")
 
 
 func handle_vm(conn_id : String):

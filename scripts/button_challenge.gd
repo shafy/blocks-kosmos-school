@@ -1,4 +1,4 @@
-extends ButtonPressable
+extends KSButtonPressable
 
 
 # button used to start and stop challenges

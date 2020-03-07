@@ -1,4 +1,4 @@
-extends ButtonPressable
+extends KSButtonPressable
 
 
 class_name ButtonRemoveMode

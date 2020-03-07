@@ -7,6 +7,9 @@ class_name MeasurePoint
 var connection_id : String setget set_connection_id, get_connection_id
 var parent_block : BuildingBlock
 
+onready var measure_controller := get_node(global_vars.MEASURE_CONTR_PATH)
+onready var controller_system := get_node(global_vars.CONTROLLER_SYSTEM_PATH)
+
 enum MeasurePointType {CONNECTION, BLOCK}
 export (MeasurePointType) var measure_point_type = MeasurePointType.CONNECTION setget set_measure_point_type, get_measure_point_type
 
@@ -28,8 +31,33 @@ func get_measure_point_type():
 
 
 func _ready():
+	# hide by default
+	visible = false
 	if measure_point_type == MeasurePointType.BLOCK:
 		parent_block = get_parent()
+	
+	# connect
+	measure_controller.connect("ammeter_selected", self, "_on_Measure_Controller_ammeter_selected")
+	measure_controller.connect("voltmeter_selected", self, "_on_Measure_Controller_voltmeter_selected")
+	controller_system.connect("controller_type_changed", self, "_on_Controller_System_controller_type_changed")
+
+
+func _on_Measure_Controller_ammeter_selected():
+	if measure_point_type == MeasurePointType.BLOCK:
+		visible = true
+	else:
+		visible = false
+
+
+func _on_Measure_Controller_voltmeter_selected():
+	if measure_point_type == MeasurePointType.CONNECTION:
+		visible = true
+	else:
+		visible = false
+
+
+func _on_Controller_System_controller_type_changed():
+	visible = false
 
 
 func get_current() -> float:

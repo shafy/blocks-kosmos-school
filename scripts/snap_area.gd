@@ -94,6 +94,7 @@ func _process(delta):
 	
 	# snapping has started
 	if snapping:
+		vibrate_controller(false)
 		snap_to_block(snap_area_other_area)
 		snapping = false
 		initial_grab = false
@@ -122,6 +123,7 @@ func _on_Snap_Area_area_entered(area):
 	if parent_block.is_grabbed and !other_area_parent_block.is_grabbed:
 		initial_grab = true
 		is_master = true
+		vibrate_controller(true)
 
 
 #func _on_Snap_Area_area_exited(area):
@@ -165,6 +167,9 @@ func check_for_removal():
 		
 	if other_area_distance() < 0.04:
 		return
+	
+	if is_master and !snapped:
+		vibrate_controller(false)
 	
 	# if distance is greater, remove
 	if is_master and snapped:
@@ -317,3 +322,18 @@ func destroy_measure_point():
 	if measure_point:
 		measure_point.queue_free()
 		measure_point = null
+
+
+func vibrate_controller(vibrate : bool):
+	if vibrate:
+		if !parent_block:
+			return
+			
+		var grabbed_by = parent_block.grabbed_by
+		if !grabbed_by:
+			return
+			
+		var current_controller = global_functions.controller_node_from_child(grabbed_by)
+		global_functions.vibrate_controller(0.3, current_controller)
+	else:
+		global_functions.stop_all_vibration()

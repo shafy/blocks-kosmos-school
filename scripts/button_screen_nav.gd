@@ -1,4 +1,4 @@
-extends ButtonPressable
+extends KSButtonPressable
 
 
 # button used to navigate between screens on tablet
