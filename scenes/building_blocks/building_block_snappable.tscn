@@ -2,11 +2,11 @@
 
 [ext_resource path="res://scripts/delete_bubble.gd" type="Script" id=1]
 [ext_resource path="res://scenes/measure_point.tscn" type="PackedScene" id=2]
-[ext_resource path="res://materials/black_plastic.tres" type="Material" id=3]
-[ext_resource path="res://materials/dark_grey_wood.tres" type="Material" id=4]
-[ext_resource path="res://materials/yellow_lamp.tres" type="Material" id=5]
-[ext_resource path="res://meshes/light_bulb_base.mesh" type="ArrayMesh" id=6]
-[ext_resource path="res://materials/bright_metal.tres" type="Material" id=7]
+[ext_resource path="res://materials/dark_dark_grey.tres" type="Material" id=3]
+[ext_resource path="res://materials/dark_dark_lax.tres" type="Material" id=4]
+[ext_resource path="res://materials/bright_yellow.tres" type="Material" id=5]
+[ext_resource path="res://meshes/lamp_block.mesh" type="ArrayMesh" id=6]
+[ext_resource path="res://materials/light_green.tres" type="Material" id=7]
 [ext_resource path="res://scripts/snap_area.gd" type="Script" id=8]
 
 [sub_resource type="BoxShape" id=1]
@@ -36,6 +36,10 @@ material/0 = ExtResource( 4 )
 material/1 = ExtResource( 3 )
 material/2 = ExtResource( 7 )
 material/3 = ExtResource( 5 )
+material/4 = null
+material/5 = null
+material/6 = null
+material/7 = null
 
 [node name="SnapArea1" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, -0.06, 0.0460517 )

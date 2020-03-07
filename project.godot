@@ -225,11 +225,6 @@ _global_script_classes=[ {
 "path": "res://scripts/wire_block.gd"
 }, {
 "base": "Spatial",
-"class": "WireGenerator",
-"language": "GDScript",
-"path": "res://scripts/wire_generator.gd"
-}, {
-"base": "Spatial",
 "class": "WireParent",
 "language": "GDScript",
 "path": "res://scripts/wire_parent.gd"
@@ -288,7 +283,6 @@ _global_script_class_icons={
 "VoltageSource": "",
 "Voltmeter": "",
 "WireBlock": "",
-"WireGenerator": "",
 "WireParent": "",
 "WireSegment": "",
 "Wireable": ""

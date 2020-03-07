@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/Feature_ControllerModel_Right.tscn" type="PackedScene" id=6]
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/Feature_ControllerModel_Left.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scripts/main.gd" type="Script" id=8]
-[ext_resource path="res://scenes/building_blocks/lamp.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scripts/controller_system.gd" type="Script" id=10]
 [ext_resource path="res://scripts/schematic.gd" type="Script" id=11]
 [ext_resource path="res://scripts/placer_system.gd" type="Script" id=12]
@@ -16,13 +15,10 @@
 [ext_resource path="res://scripts/object_remover_system.gd" type="Script" id=14]
 [ext_resource path="res://scripts/challenge_system.gd" type="Script" id=15]
 [ext_resource path="res://scripts/objective.gd" type="Script" id=16]
-[ext_resource path="res://meshes/table.mesh" type="ArrayMesh" id=18]
-[ext_resource path="res://materials/dark_grey_wood.tres" type="Material" id=19]
+[ext_resource path="res://materials/dark_grey.tres" type="Material" id=17]
 [ext_resource path="res://table.png" type="Texture" id=20]
 [ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=23]
-[ext_resource path="res://scenes/building_blocks/battery.tscn" type="PackedScene" id=27]
 [ext_resource path="res://scripts/block_lock_system.gd" type="Script" id=28]
-[ext_resource path="res://scenes/building_blocks/wire_block.tscn" type="PackedScene" id=32]
 
 [sub_resource type="BakedLightmapData" id=1]
 bounds = AABB( -7.5379, -1.74037, -6.87336, 15.0758, 3.48075, 13.7467 )
@@ -41,7 +37,9 @@ glow_bloom = 1.0
 glow_blend_mode = 1
 
 [sub_resource type="BoxShape" id=3]
-extents = Vector3( 0.513476, 0.0379334, 0.5051 )
+extents = Vector3( 4.92786, 0.0379334, 4.98728 )
+
+[sub_resource type="CubeMesh" id=4]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 8 )
@@ -90,6 +88,7 @@ script = ExtResource( 10 )
 
 [node name="OQ_UI2DLogWindow" parent="." instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 0.995679, 0.0928572, 0, -0.0928572, 0.995679, 0.0275311, 1.18624, -1.69866 )
+visible = false
 
 [node name="OQ_ARVROrigin" parent="." instance=ExtResource( 5 )]
 
@@ -111,6 +110,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0117321, -0.0218209, -0.0377
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.69393, 0.720043, 0, -0.720043, 0.69393, 0, 0, 0 )
+visible = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 2 )
@@ -120,31 +120,10 @@ script = ExtResource( 11 )
 
 [node name="AllBuildingBlocks" type="Spatial" parent="."]
 
-[node name="Lamp3" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
-transform = Transform( 0.752484, 0, 0.658611, 0, 1, 0, -0.658611, 0, 0.752484, 0, 0.917069, -0.67264 )
-
-[node name="Lamp4" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
-transform = Transform( 0.752484, 0, 0.658611, 0, 1, 0, -0.658611, 0, 0.752484, -0.0959881, 0.917069, -0.928498 )
-resistance = 4.0
-
-[node name="Lamp2" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
-transform = Transform( 0.999998, -0.00174533, 0, 0.00174533, 0.999998, 0, 0, 0, 1, 0.336925, 0.909438, -0.626985 )
-resistance = 2.0
-
-[node name="Battery" parent="AllBuildingBlocks" instance=ExtResource( 27 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.33225, 0.896346, -0.391175 )
-potential = 20.0
-
-[node name="WireBlock" parent="AllBuildingBlocks" instance=ExtResource( 32 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.245244, 0.923541, -0.814784 )
-
-[node name="WireBlock2" parent="AllBuildingBlocks" instance=ExtResource( 32 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.245244, 0.923541, -0.958764 )
-
 [node name="AllMeasurePoints" type="Spatial" parent="."]
 
 [node name="Table" type="RigidBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.593, -0.83874 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -0.839 )
 mode = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="Table"]
@@ -152,6 +131,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.206717, 0 )
 shape = SubResource( 3 )
 
 [node name="TableMesh" type="MeshInstance" parent="Table"]
+transform = Transform( 5, 0, 0, 0, 0.1, 0, 0, 0, 5, 0, 0.145994, 0 )
 use_in_baked_light = true
-mesh = ExtResource( 18 )
-material/0 = ExtResource( 19 )
+mesh = SubResource( 4 )
+material/0 = ExtResource( 17 )

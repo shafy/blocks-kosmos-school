@@ -20,11 +20,12 @@ func _ready():
 		#bulb_material_non_unique = mesh_instance.get_surface_material(3)
 		# use duplicate() to make material unique and reassign later
 		#bulb_material = mesh_instance.get_surface_material(3).duplicate()
-		bulb_material = mesh_instance.get_surface_material(3)
-		bulb_material.set_feature(SpatialMaterial.FEATURE_EMISSION, true)
-		bulb_material.set_emission_operator(SpatialMaterial.EMISSION_OP_ADD)
-		bulb_material.set_emission_energy(0.0)
+#		bulb_material = mesh_instance.get_surface_material(3)
+#		bulb_material.set_feature(SpatialMaterial.FEATURE_EMISSION, true)
+#		bulb_material.set_emission_operator(SpatialMaterial.EMISSION_OP_ADD)
+#		bulb_material.set_emission_energy(0.0)
 		#mesh_instance.set_surface_material(3, bulb_material)
+		pass
 
 
 func refresh():

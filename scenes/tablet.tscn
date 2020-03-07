@@ -6,12 +6,13 @@
 [ext_resource path="res://scenes/minis/switch_mini.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scripts/tablet.gd" type="Script" id=5]
 [ext_resource path="res://scenes/minis/battery_mini.tscn" type="PackedScene" id=6]
-[ext_resource path="res://materials/black_plastic.tres" type="Material" id=8]
+[ext_resource path="res://materials/dark_dark_grey.tres" type="Material" id=8]
 [ext_resource path="res://scenes/text_label_2d.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scripts/button_screen_nav.gd" type="Script" id=10]
 [ext_resource path="res://scripts/screens_controller.gd" type="Script" id=11]
 [ext_resource path="res://OQ_Toolkit/OQ_Buttons/OQ_ButtonPressable.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scripts/challenge_screen.gd" type="Script" id=13]
+
 
 [sub_resource type="CubeMesh" id=1]
 

@@ -1,6 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://materials/light_green_transparent.tres" type="Material" id=1]
+[ext_resource path="res://materials/dark_dark_lax.tres" type="Material" id=1]
+
 
 [sub_resource type="SphereMesh" id=1]
 

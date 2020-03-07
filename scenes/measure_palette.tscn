@@ -1,9 +1,11 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/tool_palette_selection.gd" type="Script" id=2]
-[ext_resource path="res://materials/bright_metal.tres" type="Material" id=3]
-[ext_resource path="res://materials/bronce_cover.tres" type="Material" id=4]
+[ext_resource path="res://materials/dark_lax.tres" type="Material" id=3]
+[ext_resource path="res://materials/dark_grey_yellow.tres" type="Material" id=4]
 [ext_resource path="res://scenes/text_label_2d.tscn" type="PackedScene" id=5]
+
+
 
 [sub_resource type="CubeMesh" id=1]
 
