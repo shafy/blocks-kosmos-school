@@ -44,7 +44,7 @@ func _on_Challenge_System_challenge_started(new_challenge_index):
 	if new_challenge_index != challenge_index:
 		return
 		
-	var new_text = "*Challenge currently running*\n" + BODY_STANDARD_TEXT
+	var new_text = "**Challenge currently running**\n" + BODY_STANDARD_TEXT
 	body_label.set_label_text(new_text)
 
 
@@ -60,13 +60,11 @@ func update_text(hit_objective_indices : Array = []):
 	var new_text : String
 	for i in range(objectives.size()):
 		if hit_objective_indices.has(i):
-			new_text += "[s]"
+			new_text += "[X]"
+		else:
+			new_text += "[ ]"
 		
 		new_text += objectives[i].description
-		
-		if hit_objective_indices.has(i):
-			new_text += "[/s]"
-		
 		new_text += "\n"
 	
 	description_label.set_label_text(new_text)

@@ -10,8 +10,8 @@ signal block_snapped_updated
 var moving_to_snap := false setget set_moving_to_snap, get_moving_to_snap
 var snapped := false setget set_snapped, get_snapped
 
-# TODO change this to find block by name
-onready var block_lock_system = get_node("/root/Main/BlockLockSystem")
+onready var block_lock_system = get_node(global_vars.BLOCK_LOCK_SYSTEM_PATH)
+
 
 # setter and getter functions
 func set_moving_to_snap(new_value):

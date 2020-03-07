@@ -6,34 +6,13 @@ class_name GrabbableRigidBody
 signal grab_started
 signal grab_ended
 
-
 var target_node = null
 var delta_orientation = Basis()
 var is_grabbed := false
 var impulse_offset : Vector3
 var grabbed_by : Node
 
-onready var object_remover_system_node = get_node(global_vars.OBJECT_REMOVER_SYSTEM_PATH)
-
 export var is_grabbable := true
-export var is_removable := false
-
-func _ready():
-	object_remover_system_node.connect("remove_mode_toggled", self, "_on_Object_Remover_System_remove_mode_toggled")
-	object_remover_system_node.connect("remove_mode_disabled", self, "_on_Object_Remover_System_remove_mode_disabled")
-	object_remover_system_node.connect("remove_mode_enabled", self, "_on_Object_Remover_System_remove_mode_enabled")
-
-
-func _on_Object_Remover_System_remove_mode_toggled():
-	is_removable = !is_removable
-
-
-func _on_Object_Remover_System_remove_mode_disabled():
-	is_removable = false
-
-
-func _on_Object_Remover_System_remove_mode_enabled():
-	is_removable = true
 
 
 func grab_init(grab_offset, grabber):
@@ -52,11 +31,6 @@ func grab_release(node):
 	apply_impulse(impulse_offset, linear_velocity)
 	apply_torque_impulse(angular_velocity * 0.001)
 	grabbed_by = null
-
-
-func start_remove():
-	if is_removable:
-		queue_free()
 
 
 func orientation_follow(state, current_basis : Basis, target_basis : Basis):

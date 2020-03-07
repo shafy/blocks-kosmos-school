@@ -30,7 +30,18 @@ func _ready():
 		positions_array = positions.get_children()
 	
 #	refresh()
+
+
+func _on_Building_Block_block_deleted(block):
+	print("delete ", block.name)
+	# we need to restore / count up on the tablet for this block
+	var pos_id = block.tablet_pos_id
 	
+	if tablet_config[pos_id]["quantity"] == 0:
+		spawn_mini(pos_id)
+	
+	tablet_config[pos_id]["quantity"] += 1
+	tablet_config[pos_id]["label_ref"].set_label_text(str(tablet_config[pos_id]["quantity"]))
 
 #func refresh():
 #	# destroy all items

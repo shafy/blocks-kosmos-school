@@ -7,48 +7,51 @@ class_name BuildingBlock
 
 signal block_deleted
 
+var tablet_pos_id : int
 
-onready var outline_bubble_mesh := $OutlineBubble
-
+onready var delete_bubble_mesh := $DeleteBubble
+onready var object_remover_system_node = get_node(global_vars.OBJECT_REMOVER_SYSTEM_PATH)
 
 # this is a hacky workaround because of this issue: https://github.com/godotengine/godot/issues/25252
 func is_class(type):
 	return type == "BuildingBlock" or .is_class(type)
 
+
 func _ready():
-	# hide outline bubble to start with
-	outline_bubble_mesh.visible = false
+	# connect stuff
+	object_remover_system_node.connect("remove_mode_toggled", self, "_on_Object_Remover_System_remove_mode_toggled")
+	object_remover_system_node.connect("remove_mode_disabled", self, "_on_Object_Remover_System_remove_mode_disabled")
+	object_remover_system_node.connect("remove_mode_enabled", self, "_on_Object_Remover_System_remove_mode_enabled")
+	
+	# hide delete bubble to start with
+	delete_bubble_mesh.visible = false
 
 
 func _exit_tree():
 	emit_signal("block_deleted", self)
-	pass
 
 
 # overriding this function from the parent GrabbableRemovableRigidBody
 func _on_Object_Remover_System_remove_mode_toggled():
-	._on_Object_Remover_System_remove_mode_toggled()
-	toggle_outline_bubble()
+	toggle_delete_bubble()
 
 
 func _on_Object_Remover_System_remove_mode_disabled():
-	._on_Object_Remover_System_remove_mode_disabled()
-	hide_outline_bubble()
+	hide_delete_bubble()
 
 
 func _on_Object_Remover_System_remove_mode_enabled():
-	._on_Object_Remover_System_remove_mode_enabled()
-	show_outline_bubble()
+	show_delete_bubble()
 
 
-func toggle_outline_bubble():
-	outline_bubble_mesh.visible = !outline_bubble_mesh.visible
+func toggle_delete_bubble():
+	delete_bubble_mesh.visible = !delete_bubble_mesh.visible
 
 
-func hide_outline_bubble():
-	outline_bubble_mesh.visible = false
+func hide_delete_bubble():
+	delete_bubble_mesh.visible = false
 
 
-func show_outline_bubble():
-	outline_bubble_mesh.visible = true
+func show_delete_bubble():
+	delete_bubble_mesh.visible = true
 

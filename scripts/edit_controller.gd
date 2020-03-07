@@ -18,12 +18,17 @@ func _on_right_ARVRController_button_pressed(button_number):
 	
 	# check if is overlapping with a building block
 	if current_tool == 1:
-		var bodies = grab_area_right.get_overlapping_bodies()
-		for body in bodies:
-			if !(body is BuildingBlock):
-				return
+		var areas = grab_area_right.get_overlapping_areas()
+		for area in areas:
+			var area_parent = area.get_parent()
+			
+			if !area_parent:
+				continue
+				
+			if !(area_parent is DeleteBubble):
+				continue
 			# delete
-			body.start_remove()
+			area_parent.start_remove()
 			break
 
 func _on_Base_Controller_tool_changed():

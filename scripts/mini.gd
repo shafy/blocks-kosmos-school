@@ -101,7 +101,7 @@ func _on_Object_Remover_System_remove_mode_toggled():
 
 
 func _on_Mini_visibility_changed():
-	# make sure we can't interact with this button if invisible
+	# make sure we can't interact with this mini if invisible
 	if !is_visible_in_tree():
 		set_process(false)
 		set_physics_process(false)
@@ -134,6 +134,9 @@ func switch_to_maxi():
 	# set to correct position and rotation
 	new_maxi.transform.origin = global_transform.origin
 	new_maxi.transform.basis = global_transform.basis
+	new_maxi.tablet_pos_id = tablet_pos_id
+	# connect delete signal to tablet
+	new_maxi.connect("block_deleted", tablet, "_on_Building_Block_block_deleted")
 	
 	# check if mini still held by controller
 	var held_right = false

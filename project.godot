@@ -84,6 +84,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/controller_system.gd"
 }, {
+"base": "Spatial",
+"class": "DeleteBubble",
+"language": "GDScript",
+"path": "res://scripts/delete_bubble.gd"
+}, {
 "base": "BaseController",
 "class": "EditController",
 "language": "GDScript",
@@ -255,6 +260,7 @@ _global_script_class_icons={
 "ChallengeScreen": "",
 "ChallengeSystem": "",
 "ControllerSystem": "",
+"DeleteBubble": "",
 "EditController": "",
 "GaussSolver": "",
 "GrabbableRigidBody": "",

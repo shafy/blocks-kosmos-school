@@ -92,10 +92,8 @@ func grab():
 	if len(bodies) > 0:
 		for body in bodies:
 			if body is GrabbableRigidBody:
-					if body.get_mode() == RigidBody.MODE_RIGID and body.is_grabbable and !body.is_removable:
+					if body.get_mode() == RigidBody.MODE_RIGID and body.is_grabbable:
 						grabbable_rigid_body = body
-					elif body.is_removable:
-						body.start_remove()
 
 	if grabbable_rigid_body:
 		if (grab_type == GRABTYPE_VELOCITY): start_grab_velocity(grabbable_rigid_body)
