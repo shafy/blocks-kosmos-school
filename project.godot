@@ -219,6 +219,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/voltmeter.gd"
 }, {
+"base": "Node",
+"class": "WelcomeController",
+"language": "GDScript",
+"path": "res://scripts/welcome_controller.gd"
+}, {
 "base": "Resistor",
 "class": "WireBlock",
 "language": "GDScript",
@@ -282,6 +287,7 @@ _global_script_class_icons={
 "ToolPaletteSelection": "",
 "VoltageSource": "",
 "Voltmeter": "",
+"WelcomeController": "",
 "WireBlock": "",
 "WireParent": "",
 "WireSegment": "",
@@ -299,6 +305,7 @@ config/icon="res://icon.png"
 vr="*res://OQ_Toolkit/vr_autoload.gd"
 global_functions="*res://scripts/autoload/global_functions.gd"
 global_vars="*res://scripts/autoload/global_vars.gd"
+save_system="*res://scripts/autoload/save_system.gd"
 
 [gdnative]
 
