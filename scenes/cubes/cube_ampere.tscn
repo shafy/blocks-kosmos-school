@@ -1,0 +1,16 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://materials/green.tres" type="Material" id=1]
+[ext_resource path="res://materials/dark_dark_grey.tres" type="Material" id=2]
+[ext_resource path="res://materials/dark_green.tres" type="Material" id=3]
+[ext_resource path="res://materials/dark_grey.tres" type="Material" id=4]
+[ext_resource path="res://meshes/block_ampere.mesh" type="ArrayMesh" id=5]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = ExtResource( 5 )
+material/0 = ExtResource( 3 )
+material/1 = ExtResource( 1 )
+material/2 = ExtResource( 4 )
+material/3 = ExtResource( 2 )
