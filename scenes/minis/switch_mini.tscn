@@ -17,6 +17,7 @@ margin = 0.001
 extents = Vector3( 0.0203507, 0.00709319, 0.00622034 )
 
 [node name="SwitchMini" instance=ExtResource( 1 )]
+label_name = "Switch"
 maxi_scene = ExtResource( 5 )
 
 [node name="CollisionShape" parent="." index="0"]

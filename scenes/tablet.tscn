@@ -1,26 +1,29 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scripts/button_challenge.gd" type="Script" id=1]
 [ext_resource path="res://scenes/minis/wire_mini.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/minis/lamp_mini.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/minis/lamp_mini_5o.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/minis/switch_mini.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scripts/tablet.gd" type="Script" id=5]
-[ext_resource path="res://scenes/minis/battery_mini.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/minis/battery_mini_9v.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/minis/battery_mini_3v.tscn" type="PackedScene" id=7]
 [ext_resource path="res://materials/dark_dark_grey.tres" type="Material" id=8]
 [ext_resource path="res://scenes/text_label_2d.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scripts/button_screen_nav.gd" type="Script" id=10]
 [ext_resource path="res://scripts/screens_controller.gd" type="Script" id=11]
 [ext_resource path="res://OQ_Toolkit/OQ_Buttons/OQ_ButtonPressable.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scripts/challenge_screen.gd" type="Script" id=13]
-
+[ext_resource path="res://scenes/minis/lamp_mini_10o.tscn" type="PackedScene" id=14]
 
 [sub_resource type="CubeMesh" id=1]
 
 [node name="Tablet" type="Spatial"]
 transform = Transform( 0.866025, -0.17101, 0.469846, 0, 0.939693, 0.34202, -0.5, -0.296198, 0.813798, -0.37538, 0.998466, -0.686098 )
 script = ExtResource( 5 )
-lamp = ExtResource( 3 )
-battery = ExtResource( 6 )
+lamp_5o = ExtResource( 3 )
+lamp_10o = ExtResource( 14 )
+battery_3v = ExtResource( 7 )
+battery_9v = ExtResource( 6 )
 switch = ExtResource( 4 )
 wire = ExtResource( 2 )
 text_label_2d_scene = ExtResource( 9 )
@@ -49,6 +52,12 @@ transform = Transform( 1, -4.47035e-08, -5.96046e-08, -7.45058e-08, 1, 1.63913e-
 
 [node name="Pos 4" type="Spatial" parent="Screens/Blocks/Positions"]
 transform = Transform( 1, -4.47035e-08, -5.96046e-08, -7.45058e-08, 1, 1.63913e-07, 5.96046e-08, 1.19209e-07, 1, -0.138, 0.0176308, 0.0260001 )
+
+[node name="Pos 6" type="Spatial" parent="Screens/Blocks/Positions"]
+transform = Transform( 1, -4.47035e-08, -5.96046e-08, -7.45058e-08, 1, 1.63913e-07, 5.96046e-08, 1.19209e-07, 1, -0.062, 0.018, 0.026 )
+
+[node name="Pos 7" type="Spatial" parent="Screens/Blocks/Positions"]
+transform = Transform( 1, -4.47035e-08, -5.96046e-08, -7.45058e-08, 1, 1.63913e-07, 5.96046e-08, 1.19209e-07, 1, 0.033, 0.018, 0.026 )
 
 [node name="TabletItems" type="Spatial" parent="Screens/Blocks"]
 transform = Transform( 1, -5.96046e-08, 0, 0, 1, 0, 0, -4.47035e-08, 1, 0, 0, 0 )

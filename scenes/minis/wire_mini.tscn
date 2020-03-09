@@ -4,6 +4,7 @@
 [ext_resource path="res://scenes/building_blocks/wire_block.tscn" type="PackedScene" id=2]
 
 [node name="WireMini" instance=ExtResource( 1 )]
+label_name = "Wire"
 maxi_scene = ExtResource( 2 )
 
 [node name="MeshInstance" parent="." index="1"]

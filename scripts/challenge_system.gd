@@ -81,8 +81,10 @@ func challenge_objectives(challenge_index : int) -> Array:
 # puts correct number of blöcks on tablet for the current challenge
 func setup_tablet():
 	var current_setup = {
-		"Lamps": current_challenge.lamps,
-		"Batteries": current_challenge.batteries,
+		"Lamps_5o": current_challenge.lamps_5o,
+		"Lamps_10o": current_challenge.lamps_10o,
+		"Batteries_3v": current_challenge.batteries_3v,
+		"Batteries_9v": current_challenge.batteries_9v,
 		"Switches": current_challenge.switches,
 		"Wires": current_challenge.wires
 	}

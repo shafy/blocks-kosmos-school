@@ -30,6 +30,7 @@ onready var left_controller_grab = get_node(global_vars.CONTR_LEFT_PATH + "/cont
 onready var tablet = get_node(global_vars.TABLET_PATH)
 onready var main_node = get_node("/root/Main")
 
+export var label_name : String
 export(float) var mini_scale_factor
 export(Vector3) var extents_initial
 export(NodePath) var mesh_node_path

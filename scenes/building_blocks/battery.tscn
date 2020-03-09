@@ -83,3 +83,9 @@ polarity = 1
 
 [node name="CollisionShape" parent="SnapArea6" index="0"]
 shape = SubResource( 2 )
+
+[node name="BlockLabel1" parent="." index="10"]
+text = "9 V"
+
+[node name="BlockLabel2" parent="." index="11"]
+text = "9 V"

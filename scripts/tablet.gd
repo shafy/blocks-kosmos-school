@@ -11,8 +11,10 @@ var all_labels : Array
 onready var tablet_items = $Screens/Blocks/TabletItems
 onready var positions = $Screens/Blocks/Positions
 
-export (PackedScene) var lamp
-export (PackedScene) var battery
+export (PackedScene) var lamp_5o
+export (PackedScene) var lamp_10o
+export (PackedScene) var battery_3v
+export (PackedScene) var battery_9v
 export (PackedScene) var switch
 export (PackedScene) var wire
 export (PackedScene) var text_label_2d_scene
@@ -56,8 +58,8 @@ func create_setup(setup_params : Dictionary):
 		}
 		
 		tablet_config.append(config_item)
-		spawn_label(curr_pos)
 		spawn_mini(curr_pos)
+		spawn_label(curr_pos)
 		curr_pos += 1
 
 
@@ -75,10 +77,14 @@ func spawn_mini(mini_pos: int):
 	var current_item
 	
 	match mini_name:
-		"Lamps":
-			current_item = lamp.instance()
-		"Batteries":
-			current_item = battery.instance()
+		"Lamps_5o":
+			current_item = lamp_5o.instance()
+		"Lamps_10o":
+			current_item = lamp_10o.instance()
+		"Batteries_3v":
+			current_item = battery_3v.instance()
+		"Batteries_9v":
+			current_item = battery_9v.instance()
 		"Switches":
 			current_item = switch.instance()
 		"Wires":
@@ -91,33 +97,47 @@ func spawn_mini(mini_pos: int):
 	tablet_items.add_child(current_item)
 	current_item.transform.origin = positions_array[mini_pos].transform.origin
 	current_item.tablet_pos_id = mini_pos
+	tablet_config[mini_pos]["label_name"] = current_item.label_name
 
 
 func respawn_mini(pos_id : int):
 	if tablet_config[pos_id]["quantity"] > 1:
 		spawn_mini(pos_id)
-
-	# update quantity
-	tablet_config[pos_id]["quantity"] -= 1
-	tablet_config[pos_id]["label_ref"].set_label_text(str(tablet_config[pos_id]["quantity"]))
+		
+		# update quantity
+		tablet_config[pos_id]["quantity"] -= 1
+		
+		update_label_text(pos_id)
+	elif tablet_config[pos_id]["quantity"] == -1:
+		spawn_mini(pos_id)
+		
 
 
 func spawn_label(pos_id : int):
 	var mini_quantity = tablet_config[pos_id]["quantity"]
-	if mini_quantity == -1:
-		return
 	
 	var quantity_label = text_label_2d_scene.instance()
 	positions_array[pos_id].add_child(quantity_label)
 	
-	quantity_label.scale = Vector3(0.45, 0.45, 1)
+	quantity_label.scale = Vector3(0.5, 0.5, 1)
 	quantity_label.transform.origin = Vector3(0, 0, -0.01)
 	quantity_label.set_h_align(TextLabel2D.Align.ALIGN_RIGHT)
 	quantity_label.set_v_align(TextLabel2D.VAlign.VALIGN_BOTTOM)
 	quantity_label.set_font_size_multiplier(3)
 	
-	quantity_label.set_label_text(str(mini_quantity))
-	
 	tablet_config[pos_id]["label_ref"] = quantity_label
 	
+	update_label_text(pos_id)
+	
 	all_labels.append(quantity_label)
+
+
+func update_label_text(pos_id: int):
+	if !tablet_config[pos_id].has("label_ref"):
+		return
+	var quantity = tablet_config[pos_id]["quantity"]
+	if quantity == -1:
+		quantity = "∞"
+	
+	var label_text = str(tablet_config[pos_id]["label_name"], " (", quantity, ")")
+	tablet_config[pos_id]["label_ref"].set_label_text(label_text)
