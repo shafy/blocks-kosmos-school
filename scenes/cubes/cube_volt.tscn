@@ -6,7 +6,7 @@
 [ext_resource path="res://materials/blue.tres" type="Material" id=4]
 [ext_resource path="res://materials/dark_blue.tres" type="Material" id=5]
 
-[node name="Spatial" type="Spatial"]
+[node name="CubeVolt" type="Spatial"]
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = ExtResource( 3 )

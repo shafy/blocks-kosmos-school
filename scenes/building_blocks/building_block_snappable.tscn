@@ -8,7 +8,7 @@
 [ext_resource path="res://meshes/lamp_block.mesh" type="ArrayMesh" id=6]
 [ext_resource path="res://materials/light_green.tres" type="Material" id=7]
 [ext_resource path="res://scripts/snap_area.gd" type="Script" id=8]
-[ext_resource path="res://scenes/text_label_2d.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/cubes/cube_delete.tscn" type="PackedScene" id=9]
 
 [sub_resource type="BoxShape" id=1]
 resource_local_to_scene = true
@@ -19,7 +19,7 @@ margin = 0.001
 extents = Vector3( 0.015, 0.009, 0.015 )
 
 [sub_resource type="BoxShape" id=3]
-extents = Vector3( 0.03, 0.03, 0.03 )
+extents = Vector3( 0.02, 0.02, 0.02 )
 
 [node name="BuildingBlockSnappable" type="RigidBody"]
 contacts_reported = 1
@@ -102,22 +102,4 @@ script = ExtResource( 1 )
 [node name="CollisionShape" type="CollisionShape" parent="DeleteBubble/Area"]
 shape = SubResource( 3 )
 
-[node name="MeshInstance" type="MeshInstance" parent="DeleteBubble"]
-
-[node name="BlockLabel1" parent="." instance=ExtResource( 9 )]
-transform = Transform( 0.568732, 0, 0, 0, -2.70375e-08, 1, 0, -0.618547, -4.37114e-08, 0.0761909, 0.00881641, -3.85377e-10 )
-text = "5 Ω"
-font_size_multiplier = 5.0
-font_color = Color( 0.14902, 0.14902, 0.14902, 1 )
-background_color = Color( 0, 0, 0, 0 )
-h_align = 1
-v_align = 1
-
-[node name="BlockLabel2" parent="." instance=ExtResource( 9 )]
-transform = Transform( -0.568732, 2.01548e-07, 0, 3.01919e-14, 1.00774e-07, 1, 1.85317e-07, 0.618547, -1.62921e-07, -0.0757638, 0.00881641, -3.85377e-10 )
-text = "5 Ω"
-font_size_multiplier = 5.0
-font_color = Color( 0.14902, 0.14902, 0.14902, 1 )
-background_color = Color( 0, 0, 0, 0 )
-h_align = 1
-v_align = 1
+[node name="CubeDelete" parent="DeleteBubble" instance=ExtResource( 9 )]
