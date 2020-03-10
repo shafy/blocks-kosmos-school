@@ -16,6 +16,6 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="CubeAmpere" parent="." instance=ExtResource( 2 )]
+visible = false
 
 [node name="CubeVolt" parent="." instance=ExtResource( 3 )]
-visible = false
