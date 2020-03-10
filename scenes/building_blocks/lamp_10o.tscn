@@ -15,6 +15,7 @@ shape = SubResource( 1 )
 
 [node name="BlockLabel1" parent="." index="10"]
 text = "10 Ω"
+font_color = Color( 0.15, 0.15, 0.15, 1 )
 
 [node name="BlockLabel2" parent="." index="11"]
 text = "10 Ω"
