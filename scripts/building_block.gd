@@ -7,7 +7,7 @@ class_name BuildingBlock
 
 signal block_deleted
 
-var tablet_pos_id : int
+var tablet_pos_id := -1
 
 onready var delete_bubble_mesh := $DeleteBubble
 onready var object_remover_system_node = get_node(global_vars.OBJECT_REMOVER_SYSTEM_PATH)

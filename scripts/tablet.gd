@@ -35,7 +35,9 @@ func _ready():
 
 
 func _on_Building_Block_block_deleted(block):
-	print("delete ", block.name)
+	if block.tablet_pos_id == -1:
+		return
+		
 	# we need to restore / count up on the tablet for this block
 	var pos_id = block.tablet_pos_id
 	
@@ -70,6 +72,9 @@ func clear_tablet():
 	
 	for label in all_labels:
 		label.queue_free()
+	
+	tablet_config = []
+	all_labels = []
 
 
 func spawn_mini(mini_pos: int):

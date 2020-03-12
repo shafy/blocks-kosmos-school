@@ -15,7 +15,7 @@
 [sub_resource type="BoxShape" id=1]
 resource_local_to_scene = true
 margin = 0.001
-extents = Vector3( 0.106372, 0.0357035, 0.0317375 )
+extents = Vector3( 0.106372, 0.0209142, 0.0317375 )
 
 [sub_resource type="BoxShape" id=2]
 margin = 0.001
@@ -29,7 +29,7 @@ extents = Vector3( 0.0116968, 0.007766, 0.00807243 )
 script = ExtResource( 3 )
 
 [node name="CollisionShape" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0230595, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0121632, 0 )
 shape = SubResource( 1 )
 
 [node name="MeshInstance" parent="." index="1"]
@@ -41,38 +41,37 @@ material/3 = ExtResource( 1 )
 material/4 = ExtResource( 1 )
 material/5 = ExtResource( 10 )
 
-
-[node name="SnapArea1" parent="." index="3"]
+[node name="SnapArea1" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, -6.45518e-05, 0.0463212 )
 
 [node name="CollisionShape" parent="SnapArea1" index="0"]
 shape = SubResource( 2 )
 
-[node name="SnapArea2" parent="." index="4"]
+[node name="SnapArea2" parent="." index="3"]
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.116162, -6.45556e-05, 7.88131e-10 )
 
 [node name="CollisionShape" parent="SnapArea2" index="0"]
 shape = SubResource( 2 )
 
-[node name="SnapArea3" parent="." index="5"]
+[node name="SnapArea3" parent="." index="4"]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.07, -6.45556e-05, -0.0464545 )
 
 [node name="CollisionShape" parent="SnapArea3" index="0"]
 shape = SubResource( 2 )
 
-[node name="SnapArea4" parent="." index="6"]
+[node name="SnapArea4" parent="." index="5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0705971, -6.45518e-05, 0.0463212 )
 
 [node name="CollisionShape" parent="SnapArea4" index="0"]
 shape = SubResource( 2 )
 
-[node name="SnapArea5" parent="." index="7"]
+[node name="SnapArea5" parent="." index="6"]
 transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.116033, -6.45556e-05, 4.31676e-08 )
 
 [node name="CollisionShape" parent="SnapArea5" index="0"]
 shape = SubResource( 2 )
 
-[node name="SnapArea6" parent="." index="8"]
+[node name="SnapArea6" parent="." index="7"]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.07, -6.45556e-05, -0.0464545 )
 
 [node name="CollisionShape" parent="SnapArea6" index="0"]
@@ -100,3 +99,9 @@ max_rotation_x_upper = 50.0
 [node name="CollisionShape" type="CollisionShape" parent="RotatableHandle/RotatableArea" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0721777, 7.41482e-05, 0 )
 shape = SubResource( 3 )
+
+[node name="BlockLabel1" parent="." index="11"]
+visible = false
+
+[node name="BlockLabel2" parent="." index="12"]
+visible = false

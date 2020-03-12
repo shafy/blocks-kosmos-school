@@ -56,10 +56,11 @@ func challenge_completed():
 
 
 func start_challenge(challenge_index : int):
+	clear_table()
 	current_challenge = all_challenges[challenge_index]
 	current_challenge_index = challenge_index
+	
 	setup_tablet()
-	clear_table()
 	emit_signal("challenge_started", current_challenge_index)
 
 
@@ -95,4 +96,6 @@ func setup_tablet():
 func clear_table():
 	var all_blocks_children = all_blocks.get_children()
 	for block in all_blocks_children:
+		# we have to set null so that deleting them doesn't influence the mini count on the tablet
+		block.tablet_pos_id = -1
 		block.queue_free()

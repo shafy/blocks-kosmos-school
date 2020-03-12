@@ -26,3 +26,9 @@ material/0 = ExtResource( 5 )
 material/1 = ExtResource( 6 )
 material/2 = ExtResource( 7 )
 material/3 = ExtResource( 4 )
+
+[node name="BlockLabel1" parent="." index="10"]
+visible = false
+
+[node name="BlockLabel2" parent="." index="11"]
+visible = false
