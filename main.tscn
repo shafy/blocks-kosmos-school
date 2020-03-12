@@ -142,3 +142,5 @@ font_color = Color( 1, 1, 1, 1 )
 background_color = Color( 0.75, 0.45, 0.45, 1 )
 h_align = 1
 v_align = 1
+
+[node name="Controller" type="Spatial" parent="."]
