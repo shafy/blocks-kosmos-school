@@ -59,12 +59,12 @@ func start_challenge(challenge_index : int):
 	current_challenge = all_challenges[challenge_index]
 	current_challenge_index = challenge_index
 	setup_tablet()
+	clear_table()
 	emit_signal("challenge_started", current_challenge_index)
 
 
 func stop_challenge(challenge_index : int):
 	tablet.clear_tablet()
-	clear_table()
 	emit_signal("challenge_stopped", current_challenge_index)
 	current_challenge = null
 	current_challenge_index = null
@@ -93,5 +93,6 @@ func setup_tablet():
 
 # deletes all building blocks that have been spawned
 func clear_table():
-	for block in all_blocks:
+	var all_blocks_children = all_blocks.get_children()
+	for block in all_blocks_children:
 		block.queue_free()

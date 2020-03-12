@@ -60,9 +60,9 @@ func update_text(hit_objective_indices : Array = []):
 	var new_text : String
 	for i in range(objectives.size()):
 		if hit_objective_indices.has(i):
-			new_text += "[X]"
+			new_text += "[ X ] "
 		else:
-			new_text += "[ ]"
+			new_text += "[   ] "
 		
 		new_text += objectives[i].description
 		new_text += "\n"

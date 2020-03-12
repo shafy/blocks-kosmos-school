@@ -25,8 +25,8 @@ enum ResizeModes {AUTO_RESIZE, FIXED}
 export (ResizeModes) var resize_mode = ResizeModes.FIXED
 
 export var font_size_multiplier = 1.0 setget set_font_size_multiplier
-export (Color) var font_color = Color(1, 1, 1, 1)
-export (Color) var background_color = Color(0, 0, 0, 1)
+export (Color) var font_color = Color(1, 1, 1, 1) setget set_font_color
+export (Color) var background_color = Color(0, 0, 0, 1) setget set_background_color
 
 enum Align {ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, ALIGN_FILL}
 export (Align) var h_align setget set_h_align
@@ -57,6 +57,18 @@ func set_h_align(new_value):
 func set_v_align(new_value):
 	v_align = new_value
 	set_alignment()
+
+
+func set_font_color(new_value):
+	font_color = new_value
+	if ui_label:
+		ui_label.add_color_override("font_color", font_color)
+
+
+func set_background_color(new_value):
+	background_color = new_value
+	if ui_color_rect:
+		ui_color_rect.color = background_color
 
 
 func _ready():

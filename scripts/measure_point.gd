@@ -73,6 +73,9 @@ func get_current() -> float:
 
 # either shows ampere or volt cube based on measure point type
 func update_cube_visibility() -> void:
+	if !cube_ampere or !cube_volt:
+		return
+		
 	if measure_point_type == MeasurePointType.BLOCK:
 		cube_ampere.visible = true
 		cube_volt.visible = false

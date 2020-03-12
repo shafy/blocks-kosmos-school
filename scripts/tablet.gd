@@ -119,11 +119,12 @@ func spawn_label(pos_id : int):
 	var quantity_label = text_label_2d_scene.instance()
 	positions_array[pos_id].add_child(quantity_label)
 	
-	quantity_label.scale = Vector3(0.5, 0.5, 1)
-	quantity_label.transform.origin = Vector3(0, 0, -0.01)
-	quantity_label.set_h_align(TextLabel2D.Align.ALIGN_RIGHT)
+	quantity_label.scale = Vector3(0.7, 0.5, 1)
+	quantity_label.transform.origin = Vector3(0, 0, -0.02)
+	quantity_label.set_h_align(TextLabel2D.Align.ALIGN_CENTER)
 	quantity_label.set_v_align(TextLabel2D.VAlign.VALIGN_BOTTOM)
 	quantity_label.set_font_size_multiplier(3)
+	quantity_label.set_background_color(Color(0.1, 0.1, 0.1))
 	
 	tablet_config[pos_id]["label_ref"] = quantity_label
 	

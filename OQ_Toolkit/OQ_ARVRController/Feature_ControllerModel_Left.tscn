@@ -8,4 +8,4 @@
 [node name="OculusQuestTouchController_Left" parent="." instance=ExtResource( 1 )]
 
 [node name="Tablet" parent="." instance=ExtResource( 2 )]
-transform = Transform( 0.866025, -0.17101, 0.469846, 0, 0.939693, 0.34202, -0.5, -0.296198, 0.813798, -0.0832216, 0.0916976, -0.0646735 )
+transform = Transform( 0.866025, -0.17101, 0.469846, 0, 0.939693, 0.34202, -0.5, -0.296198, 0.813798, -0.0832216, 0.140841, -0.0646735 )
