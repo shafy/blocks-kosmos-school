@@ -10,8 +10,6 @@ signal block_snapped_updated
 var moving_to_snap := false setget set_moving_to_snap, get_moving_to_snap
 var snapped := false setget set_snapped, get_snapped
 
-onready var block_lock_system = get_node(global_vars.BLOCK_LOCK_SYSTEM_PATH)
-
 
 # setter and getter functions
 func set_moving_to_snap(new_value):
@@ -37,7 +35,7 @@ func is_class(type):
 
 func _ready():
 	connect_to_snap_area_signals()
-	connect("block_snapped_updated", block_lock_system, "_on_BuildingBlockSnappable_block_snapped_updated")
+
 
 func _on_SnapArea_area_snapped():
 	snapped = true

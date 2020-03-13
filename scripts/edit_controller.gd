@@ -4,7 +4,7 @@ extends BaseController
 class_name EditController
 
 
-onready var block_lock_system = get_node(global_vars.BLOCK_LOCK_SYSTEM_PATH)
+#onready var block_lock_system = get_node(global_vars.BLOCK_LOCK_SYSTEM_PATH)
 onready var object_remover_system = get_node(global_vars.OBJECT_REMOVER_SYSTEM_PATH)
 
 
@@ -38,9 +38,9 @@ func _on_Base_Controller_tool_changed():
 	match current_tool:
 		0:
 			# lock mode
-			block_lock_system.toggle_lock()
+			#block_lock_system.toggle_lock()
 			object_remover_system.disable_remove_mode()
 		1:
 			# remover
 			object_remover_system.toggle_remove_mode()
-			block_lock_system.update_blocks(false)
+			#block_lock_system.update_blocks(false)

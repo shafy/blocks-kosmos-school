@@ -17,6 +17,7 @@ var current_challenge_index = null
 onready var measure_controller = get_node(global_vars.MEASURE_CONTR_PATH)
 onready var tablet = get_node(global_vars.TABLET_PATH)
 onready var all_blocks = get_node(global_vars.ALL_BUILDING_BLOCKS_PATH)
+onready var all_measure_points = get_node(global_vars.ALL_MEASURE_POINTS_PATH)
 
 
 func _ready():
@@ -99,3 +100,8 @@ func clear_table():
 		# we have to set null so that deleting them doesn't influence the mini count on the tablet
 		block.tablet_pos_id = -1
 		block.queue_free()
+	
+	# also clear measure points
+	var all_measure_points_children = all_measure_points.get_children()
+	for mp in all_measure_points_children:
+		mp.queue_free()

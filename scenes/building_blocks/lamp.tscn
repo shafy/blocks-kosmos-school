@@ -27,6 +27,7 @@ extents = Vector3( 0.015, 0.009, 0.015 )
 [node name="Lamp" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
 resistance = 3.0
+max_power_color_vector = Vector3( 1, 1, 1 )
 
 [node name="CollisionShape" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0603256, 0 )

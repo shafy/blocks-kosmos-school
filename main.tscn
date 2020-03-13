@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -20,7 +20,6 @@
 [ext_resource path="res://scenes/text_label_2d.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scripts/welcome_controller.gd" type="Script" id=19]
 [ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=23]
-[ext_resource path="res://scripts/block_lock_system.gd" type="Script" id=28]
 
 [sub_resource type="Environment" id=1]
 background_energy = 0.0
@@ -46,10 +45,6 @@ script = ExtResource( 19 )
 
 [node name="ObjectRemoverSystem" type="Node" parent="."]
 script = ExtResource( 14 )
-
-[node name="BlockLockSystem" type="Node" parent="."]
-script = ExtResource( 28 )
-all_building_blocks = NodePath("../AllBuildingBlocks")
 
 [node name="ChallengeSystem" type="Node" parent="."]
 script = ExtResource( 15 )
@@ -105,14 +100,17 @@ script = ExtResource( 11 )
 
 [node name="Battery" parent="AllBuildingBlocks" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.209972, 0.68715, -0.519596 )
+collision_mask = 1
 
 [node name="Lamp" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.710369, -0.724683 )
+collision_mask = 1
 
 [node name="AllMeasurePoints" type="Spatial" parent="."]
 
 [node name="Table" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -0.839 )
+collision_mask = 3
 mode = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="Table"]

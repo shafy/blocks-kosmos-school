@@ -1,7 +1,8 @@
 extends Node
 
-
+# this is currently not in use
 class_name BlockLockSystem
+
 
 var blocks_locked := true setget set_blocks_locked, get_blocks_locked
 
@@ -16,27 +17,31 @@ func get_blocks_locked():
 	return blocks_locked
 
 
-func _ready():
-	pass
-
-
 func _on_BuildingBlockSnappable_block_snapped_updated():
 	# lock blocks after a block's snap status has been updated
 	update_blocks(true)
 
 
 func update_blocks(locked: bool):
+#	blocks_locked = locked
+#	var new_mode = RigidBody.MODE_STATIC
+#	if !locked:
+#		new_mode = RigidBody.MODE_RIGID
+
 	blocks_locked = locked
-	var new_mode = RigidBody.MODE_STATIC
-	if !locked:
-		new_mode = RigidBody.MODE_RIGID
+
 	
 	# loop through all building blocks and set new mode (if it's snapped)
 	var all_building_blocks_children = all_building_blocks.get_children()
 	for building_block in all_building_blocks_children:
 		if building_block.get_snapped():
-			building_block.set_mode(new_mode)
-			building_block.is_grabbable = !locked
+			pass
+			#building_block.set_mode(new_mode)
+#			if locked:
+#				building_block.set_non_collision()
+#			else:
+#				building_block.set_initial_collision()
+			#building_block.is_grabbable = !locked
 
 
 func toggle_lock():
