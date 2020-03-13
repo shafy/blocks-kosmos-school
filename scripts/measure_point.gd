@@ -7,7 +7,8 @@ class_name MeasurePoint
 var connection_id : String setget set_connection_id, get_connection_id
 var parent_block : BuildingBlock
 
-onready var measure_controller := get_node(global_vars.MEASURE_CONTR_PATH)
+onready var ammeter_controller := get_node(global_vars.AMMETER_CONTR_PATH)
+onready var voltmeter_controller := get_node(global_vars.VOLTMETER_CONTR_PATH)
 onready var controller_system := get_node(global_vars.CONTROLLER_SYSTEM_PATH)
 onready var cube_ampere := $CubeAmpere
 onready var cube_volt := $CubeVolt
@@ -39,29 +40,37 @@ func _ready():
 		parent_block = get_parent()
 	
 	# connect
-	measure_controller.connect("ammeter_selected", self, "_on_Measure_Controller_ammeter_selected")
-	measure_controller.connect("voltmeter_selected", self, "_on_Measure_Controller_voltmeter_selected")
-	controller_system.connect("controller_type_changed", self, "_on_Controller_System_controller_type_changed")
+	ammeter_controller.connect("ammeter_selected", self, "_on_Ammeter_Controller_ammeter_selected")
+	ammeter_controller.connect("ammeter_unselected", self, "_on_Ammeter_Controller_ammeter_unselected")
+	voltmeter_controller.connect("voltmeter_selected", self, "_on_Voltmeter_Controller_voltmeter_selected")
+	voltmeter_controller.connect("voltmeter_unselected", self, "_on_Voltmeter_Controller_voltmeter_unselected")
+#	controller_system.connect("controller_type_changed", self, "_on_Controller_System_controller_type_changed")
 	
 	update_cube_visibility()
 
 
-func _on_Measure_Controller_ammeter_selected():
+func _on_Ammeter_Controller_ammeter_selected():
 	if measure_point_type == MeasurePointType.BLOCK:
 		visible = true
-	else:
+
+
+func _on_Ammeter_Controller_ammeter_unselected():
+	if measure_point_type == MeasurePointType.BLOCK:
 		visible = false
 
 
-func _on_Measure_Controller_voltmeter_selected():
+func _on_Voltmeter_Controller_voltmeter_selected():
 	if measure_point_type == MeasurePointType.CONNECTION:
 		visible = true
-	else:
+
+
+func _on_Voltmeter_Controller_voltmeter_unselected():
+	if measure_point_type == MeasurePointType.CONNECTION:
 		visible = false
 
 
-func _on_Controller_System_controller_type_changed():
-	visible = false
+#func _on_Controller_System_controller_type_changed():
+#	visible = false
 
 
 func get_current() -> float:
@@ -82,4 +91,3 @@ func update_cube_visibility() -> void:
 	else:
 		cube_ampere.visible = false
 		cube_volt.visible = true
-	

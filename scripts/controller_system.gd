@@ -7,11 +7,10 @@ class_name ControllerSystem
 
 signal controller_type_changed
 
-enum ControllerType {EDIT, MEASURE}
-var controller_type = ControllerType.EDIT
-
+var controller_type := 0
 var right_controller_models
-var selected_controller
+#var selected_controller
+var all_controllers : Array
 
 onready var right_controller = get_node(global_vars.CONTR_RIGHT_PATH)
 onready var left_controller = get_node(global_vars.CONTR_LEFT_PATH)
@@ -22,6 +21,7 @@ func _ready():
 	if right_controller:
 		right_controller.connect("button_pressed", self, "_on_right_ARVRController_button_pressed")
 		right_controller_models = right_controller.get_node("Feature_ControllerModel_Right")
+		all_controllers = right_controller_models.get_children()
 		set_controller_type(controller_type)
 	
 	if left_controller:
@@ -48,7 +48,7 @@ func _on_left_ARVRController_button_pressed(button_number):
 # switches to the next controller type
 func roundrobin() -> void:
 	var new_ct = 0
-	if controller_type + 1 < ControllerType.size():
+	if controller_type + 1 < all_controllers.size():
 		new_ct = controller_type + 1
 	emit_signal("controller_type_changed")
 	set_controller_type(new_ct)
@@ -58,13 +58,12 @@ func set_controller_type(new_ct : int) -> void:
 	controller_type = new_ct
 	# update mesh
 	if right_controller_models:
-		var all_children = right_controller_models.get_children()
 		# hide all
-		for child in all_children:
+		for child in all_controllers:
 			child.set_selected(false)
 		# show the new one. this assumes meshes are in the same order as the enum ControllerType
-		selected_controller = right_controller_models.get_child(new_ct)
-		selected_controller.set_selected(true)
+		#selected_controller = right_controller_models.get_child(new_ct)
+		all_controllers[new_ct].set_selected(true)
 
 
 func toggle_tablet():

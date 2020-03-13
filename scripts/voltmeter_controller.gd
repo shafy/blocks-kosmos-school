@@ -1,25 +1,19 @@
 extends BaseController
 
 
-class_name MeasureController
+class_name VoltmeterController
 
 
-signal ampere_measured
 signal volt_measured
-signal ammeter_selected
 signal voltmeter_selected
+signal voltmeter_unselected
 
 var vm_first_click := false
 var vm_second_click := false
 var vm_conn_id_1 : String
 
 onready var body_label = $BodyLabel
-onready var title_label = $TitleLabel
 onready var schematic := get_node(global_vars.SCHEMATIC_PATH)
-
-
-func _ready():
-	select_default = true
 
 
 func _on_right_ARVRController_button_pressed(button_number):
@@ -30,38 +24,27 @@ func _on_right_ARVRController_button_pressed(button_number):
 	if button_number != vr.CONTROLLER_BUTTON.INDEX_TRIGGER:
 		return
 	
-	# check if is overlapping with a building block
+	# check if is overlapping with a measurepoint
 	var areas = grab_area_right.get_overlapping_areas()
 	for area in areas:
 		var area_parent = area.get_parent()
 		if !(area_parent is MeasurePoint):
 			return
-		match current_tool:
-			0:
-				# ammeter
-				handle_am(area_parent)
-				
-			1:
-				# voltmeter
-				handle_vm(area_parent.connection_id)
-				
-		break
+		
+		handle_vm(area_parent.connection_id)
 
 
-func _on_Base_Controller_tool_changed():
-	if !selected:
-		return
-	match current_tool:
-		0:
-			# ammeter
-			title_label.set_label_text("Ammeter")
-			body_label.set_label_text("Touch a Blöck and press Trigger")
-			emit_signal("ammeter_selected")
-		1:
-			#voltmeter
-			title_label.set_label_text("Voltmeter")
-			body_label.set_label_text("Touch first Blöck and press Trigger")
-			emit_signal("voltmeter_selected")
+# override parent
+func _on_Base_Controller_controller_selected():
+	._on_Base_Controller_controller_selected()
+	body_label.set_label_text("Touch first V-Block and press Trigger")
+	emit_signal("voltmeter_selected")
+
+
+# override parent
+func _on_Base_Controller_controller_unselected():
+	._on_Base_Controller_controller_selected()
+	emit_signal("voltmeter_unselected")
 
 
 func handle_vm(conn_id : String):
@@ -78,12 +61,7 @@ func handle_vm(conn_id : String):
 		vm_first_click = true
 		vm_second_click = false
 		vm_conn_id_1 = conn_id
-		body_label.set_label_text("Touch second Blöck and press Trigger")
-
-
-func handle_am(measure_point):
-	body_label.set_label_text("%.1f A" % measure_point.get_current())
-	emit_signal("ampere_measured", measure_point)
+		body_label.set_label_text("Touch second V-Block and press Trigger")
 
 
 func calculate_pot_diff(blocks_array) -> float:

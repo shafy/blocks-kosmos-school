@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/ammeter.gd"
 }, {
+"base": "BaseController",
+"class": "AmmeterController",
+"language": "GDScript",
+"path": "res://scripts/ammeter_controller.gd"
+}, {
 "base": "Spatial",
 "class": "BaseController",
 "language": "GDScript",
@@ -90,9 +95,9 @@ _global_script_classes=[ {
 "path": "res://scripts/delete_bubble.gd"
 }, {
 "base": "BaseController",
-"class": "EditController",
+"class": "DeleteController",
 "language": "GDScript",
-"path": "res://scripts/edit_controller.gd"
+"path": "res://scripts/delete_controller.gd"
 }, {
 "base": "Spatial",
 "class": "Feature_RigidBodyGrab",
@@ -128,11 +133,6 @@ _global_script_classes=[ {
 "class": "Lamp",
 "language": "GDScript",
 "path": "res://scripts/lamp.gd"
-}, {
-"base": "BaseController",
-"class": "MeasureController",
-"language": "GDScript",
-"path": "res://scripts/measure_controller.gd"
 }, {
 "base": "Spatial",
 "class": "MeasurePoint",
@@ -204,11 +204,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/text_label_2d.gd"
 }, {
-"base": "Spatial",
-"class": "ToolPaletteSelection",
-"language": "GDScript",
-"path": "res://scripts/tool_palette_selection.gd"
-}, {
 "base": "BuildingBlockSnappable",
 "class": "VoltageSource",
 "language": "GDScript",
@@ -218,6 +213,11 @@ _global_script_classes=[ {
 "class": "Voltmeter",
 "language": "GDScript",
 "path": "res://scripts/voltmeter.gd"
+}, {
+"base": "BaseController",
+"class": "VoltmeterController",
+"language": "GDScript",
+"path": "res://scripts/voltmeter_controller.gd"
 }, {
 "base": "Node",
 "class": "WelcomeController",
@@ -246,6 +246,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Ammeter": "",
+"AmmeterController": "",
 "BaseController": "",
 "BlockLockSystem": "",
 "BuildingBlock": "",
@@ -261,7 +262,7 @@ _global_script_class_icons={
 "ChallengeSystem": "",
 "ControllerSystem": "",
 "DeleteBubble": "",
-"EditController": "",
+"DeleteController": "",
 "Feature_RigidBodyGrab": "",
 "GaussSolver": "",
 "Junction": "",
@@ -269,7 +270,6 @@ _global_script_class_icons={
 "KSGrabbableRigidBody": "",
 "KSRigidBodyGrab": "",
 "Lamp": "",
-"MeasureController": "",
 "MeasurePoint": "",
 "Mini": "",
 "OQClass_GrabbableRigidBody": "",
@@ -284,9 +284,9 @@ _global_script_class_icons={
 "Switch": "",
 "Tablet": "",
 "TextLabel2D": "",
-"ToolPaletteSelection": "",
 "VoltageSource": "",
 "Voltmeter": "",
+"VoltmeterController": "",
 "WelcomeController": "",
 "WireBlock": "",
 "WireParent": "",

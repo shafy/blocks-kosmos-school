@@ -14,7 +14,8 @@ var all_challenges
 var current_challenge
 var current_challenge_index = null
 
-onready var measure_controller = get_node(global_vars.MEASURE_CONTR_PATH)
+onready var ammeter_controller = get_node(global_vars.AMMETER_CONTR_PATH)
+onready var voltmeter_controller = get_node(global_vars.VOLTMETER_CONTR_PATH)
 onready var tablet = get_node(global_vars.TABLET_PATH)
 onready var all_blocks = get_node(global_vars.ALL_BUILDING_BLOCKS_PATH)
 onready var all_measure_points = get_node(global_vars.ALL_MEASURE_POINTS_PATH)
@@ -22,8 +23,8 @@ onready var all_measure_points = get_node(global_vars.ALL_MEASURE_POINTS_PATH)
 
 func _ready():
 	# connect signals
-	measure_controller.connect("ampere_measured", self, "_on_Measure_Controller_ampere_measured")
-	measure_controller.connect("volt_measured", self, "_on_Measure_Controller_volt_measured")
+	ammeter_controller.connect("ampere_measured", self, "_on_Measure_Controller_ampere_measured")
+	voltmeter_controller.connect("volt_measured", self, "_on_Measure_Controller_volt_measured")
 	
 	all_challenges = get_children()
 
