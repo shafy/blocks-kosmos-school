@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/delete_controller.gd" type="Script" id=1]
 [ext_resource path="res://scenes/text_label_2d.tscn" type="PackedScene" id=2]
@@ -6,8 +6,9 @@
 [ext_resource path="res://scenes/controller_right.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scripts/voltmeter_controller.gd" type="Script" id=5]
 [ext_resource path="res://scripts/base_controller.gd" type="Script" id=6]
-
-[sub_resource type="CubeMesh" id=1]
+[ext_resource path="res://materials/bright_black.tres" type="Material" id=7]
+[ext_resource path="res://meshes/controller_screen.mesh" type="ArrayMesh" id=8]
+[ext_resource path="res://materials/black.tres" type="Material" id=9]
 
 [node name="Feature_ControllerModel_Right" type="Spatial"]
 
@@ -27,23 +28,35 @@ transform = Transform( 1, 0, 0, 0, 0.82086, 0.571129, 0, -0.571129, 0.82086, 0.0
 script = ExtResource( 3 )
 
 [node name="TitleLabel" parent="AmmeterController" instance=ExtResource( 2 )]
-transform = Transform( 0.764953, 0, 0, 0, 0.172547, 0.707107, 0, -0.172548, 0.707107, 0.009, 0.061, -0.057 )
+transform = Transform( 0.6, 0, 0, 0, 0.172534, 0.707109, 0, -0.172535, 0.707105, 0.009, 0.061, -0.057 )
+visible = false
 text = "Amperemeter"
+margin = 16
+billboard = false
+resize_mode = 1
 font_size_multiplier = 3.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0.1, 0.1, 0.1, 1 )
 h_align = 1
 v_align = 1
 
 [node name="BodyLabel" parent="AmmeterController" instance=ExtResource( 2 )]
-transform = Transform( 0.764953, 0, 0, 0, 0.172547, 0.707107, 0, -0.172548, 0.707107, 0.009, 0.0389313, -0.0349313 )
+transform = Transform( 0.6, 0, 0, 0, 0.172534, 0.707109, 0, -0.172535, 0.707105, 0.009, 0.0389313, -0.0349313 )
 text = "5.0 A"
+margin = 16
+billboard = false
+resize_mode = 1
 font_size_multiplier = 2.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0.101961, 0.101961, 0.101961, 1 )
 h_align = 1
 v_align = 1
 
 [node name="MeshInstance" type="MeshInstance" parent="AmmeterController"]
-transform = Transform( 0.04, 0, 0, 0, 0.00141421, -0.0282843, 0, 0.00141421, 0.0282843, 0.00902592, 0.0407132, -0.0407132 )
-mesh = SubResource( 1 )
-material/0 = null
+transform = Transform( 0.8, 0, 0, 0, 0.565685, -0.565685, 0, 0.565685, 0.565685, 0.00902592, 0.0516811, -0.0516811 )
+mesh = ExtResource( 8 )
+material/0 = ExtResource( 7 )
+material/1 = ExtResource( 9 )
 
 [node name="ControllerRight" parent="AmmeterController" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 0.82086, 0.571129, 0, -0.571129, 0.82086, 0.019, -0.029, 0.03 )
@@ -52,23 +65,34 @@ transform = Transform( 1, 0, 0, 0, 0.82086, 0.571129, 0, -0.571129, 0.82086, 0.0
 script = ExtResource( 5 )
 
 [node name="TitleLabel" parent="VoltmeterController" instance=ExtResource( 2 )]
-transform = Transform( 0.764953, 0, 0, 0, 0.172547, 0.707107, 0, -0.172548, 0.707107, 0.009, 0.061, -0.057 )
+transform = Transform( 0.6, 0, 0, 0, 0.172534, 0.707109, 0, -0.172535, 0.707105, 0.009, 0.061, -0.057 )
 text = "Voltmeter"
+margin = 16
+billboard = false
+resize_mode = 1
 font_size_multiplier = 3.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0.1, 0.1, 0.1, 1 )
 h_align = 1
 v_align = 1
 
 [node name="BodyLabel" parent="VoltmeterController" instance=ExtResource( 2 )]
-transform = Transform( 0.764953, 0, 0, 0, 0.172547, 0.707107, 0, -0.172548, 0.707107, 0.009, 0.0389313, -0.0349313 )
+transform = Transform( 0.6, 0, 0, 0, 0.172534, 0.707109, 0, -0.172535, 0.707105, 0.009, 0.0389313, -0.0349313 )
 text = "3.0 V"
+margin = 16
+billboard = false
+resize_mode = 1
 font_size_multiplier = 2.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0.15, 0.15, 0.15, 1 )
 h_align = 1
 v_align = 1
 
 [node name="MeshInstance" type="MeshInstance" parent="VoltmeterController"]
-transform = Transform( 0.04, 0, 0, 0, 0.00141421, -0.0282843, 0, 0.00141421, 0.0282843, 0.00902592, 0.0407132, -0.0407132 )
-mesh = SubResource( 1 )
-material/0 = null
+transform = Transform( 0.8, 0, 0, 0, 0.565685, -0.565685, 0, 0.565685, 0.565685, 0.00902592, 0.0520489, -0.0520489 )
+mesh = ExtResource( 8 )
+material/0 = ExtResource( 7 )
+material/1 = ExtResource( 9 )
 
 [node name="ControllerRight" parent="VoltmeterController" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 0.82086, 0.571129, 0, -0.571129, 0.82086, 0.019, -0.029, 0.03 )
