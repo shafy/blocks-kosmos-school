@@ -74,5 +74,7 @@ func check_other_areas() -> void:
 	
 	for child in all_children:
 		if child is SnapArea:
-			if !child.get_snapped() and child.get_move_to_snap():
-				child.doublecheck_snap()
+			print("child.get_snapped() ", child.get_snapped())
+			print("child.get_move_to_snap()", child.get_move_to_snap())
+			if !child.get_snapped() and !child.get_move_to_snap():
+				child.start_double_check_snap()

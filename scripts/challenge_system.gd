@@ -19,6 +19,7 @@ onready var voltmeter_controller = get_node(global_vars.VOLTMETER_CONTR_PATH)
 onready var tablet = get_node(global_vars.TABLET_PATH)
 onready var all_blocks = get_node(global_vars.ALL_BUILDING_BLOCKS_PATH)
 onready var all_measure_points = get_node(global_vars.ALL_MEASURE_POINTS_PATH)
+onready var schematic := get_node(global_vars.SCHEMATIC_PATH) 
 
 
 func _ready():
@@ -59,6 +60,7 @@ func challenge_completed():
 
 func start_challenge(challenge_index : int):
 	clear_table()
+	schematic.clear_schematic()
 	current_challenge = all_challenges[challenge_index]
 	current_challenge_index = challenge_index
 	

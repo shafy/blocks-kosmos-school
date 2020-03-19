@@ -4,7 +4,6 @@ extends Node
 class_name Schematic
 
 var all_blocks = []
-var block_passes = {}
 var connections = []
 var loops_array = []
 var unique_elements = 0
@@ -582,3 +581,14 @@ func get_blocks_between(conn_id_1, conn_id_2) -> Array:
 			i += 1
 	
 	return conn_array
+
+
+# resets schematic
+func clear_schematic():
+	all_blocks = []
+	connections = []
+	loops_array = []
+	unique_elements = 0
+	Ab = []
+	gauss_solver = GaussSolver.new()
+	rng = RandomNumberGenerator.new()

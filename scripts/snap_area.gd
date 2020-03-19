@@ -21,6 +21,8 @@ var interpolation_progress : float
 var moving_connection_added := false
 var is_master := false
 var measure_point : Node
+var start_double_check = false
+var double_check_timer = 0.0
 
 var snapped := false setget , get_snapped
 var initial_grab := false setget set_initial_grab, get_initial_grab
@@ -69,6 +71,14 @@ func _ready():
 func _process(delta):
 	check_for_removal()
 	
+	if start_double_check:
+		double_check_timer += delta
+		
+		if double_check_timer > 0.5:
+			double_check_snap()
+			start_double_check = false
+			double_check_timer = 0.0
+	
 	if move_to_snap:
 		update_pos_to_snap(delta)
 	
@@ -83,10 +93,11 @@ func _process(delta):
 		# this happens when the area overlaps with another while being moved to snap
 		# but the movement has originated from another area from the same block
 		# therefore, don't move but just create connection in schematic
-		connection_id = schematic_add_blocks(parent_block, polarity, connection_side, other_area_parent_block, snap_area_other_area.polarity, snap_area_other_area.connection_side)
-		snap_area_other_area.connection_id = connection_id
-		moving_connection_added = true
-		spawn_measure_point()
+#		connection_id = schematic_add_blocks(parent_block, polarity, connection_side, other_area_parent_block, snap_area_other_area.polarity, snap_area_other_area.connection_side)
+#		snap_area_other_area.connection_id = connection_id
+#		moving_connection_added = true
+#		spawn_measure_point()
+		pass
 
 
 	if !snapping and initial_grab and !parent_block.is_grabbed:
@@ -111,6 +122,9 @@ func _on_Snap_Area_area_entered(area):
 		return
 	
 	if area.snapped:
+		return
+	
+	if parent_block.get_moving_to_snap() or parent_block.get_snapped():
 		return
 	
 	# don't allow adding length to length
@@ -184,37 +198,40 @@ func check_for_removal():
 # snaps this block to another block
 func snap_to_block(other_snap_area: Area):
 	snap_start_transform = parent_block.global_transform
-	
+
 	var current_other_area_parent_block = other_snap_area.get_parent()
 	# move to far position but in right direction
 	parent_block.global_transform.origin += other_snap_area.global_transform.basis.z.normalized() * 1000
-	
+
 	# rotate it so that this z-vector is aligned with other areas
 	# z-vector, but in the opposite direction
 	parent_block.global_transform = global_transform.looking_at(other_snap_area.global_transform.origin, Vector3(0, 1, 0))
-	
+
 	# rotate by 180° degrees
 	parent_block.rotate_y(PI)
-	
+
 	# rotate by local y transform also
 	parent_block.rotate_y(-rotation.y)
-	
+
 	# move to close pos
 	# assuming other area's has a CollisionShape child and parent has CollisionShape child
 	var this_block_extents = parent_block.get_node("CollisionShape").shape.extents
 	var other_snap_area_extents = other_snap_area.get_node("CollisionShape").shape.extents
 	var other_block_extents = current_other_area_parent_block.get_node("CollisionShape").shape.extents
-	
+
 	var move_by_vec = other_snap_area.global_transform.origin - global_transform.origin
 	move_by_vec -= other_snap_area.global_transform.basis.z.normalized() * (other_snap_area_extents.x - 0.001) * 2
 	parent_block.global_transform.origin += move_by_vec
-	
+
 	# assign back
 	snap_end_transform = parent_block.global_transform
 	parent_block.global_transform = snap_start_transform
 	
+	parent_block.set_mode(RigidBody.MODE_KINEMATIC)
 	move_to_snap = true
 	parent_block.set_moving_to_snap(true)
+	
+	print("MOVING ", name)
 
 
 func unsnap():
@@ -243,7 +260,7 @@ func update_pos_to_snap(delta: float) -> void:
 		other_area_parent_block.set_snapped(true)
 		spawn_measure_point()
 		emit_signal("area_snapped")
-		
+		parent_block.set_mode(RigidBody.MODE_RIGID)
 		return
 	
 	parent_block.global_transform = snap_start_transform.interpolate_with(snap_end_transform, interpolation_progress)
@@ -262,11 +279,26 @@ func setup_connection(_other_area):
 
 # double checks if really not overlapping an area
 # called from parent after every succesful snap
-func doublecheck_snap() -> void:
+func start_double_check_snap():
+	start_double_check = true
+
+
+func double_check_snap() -> void:
 	var overlapping_areas = get_overlapping_areas()
 	for overlapping_area in overlapping_areas:
+		if !(overlapping_area as SnapArea):
+			return
+		
 		if !overlapping_area.get_snapped() or !overlapping_area.get_move_to_snap():
+			snapped = true
+			overlapping_area.snapped = true
+			snap_area_other_area = overlapping_area
+			overlapping_area.snap_area_other_area = self
+			other_area_parent_block = overlapping_area.get_parent()
+			overlapping_area.other_area_parent_block = get_parent()
+			is_master = true
 			setup_connection(overlapping_area)
+			spawn_measure_point()
 
 
 func other_area_distance() -> float:
