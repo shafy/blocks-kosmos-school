@@ -29,7 +29,6 @@ script = ExtResource( 3 )
 
 [node name="TitleLabel" parent="AmmeterController" instance=ExtResource( 2 )]
 transform = Transform( 0.6, 0, 0, 0, 0.172534, 0.707109, 0, -0.172535, 0.707105, 0.009, 0.061, -0.057 )
-visible = false
 text = "Amperemeter"
 margin = 16
 billboard = false
