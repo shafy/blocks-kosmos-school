@@ -30,7 +30,7 @@ var move_to_snap := false setget , get_move_to_snap
 
 onready var parent_block := get_parent()
 onready var schematic := get_node(global_vars.SCHEMATIC_PATH) 
-onready var all_measure_points  := get_node(global_vars.ALL_MEASURE_POINTS_PATH)
+onready var all_measure_points := get_node(global_vars.ALL_MEASURE_POINTS_PATH)
 onready var measure_point_scene = load(global_vars.MEASURE_POINT_FILE_PATH)
 
 
@@ -230,8 +230,6 @@ func snap_to_block(other_snap_area: Area):
 	parent_block.set_mode(RigidBody.MODE_KINEMATIC)
 	move_to_snap = true
 	parent_block.set_moving_to_snap(true)
-	
-	print("MOVING ", name)
 
 
 func unsnap():

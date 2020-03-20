@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://materials/dark_grey.tres" type="Material" id=17]
 [ext_resource path="res://scenes/text_label_2d.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scripts/welcome_controller.gd" type="Script" id=19]
+[ext_resource path="res://scripts/measure_point_system.gd" type="Script" id=20]
 [ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=23]
 
 [sub_resource type="Environment" id=1]
@@ -55,16 +56,54 @@ script = ExtResource( 13 )
 
 [node name="Objective1" type="Node" parent="ChallengeSystem/Challenge1"]
 script = ExtResource( 16 )
-title = "4 Amps"
+title = "1.8 Amps"
 description = "Measure 1.8 Amperes in your circuit"
 target_value = 1.8
 
 [node name="Objective2" type="Node" parent="ChallengeSystem/Challenge1"]
 script = ExtResource( 16 )
-title = "8 Volts"
+title = "9 Volts"
 description = "Measure 9 Volts in your circuit"
 target_type = 1
 target_value = 9.0
+
+[node name="Challenge2" type="Node" parent="ChallengeSystem"]
+script = ExtResource( 13 )
+
+[node name="Objective1" type="Node" parent="ChallengeSystem/Challenge2"]
+script = ExtResource( 16 )
+title = "0.3 Amps"
+description = "Measure 0.3 Amperes in your circuit"
+target_value = 0.3
+
+[node name="Objective2" type="Node" parent="ChallengeSystem/Challenge2"]
+script = ExtResource( 16 )
+title = "3 Volts"
+description = "Measure 3 Volts in your circuit"
+target_type = 1
+target_value = 3.0
+
+[node name="Challenge3" type="Node" parent="ChallengeSystem"]
+script = ExtResource( 13 )
+
+[node name="Objective1" type="Node" parent="ChallengeSystem/Challenge3"]
+script = ExtResource( 16 )
+title = "2.7 Amps"
+description = "Measure 2.7 Amperes in your circuit"
+target_value = 2.7
+
+[node name="Objective2" type="Node" parent="ChallengeSystem/Challenge3"]
+script = ExtResource( 16 )
+title = "1.8 Amps"
+description = "Measure 1.8 Amperes in your circuit"
+target_value = 1.8
+
+[node name="Objective3" type="Node" parent="ChallengeSystem/Challenge3"]
+script = ExtResource( 16 )
+title = "0.9 Amps"
+description = "Measure 0.9 Amperes on a Switch"
+target_value = 0.9
+target_objects_by_class = "Switch"
 
 [node name="ControllerSystem" type="Node" parent="."]
 script = ExtResource( 10 )
@@ -106,6 +145,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.680863, -0.594242 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.337576, 0.680863, -0.594242 )
 
 [node name="AllMeasurePoints" type="Spatial" parent="."]
+script = ExtResource( 20 )
 
 [node name="Table" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, -0.839 )

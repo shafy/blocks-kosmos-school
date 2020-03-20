@@ -5,7 +5,7 @@ extends KSGrabbableRigidBody
 class_name BuildingBlock
 
 
-signal block_deleted
+signal block_deleted(block)
 
 var tablet_pos_id := -1
 
@@ -26,9 +26,9 @@ func _ready():
 	# hide delete bubble to start with
 	delete_bubble.visible = false
 
-
-func _exit_tree():
-	emit_signal("block_deleted", self)
+#
+#func _exit_tree():
+#	emit_signal("block_deleted")
 
 
 # overriding this function from the parent GrabbableRemovableRigidBody

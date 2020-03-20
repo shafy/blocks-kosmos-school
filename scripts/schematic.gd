@@ -1,7 +1,9 @@
 extends Node
 
+
 # the schematic representation and logic of th circuit
 class_name Schematic
+
 
 var all_blocks = []
 var connections = []
@@ -16,12 +18,14 @@ var alphanumeric_array = [
 	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
 ]
 
+onready var measure_point_system = get_node(global_vars.ALL_MEASURE_POINTS_PATH)
 
-func _on_Building_Block_block_deleted(current_block : BuildingBlock):
+
+func _on_Building_Block_block_deleted(current_block):
 	remove_block(current_block)
 
 
-func remove_block(current_block : BuildingBlock) -> void:
+func remove_block(current_block : BuildingBlock) -> void:	
 	var current_block_index = all_blocks.find(current_block)
 	
 	if current_block_index == -1:
@@ -39,6 +43,8 @@ func remove_block(current_block : BuildingBlock) -> void:
 	
 	for conn in result_connections:
 		remove_connection(conn[2])
+		# also remove measure point
+		measure_point_system.remove_by_connection_id(conn[2])
 	
 	# re-calculate
 	loop_current_method()
@@ -104,9 +110,7 @@ func add_new_block(block) -> void:
 		
 		# connect to deletion signal
 		if !block.is_connected("block_deleted", self, "_on_Building_Block_block_deleted"):
-			block.connect("block_deleted", self, "_on_Building_Block_block_deleted", [CONNECT_DEFERRED])
-		
-		
+			block.connect("block_deleted", self, "_on_Building_Block_block_deleted")
 
 
 # removes connection from schematic
