@@ -44,8 +44,9 @@ func _on_Building_Block_block_deleted(block):
 	if tablet_config[pos_id]["quantity"] == 0:
 		spawn_mini(pos_id)
 	
-	tablet_config[pos_id]["quantity"] += 1
-	tablet_config[pos_id]["label_ref"].set_label_text(str(tablet_config[pos_id]["quantity"]))
+	if tablet_config[pos_id]["quantity"] != -1:
+		tablet_config[pos_id]["quantity"] += 1
+		tablet_config[pos_id]["label_ref"].set_label_text(str(tablet_config[pos_id]["quantity"]))
 
 
 func create_setup(setup_params : Dictionary):

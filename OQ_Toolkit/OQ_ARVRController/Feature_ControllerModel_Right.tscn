@@ -25,6 +25,7 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, 0.82086, 0.571129, 0, -0.571129, 0.82086, 0.019, -0.029, 0.03 )
 
 [node name="AmmeterController" type="Spatial" parent="."]
+visible = false
 script = ExtResource( 3 )
 
 [node name="TitleLabel" parent="AmmeterController" instance=ExtResource( 2 )]

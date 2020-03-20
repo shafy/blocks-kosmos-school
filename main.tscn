@@ -56,15 +56,15 @@ script = ExtResource( 13 )
 [node name="Objective1" type="Node" parent="ChallengeSystem/Challenge1"]
 script = ExtResource( 16 )
 title = "4 Amps"
-description = "Measure 4 Amperes in your circuit"
-target_value = 4.0
+description = "Measure 1.8 Amperes in your circuit"
+target_value = 1.8
 
 [node name="Objective2" type="Node" parent="ChallengeSystem/Challenge1"]
 script = ExtResource( 16 )
 title = "8 Volts"
-description = "Measure 8 Volts in your circuit"
+description = "Measure 9 Volts in your circuit"
 target_type = 1
-target_value = 8.0
+target_value = 9.0
 
 [node name="ControllerSystem" type="Node" parent="."]
 script = ExtResource( 10 )

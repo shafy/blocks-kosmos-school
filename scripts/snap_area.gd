@@ -74,7 +74,7 @@ func _process(delta):
 	if start_double_check:
 		double_check_timer += delta
 		
-		if double_check_timer > 0.5:
+		if double_check_timer > 0.25:
 			double_check_snap()
 			start_double_check = false
 			double_check_timer = 0.0

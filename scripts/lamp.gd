@@ -4,7 +4,7 @@ class_name Lamp
 
 var bulb_material : Material
 var power := 0.0
-var max_power := 4
+var max_power := 8
 var min_power_color_vector : Vector3
 
 export var max_power_color_vector : Vector3
@@ -45,7 +45,6 @@ func set_emission():
 	if bulb_material:
 		var current_emission = min((power / max_power), 1.0)
 		#bulb_material.set_emission_energy(min(current_emission, max_emission))
-		print("current_emission ", current_emission)
 		var new_color_vector = min_power_color_vector.linear_interpolate(max_power_color_vector, current_emission)
 		bulb_material.set_shader_param("color", new_color_vector)
 		
