@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/mini.gd" type="Script" id=1]
 [ext_resource path="res://scenes/building_blocks/lamp.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://materials/medium_grey.tres" type="Material" id=5]
 [ext_resource path="res://materials/grey_yellow.tres" type="Material" id=6]
 [ext_resource path="res://materials/dark_grey_yellow.tres" type="Material" id=7]
+[ext_resource path="res://sounds/Plop.wav" type="AudioStream" id=8]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.0203507, 0.00248965, 0.0109831 )
@@ -36,3 +37,6 @@ material/0 = ExtResource( 6 )
 material/1 = ExtResource( 7 )
 material/2 = ExtResource( 5 )
 material/3 = ExtResource( 4 )
+
+[node name="AudioStreamPlayer3DScale" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 8 )

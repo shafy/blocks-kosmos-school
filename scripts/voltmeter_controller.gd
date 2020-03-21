@@ -14,6 +14,7 @@ var vm_conn_id_1 : String
 
 onready var body_label = $BodyLabel
 onready var schematic := get_node(global_vars.SCHEMATIC_PATH)
+onready var measure_volt_sound = $AudioStreamPlayer3DMeasureVolt
 
 
 func _on_right_ARVRController_button_pressed(button_number):
@@ -55,6 +56,8 @@ func handle_vm(conn_id : String):
 		body_label.set_label_text(str(pot_diff, " V"))
 		vm_second_click = true
 		vm_first_click = false
+		if measure_volt_sound:
+			measure_volt_sound.play()
 		emit_signal("volt_measured", pot_diff, blocks_array)
 	else:
 		# first click

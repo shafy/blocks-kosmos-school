@@ -20,6 +20,9 @@ onready var tablet = get_node(global_vars.TABLET_PATH)
 onready var all_blocks = get_node(global_vars.ALL_BUILDING_BLOCKS_PATH)
 onready var all_measure_points = get_node(global_vars.ALL_MEASURE_POINTS_PATH)
 onready var schematic := get_node(global_vars.SCHEMATIC_PATH) 
+onready var challenge_started_sound = $AudioStreamPlayer3DStarted
+onready var objective_completed_sound = $AudioStreamPlayer3DObjective
+onready var challenge_completed_sound = $AudioStreamPlayer3DCompleted
 
 
 func _ready():
@@ -52,11 +55,15 @@ func objective_hit_update():
 	
 	if current_hit_objectives.size() == current_challenge.get_objectives().size():
 		challenge_completed()
+	elif objective_completed_sound:
+		objective_completed_sound.play()
 
 
 func challenge_completed():
 	current_challenge = null
 	emit_signal("challenge_completed", current_challenge_index)
+	if challenge_completed_sound:
+		challenge_completed_sound.play()
 
 
 func start_challenge(challenge_index : int):
@@ -68,7 +75,8 @@ func start_challenge(challenge_index : int):
 	
 	setup_tablet()
 	emit_signal("challenge_started", current_challenge_index)
-
+	if challenge_started_sound:
+		challenge_started_sound.play()	
 
 func stop_challenge(challenge_index : int):
 	tablet.clear_tablet()

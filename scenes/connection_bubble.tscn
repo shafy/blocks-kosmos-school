@@ -2,7 +2,6 @@
 
 [ext_resource path="res://materials/dark_dark_lax.tres" type="Material" id=1]
 
-
 [sub_resource type="SphereMesh" id=1]
 
 [node name="ConnectionBubble" type="MeshInstance"]

@@ -18,7 +18,10 @@ var alphanumeric_array = [
 	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
 ]
 
+
 onready var measure_point_system = get_node(global_vars.ALL_MEASURE_POINTS_PATH)
+onready var circuit_sound = $AudioStreamPlayer3DCircuit
+
 
 
 func remove_block(current_block : BuildingBlock) -> void:	
@@ -284,6 +287,10 @@ func loop_current_method():
 	
 	# 7) solve for element currents and voltages using Ohm's Law
 	calculate_element_attributes(loop_current_solutions)
+	
+	if !loop_current_solutions.empty():
+		if circuit_sound:
+			circuit_sound.play()
 
 
 # resets block attributes
