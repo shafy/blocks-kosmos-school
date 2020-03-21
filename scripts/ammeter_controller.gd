@@ -24,7 +24,7 @@ func _on_right_ARVRController_button_pressed(button_number):
 	for area in areas:
 		var area_parent = area.get_parent()
 		if !(area_parent is MeasurePoint):
-			return
+			continue
 		
 		body_label.set_label_text("%.1f A" % area_parent.get_current())
 		emit_signal("ampere_measured", area_parent)

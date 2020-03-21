@@ -194,7 +194,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/snap_area.gd"
 }, {
-"base": "BuildingBlockSnappable",
+"base": "Resistor",
 "class": "Switch",
 "language": "GDScript",
 "path": "res://scripts/switch.gd"

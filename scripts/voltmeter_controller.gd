@@ -29,7 +29,7 @@ func _on_right_ARVRController_button_pressed(button_number):
 	for area in areas:
 		var area_parent = area.get_parent()
 		if !(area_parent is MeasurePoint):
-			return
+			continue
 		
 		handle_vm(area_parent.connection_id)
 

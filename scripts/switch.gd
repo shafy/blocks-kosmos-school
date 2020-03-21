@@ -1,4 +1,4 @@
-extends BuildingBlockSnappable
+extends Resistor
 
 
 class_name Switch
