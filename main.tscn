@@ -208,11 +208,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79502, -3.22103 )
 transform = Transform( 21.2217, 0, 0, 0, 8.12099, 0, 0, 0, 1, 0, 0, 0 )
 text = "Welcome to Blöcks, friend.
 Press X to open your tablet."
-margin = 16
-billboard = false
-resize_mode = 1
 font_size_multiplier = 45.0
-font_color = Color( 1, 1, 1, 1 )
 background_color = Color( 0.75, 0.45, 0.45, 1 )
 h_align = 1
 v_align = 1

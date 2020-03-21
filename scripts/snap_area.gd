@@ -29,6 +29,8 @@ var initial_grab := false setget set_initial_grab, get_initial_grab
 var move_to_snap := false setget , get_move_to_snap
 
 onready var parent_block := get_parent()
+onready var snap_sound := parent_block.get_node("AudioStreamPlayer3DSnap")
+onready var magnet_hum_sound := parent_block.get_node("AudioStreamPlayer3DMagnetHum")
 onready var schematic := get_node(global_vars.SCHEMATIC_PATH) 
 onready var all_measure_points := get_node(global_vars.ALL_MEASURE_POINTS_PATH)
 onready var measure_point_scene = load(global_vars.MEASURE_POINT_FILE_PATH)
@@ -138,6 +140,8 @@ func _on_Snap_Area_area_entered(area):
 		initial_grab = true
 		is_master = true
 		vibrate_controller(true)
+		if magnet_hum_sound:
+			magnet_hum_sound.play()
 
 
 #func _on_Snap_Area_area_exited(area):
@@ -184,6 +188,8 @@ func check_for_removal():
 	
 	if is_master and !snapped:
 		vibrate_controller(false)
+		if magnet_hum_sound:
+			magnet_hum_sound.stop()
 	
 	# if distance is greater, remove
 	if snapped:
@@ -266,6 +272,8 @@ func update_pos_to_snap(delta: float) -> void:
 		other_area_parent_block.set_snapped(true)
 		spawn_measure_point()
 		emit_signal("area_snapped")
+		if snap_sound:
+			snap_sound.play()
 		parent_block.set_mode(RigidBody.MODE_RIGID)
 		return
 	
