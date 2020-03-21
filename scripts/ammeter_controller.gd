@@ -9,6 +9,7 @@ signal ammeter_selected
 signal ammeter_unselected
 
 onready var body_label = $BodyLabel
+onready var measure_amp_sound = $AudioStreamPlayer3DMeasureAmpere
 
 
 func _on_right_ARVRController_button_pressed(button_number):
@@ -27,6 +28,8 @@ func _on_right_ARVRController_button_pressed(button_number):
 			return
 		
 		body_label.set_label_text("%.1f A" % area_parent.get_current())
+		if measure_amp_sound:
+			measure_amp_sound.play()
 		emit_signal("ampere_measured", area_parent)
 
 

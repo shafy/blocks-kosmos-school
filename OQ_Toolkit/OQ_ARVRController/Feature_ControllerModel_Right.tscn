@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/delete_controller.gd" type="Script" id=1]
 [ext_resource path="res://scenes/text_label_2d.tscn" type="PackedScene" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://scenes/controller_right.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scripts/voltmeter_controller.gd" type="Script" id=5]
 [ext_resource path="res://scripts/base_controller.gd" type="Script" id=6]
+[ext_resource path="res://sounds/Throw in Trash 2.wav" type="AudioStream" id=8]
+[ext_resource path="res://sounds/Measuring.wav" type="AudioStream" id=9]
 
 [sub_resource type="CubeMesh" id=1]
 
@@ -22,6 +24,9 @@ script = ExtResource( 1 )
 
 [node name="ControllerRight" parent="DeleteController" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 0.82086, 0.571129, 0, -0.571129, 0.82086, 0.019, -0.029, 0.03 )
+
+[node name="AudioStreamPlayer3DDelete" type="AudioStreamPlayer3D" parent="DeleteController"]
+stream = ExtResource( 8 )
 
 [node name="AmmeterController" type="Spatial" parent="."]
 script = ExtResource( 3 )
@@ -48,6 +53,10 @@ material/0 = null
 [node name="ControllerRight" parent="AmmeterController" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 0.82086, 0.571129, 0, -0.571129, 0.82086, 0.019, -0.029, 0.03 )
 
+[node name="AudioStreamPlayer3DMeasureAmpere" type="AudioStreamPlayer3D" parent="AmmeterController"]
+stream = ExtResource( 9 )
+unit_db = -10.0
+
 [node name="VoltmeterController" type="Spatial" parent="."]
 script = ExtResource( 5 )
 
@@ -72,3 +81,7 @@ material/0 = null
 
 [node name="ControllerRight" parent="VoltmeterController" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 0.82086, 0.571129, 0, -0.571129, 0.82086, 0.019, -0.029, 0.03 )
+
+[node name="AudioStreamPlayer3DMeasureVolt" type="AudioStreamPlayer3D" parent="VoltmeterController"]
+stream = ExtResource( 9 )
+unit_db = -10.0

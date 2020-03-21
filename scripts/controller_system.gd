@@ -15,6 +15,7 @@ var all_controllers : Array
 onready var right_controller = get_node(global_vars.CONTR_RIGHT_PATH)
 onready var left_controller = get_node(global_vars.CONTR_LEFT_PATH)
 onready var tablet = get_node(global_vars.TABLET_PATH)
+onready var button_click_sound = $AudioStreamPlayer3DClick
 
 
 func _ready():
@@ -31,18 +32,19 @@ func _ready():
 
 func _on_right_ARVRController_button_pressed(button_number):
 	# check for A button press
-	if button_number != vr.CONTROLLER_BUTTON.XA:
-		return
-	
-	roundrobin()
+	if button_number == vr.CONTROLLER_BUTTON.XA:
+		# play sound on press
+		if button_click_sound:
+			button_click_sound.play()
+		roundrobin()
 
 
 func _on_left_ARVRController_button_pressed(button_number):
 	# check for A button press
-	if button_number != vr.CONTROLLER_BUTTON.XA:
-		return
-	
-	toggle_tablet()
+	if button_number == vr.CONTROLLER_BUTTON.XA:
+		if button_click_sound:
+			button_click_sound.play()
+		toggle_tablet()
 
 
 # switches to the next controller type

@@ -29,6 +29,7 @@ onready var right_controller_grab = get_node(global_vars.CONTR_RIGHT_PATH + "/co
 onready var left_controller_grab = get_node(global_vars.CONTR_LEFT_PATH + "/controller_grab")
 onready var tablet = get_node(global_vars.TABLET_PATH)
 onready var main_node = get_node("/root/Main")
+onready var scaling_up_sound = $AudioStreamPlayer3DScale
 
 export var label_name : String
 export(float) var mini_scale_factor
@@ -70,6 +71,10 @@ func _process(delta):
 	if ready_to_scale:
 		if linear_velocity.length() < 0.001 and angular_velocity.length() < 0.001:
 			scaling_up = true
+			if scaling_up_sound:
+				scaling_up_sound.play()
+		
+
 	
 	if scaling_up:
 		ready_to_scale = false

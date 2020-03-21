@@ -5,6 +5,7 @@ class_name DeleteController
 
 
 onready var object_remover_system = get_node(global_vars.OBJECT_REMOVER_SYSTEM_PATH)
+onready var delete_sound = $AudioStreamPlayer3DDelete
 
 
 func _on_right_ARVRController_button_pressed(button_number):
@@ -27,6 +28,8 @@ func _on_right_ARVRController_button_pressed(button_number):
 			continue
 		# delete
 		area_parent.start_remove()
+		if delete_sound:
+			delete_sound.play()
 		break
 
 

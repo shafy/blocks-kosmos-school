@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -19,7 +19,12 @@
 [ext_resource path="res://materials/dark_grey.tres" type="Material" id=17]
 [ext_resource path="res://scenes/text_label_2d.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scripts/welcome_controller.gd" type="Script" id=19]
+[ext_resource path="res://sounds/Button Click.wav" type="AudioStream" id=20]
+[ext_resource path="res://sounds/Magic Notes.wav" type="AudioStream" id=21]
+[ext_resource path="res://sounds/Trumpet Win.wav" type="AudioStream" id=22]
 [ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=23]
+[ext_resource path="res://sounds/Score Appears.wav" type="AudioStream" id=24]
+[ext_resource path="res://sounds/ElectricHum.wav" type="AudioStream" id=25]
 
 [sub_resource type="Environment" id=1]
 background_energy = 0.0
@@ -65,8 +70,20 @@ description = "Measure 8 Volts in your circuit"
 target_type = 1
 target_value = 8.0
 
+[node name="AudioStreamPlayer3DCompleted" type="AudioStreamPlayer3D" parent="ChallengeSystem"]
+stream = ExtResource( 22 )
+
+[node name="AudioStreamPlayer3DStarted" type="AudioStreamPlayer3D" parent="ChallengeSystem"]
+stream = ExtResource( 21 )
+
+[node name="AudioStreamPlayer3DObjective" type="AudioStreamPlayer3D" parent="ChallengeSystem"]
+stream = ExtResource( 24 )
+
 [node name="ControllerSystem" type="Node" parent="."]
 script = ExtResource( 10 )
+
+[node name="AudioStreamPlayer3DClick" type="AudioStreamPlayer3D" parent="ControllerSystem"]
+stream = ExtResource( 20 )
 
 [node name="OQ_UI2DLogWindow" parent="." instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 0.995679, 0.0928572, 0, -0.0928572, 0.995679, 0.0275311, 1.18624, -1.69866 )
@@ -95,6 +112,9 @@ environment = SubResource( 1 )
 
 [node name="Schematic" type="Node" parent="."]
 script = ExtResource( 11 )
+
+[node name="AudioStreamPlayer3DCircuit" type="AudioStreamPlayer3D" parent="Schematic"]
+stream = ExtResource( 25 )
 
 [node name="AllBuildingBlocks" type="Spatial" parent="."]
 
