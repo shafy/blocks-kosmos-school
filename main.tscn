@@ -195,6 +195,7 @@ v_align = 1
 
 [node name="Spatial" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.893, 0 )
+visible = false
 
 [node name="CPUParticles" type="CPUParticles" parent="Spatial"]
 emitting = false
