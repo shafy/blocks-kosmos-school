@@ -186,9 +186,8 @@ func check_for_removal():
 		vibrate_controller(false)
 	
 	# if distance is greater, remove
-	if is_master and snapped:
-		schematic_remove_connection()
-		snap_area_other_area.unsnap()
+	if snapped:
+		#snap_area_other_area.unsnap()
 		unsnap()
 	else:
 		snap_area_other_area = null
@@ -233,7 +232,9 @@ func snap_to_block(other_snap_area: Area):
 
 
 func unsnap():
-	destroy_measure_point()
+	if is_master:
+		destroy_measure_point()
+		schematic_remove_connection()
 	is_master = false
 	initial_grab = false
 	snapped = false
@@ -242,6 +243,13 @@ func unsnap():
 	connection_id = ""
 	moving_connection_added = false
 	emit_signal("area_unsnapped")
+
+
+# unsnaps this and the other block's snap arae
+func unsnap_both():
+	if snap_area_other_area:
+		snap_area_other_area.unsnap()
+	unsnap()
 
 
 # snaps to the other block over time, updating position and rotation

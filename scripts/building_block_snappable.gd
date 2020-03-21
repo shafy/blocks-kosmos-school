@@ -76,3 +76,12 @@ func check_other_areas() -> void:
 		if child is SnapArea:
 			if !child.get_snapped() and !child.get_move_to_snap():
 				child.start_double_check_snap()
+
+
+# unsnaps all areas (needed for deleting block)
+func unsnap_all() -> void:
+	var all_children = get_children()
+	
+	for child in all_children:
+		if child is SnapArea:
+			child.unsnap_both()

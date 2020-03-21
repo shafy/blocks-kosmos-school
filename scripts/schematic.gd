@@ -21,8 +21,8 @@ var alphanumeric_array = [
 onready var measure_point_system = get_node(global_vars.ALL_MEASURE_POINTS_PATH)
 
 
-func _on_Building_Block_block_deleted(current_block):
-	remove_block(current_block)
+#func _on_Building_Block_block_deleted(current_block):
+#	remove_block(current_block)
 
 
 func remove_block(current_block : BuildingBlock) -> void:	
@@ -35,8 +35,8 @@ func remove_block(current_block : BuildingBlock) -> void:
 	all_blocks.remove(current_block_index)
 	
 	# disconnect signal
-	if (current_block.is_connected("block_deleted", self, "_on_Building_Block_block_deleted")):
-		current_block.disconnect("block_deleted", self, "_on_Building_Block_block_deleted")
+#	if (current_block.is_connected("block_deleted", self, "_on_Building_Block_block_deleted")):
+#		current_block.disconnect("block_deleted", self, "_on_Building_Block_block_deleted")
 	
 	# remove its connections
 	var result_connections = find_connections_by_block(current_block)
@@ -109,8 +109,8 @@ func add_new_block(block) -> void:
 			all_blocks.append(block)
 		
 		# connect to deletion signal
-		if !block.is_connected("block_deleted", self, "_on_Building_Block_block_deleted"):
-			block.connect("block_deleted", self, "_on_Building_Block_block_deleted")
+#		if !block.is_connected("block_deleted", self, "_on_Building_Block_block_deleted"):
+#			block.connect("block_deleted", self, "_on_Building_Block_block_deleted")
 
 
 # removes connection from schematic
