@@ -73,6 +73,11 @@ func current_hit_objectives() -> Array:
 	return return_array
 
 
+func reset_objectives() -> void:
+	for objective in objectives:
+		objective.set_objective_hit(false)
+
+
 # returns true if all objectives are hit
 #func all_objectives_hit():
 #	var all_hit = true

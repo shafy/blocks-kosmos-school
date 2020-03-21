@@ -155,6 +155,7 @@ h_align = 1
 v_align = 1
 
 [node name="Challenge2" type="Spatial" parent="Screens"]
+visible = false
 script = ExtResource( 13 )
 challenge_index = 1
 
@@ -183,6 +184,7 @@ background_color = Color( 0.1, 0.1, 0.1, 1 )
 [node name="StartStopButton" parent="Screens/Challenge2" instance=ExtResource( 19 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, -0.031, -0.085, 0.003 )
 script = ExtResource( 1 )
+challenge_index = 1
 
 [node name="Buttonlabel" parent="Screens/Challenge2/StartStopButton" instance=ExtResource( 9 )]
 transform = Transform( 0.6, -3.57628e-08, 3.8743e-07, 7.15256e-08, 0.3, 1.24176e-07, -2.32458e-07, -3.72529e-08, 1, 0, 0, 0.005 )
@@ -193,6 +195,7 @@ h_align = 1
 v_align = 1
 
 [node name="Challenge3" type="Spatial" parent="Screens"]
+visible = false
 script = ExtResource( 13 )
 challenge_index = 2
 
@@ -221,6 +224,7 @@ background_color = Color( 0.1, 0.1, 0.1, 1 )
 [node name="StartStopButton" parent="Screens/Challenge3" instance=ExtResource( 19 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, -0.031, -0.085, 0.003 )
 script = ExtResource( 1 )
+challenge_index = 2
 
 [node name="Buttonlabel" parent="Screens/Challenge3/StartStopButton" instance=ExtResource( 9 )]
 transform = Transform( 0.6, -3.57628e-08, 3.8743e-07, 7.15256e-08, 0.3, 1.24176e-07, -2.32458e-07, -3.72529e-08, 1, 0, 0, 0.005 )

@@ -55,6 +55,7 @@ func objective_hit_update():
 
 
 func challenge_completed():
+	current_challenge = null
 	emit_signal("challenge_completed", current_challenge_index)
 
 
@@ -63,6 +64,7 @@ func start_challenge(challenge_index : int):
 	schematic.clear_schematic()
 	current_challenge = all_challenges[challenge_index]
 	current_challenge_index = challenge_index
+	current_challenge.reset_objectives()
 	
 	setup_tablet()
 	emit_signal("challenge_started", current_challenge_index)

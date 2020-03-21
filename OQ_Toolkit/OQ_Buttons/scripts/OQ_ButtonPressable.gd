@@ -23,6 +23,7 @@ onready var initial_pos_global: = get_global_transform().origin
 onready var button_forward_vector_norm = get_transform().basis.z.normalized()
 onready var z_scale = scale.z
 onready var button_mesh := $MeshInstance
+onready var button_area := $ButtonArea
 
 export var press_distance := 0.008
 export(Material) var off_material
@@ -48,6 +49,7 @@ func _ready():
 	if !is_visible_in_tree():
 		set_process(false)
 		set_physics_process(false)
+		button_area.set_monitoring(false)
 
 
 func _process(delta):
@@ -91,6 +93,17 @@ func _process(delta):
 
 
 func _on_ButtonArea_area_entered(area):
+	# check if controller entered
+	var area_parent = area.get_parent()
+	if !area_parent:
+		return
+	
+	if area_parent.name != "controller_grab":
+		return
+		
+	if !global_functions.controller_node_from_child(area):
+		return
+	
 	touching = true
 	at_default_pos = false
 	hand_area = area
@@ -108,9 +121,11 @@ func _on_Button_Pressable_visibility_changed():
 	if !is_visible_in_tree():
 		set_process(false)
 		set_physics_process(false)
+		button_area.set_monitoring(false)
 	else:
 		set_process(true)
 		set_physics_process(true)
+		button_area.set_monitoring(true)
 
 
 func button_press(other_area: Area):

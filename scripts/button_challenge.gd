@@ -13,6 +13,16 @@ export var challenge_index : int
 onready var challenge_system = get_node(global_vars.CHALLENGE_SYSTEM_PATH)
 
 
+func _ready():
+	challenge_system.connect("challenge_completed", self, "_on_Challenge_System_challenge_completed")
+
+
+func _on_Challenge_System_challenge_completed(_challenge_index : int):
+	# reset button to START if challenge completed
+	if _challenge_index == challenge_index:
+		action_type = ActionType.START
+
+
 # overriding the parent function
 func button_press(other_area: Area):
 	.button_press(other_area)

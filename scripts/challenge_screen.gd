@@ -46,6 +46,9 @@ func _on_Challenge_System_challenge_started(new_challenge_index):
 		
 	var new_text = "**Challenge currently running**\n" + BODY_STANDARD_TEXT
 	body_label.set_label_text(new_text)
+	
+	# reset text
+	update_text()
 
 
 func _on_Challenge_System_challenge_stopped(new_challenge_index):
