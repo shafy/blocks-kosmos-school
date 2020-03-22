@@ -18,10 +18,8 @@ var alphanumeric_array = [
 	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
 ]
 
-
 onready var measure_point_system = get_node(global_vars.ALL_MEASURE_POINTS_PATH)
 onready var circuit_sound = $AudioStreamPlayer3DCircuit
-
 
 
 func remove_block(current_block : BuildingBlock) -> void:	
@@ -508,6 +506,9 @@ func add_loop(new_loop: Array):
 func get_blocks_between(conn_id_1, conn_id_2) -> Array:
 	var conn_array = []
 	
+	print("conn_id_1 ", conn_id_1)
+	print("conn_id_2 ", conn_id_2)
+	
 	# get blocks
 	var conn_1_index = find_connection_by_id(conn_id_1)
 	if conn_1_index == -1:
@@ -528,9 +529,13 @@ func get_blocks_between(conn_id_1, conn_id_2) -> Array:
 	var block_1_1_index
 	var block_2_1_index
 	for l in loops_array:
+		print("loop ", l)
+		print("block_1_1 ", block_1_1)
+		print("block_2_1 ", block_2_1)
+		
 		block_1_1_index = l.find(block_1_1)
 		block_2_1_index = l.find(block_2_1)
-		if block_1_1_index != -1 and block_2_1_index != 1:
+		if block_1_1_index != -1 and block_2_1_index != -1:
 			loop = l
 			break
 	
@@ -538,7 +543,7 @@ func get_blocks_between(conn_id_1, conn_id_2) -> Array:
 		return conn_array
 	
 	var start_block
-	# we need to find out which blocks to include in return value based on order
+	# we need to find out which blocks to include in return array based on order
 	# for block 1
 	var next_index
 	if loop.size() - 1 == block_1_1_index:
@@ -561,8 +566,6 @@ func get_blocks_between(conn_id_1, conn_id_2) -> Array:
 	else:
 		end_block = block_2_1
 	
-#	print("start_block: ", start_block.name)
-#	print("end_block: ", end_block.name)
 	# now add all the blocks to conn_array, including start and end block
 	var running = true
 	var i = loop.find(start_block)

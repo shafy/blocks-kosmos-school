@@ -54,12 +54,12 @@ func handle_vm(conn_id : String):
 		var blocks_array = schematic.get_blocks_between(vm_conn_id_1, conn_id)
 		var pot_diff = calculate_pot_diff(blocks_array)
 		body_label.set_label_text(str(pot_diff, " V"))
-		vm_second_click = true
+		vm_second_click = false
 		vm_first_click = false
 		if measure_volt_sound:
 			measure_volt_sound.play()
 		emit_signal("volt_measured", pot_diff, blocks_array)
-	else:
+	elif !vm_first_click:
 		# first click
 		vm_first_click = true
 		vm_second_click = false
@@ -70,6 +70,8 @@ func handle_vm(conn_id : String):
 func calculate_pot_diff(blocks_array) -> float:
 	var pot_diff = 0.0
 	for block in blocks_array:
+		print("block name ", block.name)
+		print("block potential ", block.potential)
 		if block is VoltageSource and block.directional_polarity == SnapArea.Polarity.POSITIVE:
 			pot_diff += block.potential
 		else:
