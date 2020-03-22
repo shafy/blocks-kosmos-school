@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -16,30 +16,30 @@
 [ext_resource path="res://scripts/object_remover_system.gd" type="Script" id=14]
 [ext_resource path="res://scripts/challenge_system.gd" type="Script" id=15]
 [ext_resource path="res://scripts/objective.gd" type="Script" id=16]
-[ext_resource path="res://materials/dark_grey.tres" type="Material" id=17]
+[ext_resource path="res://shaders/unshaded_color.shader" type="Shader" id=17]
 [ext_resource path="res://scenes/text_label_2d.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scripts/welcome_controller.gd" type="Script" id=19]
 [ext_resource path="res://scripts/measure_point_system.gd" type="Script" id=20]
 [ext_resource path="res://materials/bright_yellow.tres" type="Material" id=21]
+[ext_resource path="res://materials/bright_black.tres" type="Material" id=22]
 [ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=23]
 [ext_resource path="res://sounds/Score Appears.wav" type="AudioStream" id=24]
 [ext_resource path="res://sounds/ElectricHum.wav" type="AudioStream" id=25]
 [ext_resource path="res://sounds/Button Click.wav" type="AudioStream" id=26]
 [ext_resource path="res://sounds/Magic Notes.wav" type="AudioStream" id=27]
 [ext_resource path="res://sounds/Trumpet Win.wav" type="AudioStream" id=28]
+[ext_resource path="res://materials/black.tres" type="Material" id=29]
+[ext_resource path="res://meshes/blocks_platform_3.mesh" type="ArrayMesh" id=30]
 
-[sub_resource type="Gradient" id=1]
-colors = PoolColorArray( 0.31064, 0.460685, 0.859375, 1, 1, 1, 1, 1 )
-
-[sub_resource type="GradientTexture" id=2]
-gradient = SubResource( 1 )
-
-[sub_resource type="PanoramaSky" id=3]
-panorama = SubResource( 2 )
+[sub_resource type="ProceduralSky" id=10]
+sky_top_color = Color( 0.972549, 0.792157, 0.670588, 1 )
+sky_horizon_color = Color( 0.568627, 0.72549, 0.839216, 1 )
+ground_bottom_color = Color( 0.568627, 0.839216, 0.796078, 1 )
+ground_horizon_color = Color( 0.568627, 0.72549, 0.839216, 1 )
 
 [sub_resource type="Environment" id=4]
 background_mode = 2
-background_sky = SubResource( 3 )
+background_sky = SubResource( 10 )
 
 [sub_resource type="Environment" id=5]
 background_energy = 0.0
@@ -50,11 +50,16 @@ glow_intensity = 0.1
 glow_bloom = 1.0
 glow_blend_mode = 1
 
-[sub_resource type="BoxShape" id=6]
-margin = 0.001
-extents = Vector3( 4.92786, 0.0379334, 4.98728 )
+[sub_resource type="BoxShape" id=9]
+extents = Vector3( 5, 0.11, 5 )
 
-[sub_resource type="CubeMesh" id=7]
+[sub_resource type="ShaderMaterial" id=11]
+shader = ExtResource( 17 )
+shader_param/color = Vector3( 1, 1, 1 )
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = ExtResource( 17 )
+shader_param/color = Vector3( 0.95, 0.95, 0.95 )
 
 [sub_resource type="CubeMesh" id=8]
 material = ExtResource( 21 )
@@ -133,6 +138,7 @@ stream = ExtResource( 28 )
 
 [node name="AudioStreamPlayer3DStarted" type="AudioStreamPlayer3D" parent="ChallengeSystem"]
 stream = ExtResource( 27 )
+unit_db = -5.0
 
 [node name="AudioStreamPlayer3DObjective" type="AudioStreamPlayer3D" parent="ChallengeSystem"]
 stream = ExtResource( 24 )
@@ -179,6 +185,11 @@ stream = ExtResource( 25 )
 
 [node name="Battery3V" parent="AllBuildingBlocks" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.680863, -0.594242 )
+collision_mask = 2
+mass = 0.1
+contacts_reported = 1
+contact_monitor = true
+linear_damp = 0.1
 
 [node name="Lamp5O" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.337576, 0.680863, -0.594242 )
@@ -192,14 +203,17 @@ collision_mask = 3
 mode = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="Table"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.206717, 0 )
-shape = SubResource( 6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.136178, 0 )
+shape = SubResource( 9 )
 
 [node name="TableMesh" type="MeshInstance" parent="Table"]
-transform = Transform( 5, 0, 0, 0, 0.1, 0, 0, 0, 5, 0, 0.145994, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.145994, 0 )
 use_in_baked_light = true
-mesh = SubResource( 7 )
-material/0 = ExtResource( 17 )
+mesh = ExtResource( 30 )
+material/0 = ExtResource( 22 )
+material/1 = SubResource( 11 )
+material/2 = SubResource( 12 )
+material/3 = ExtResource( 29 )
 
 [node name="SpaceText" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79502, -3.22103 )
