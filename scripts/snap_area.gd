@@ -23,6 +23,7 @@ var is_master := false
 var measure_point : Node
 var start_double_check = false
 var double_check_timer = 0.0
+var snap_particles_node
 
 var snapped := false setget , get_snapped
 var initial_grab := false setget set_initial_grab, get_initial_grab
@@ -71,6 +72,8 @@ func _ready():
 func _process(delta):
 	check_for_removal()
 	
+	update_particles_pos()
+	
 	if start_double_check:
 		double_check_timer += delta
 		
@@ -106,6 +109,7 @@ func _process(delta):
 	# snapping has started
 	if snapping:
 		vibrate_controller(false)
+		destroy_particles()
 		snap_to_block(snap_area_other_area)
 		snapping = false
 		initial_grab = false
@@ -138,6 +142,7 @@ func _on_Snap_Area_area_entered(area):
 		initial_grab = true
 		is_master = true
 		vibrate_controller(true)
+		spawn_particles()
 
 
 #func _on_Snap_Area_area_exited(area):
@@ -184,6 +189,7 @@ func check_for_removal():
 	
 	if is_master and !snapped:
 		vibrate_controller(false)
+		destroy_particles()
 	
 	# if distance is greater, remove
 	if snapped:
@@ -375,3 +381,30 @@ func vibrate_controller(vibrate : bool):
 		global_functions.vibrate_controller(0.3, current_controller)
 	else:
 		global_functions.stop_all_vibration()
+
+
+func spawn_particles():
+	if !snap_particles_node and parent_block.snap_particles_scene:
+		snap_particles_node = parent_block.snap_particles_scene.instance()
+		parent_block.add_child(snap_particles_node)
+
+
+func destroy_particles():
+	if snap_particles_node:
+		snap_particles_node.queue_free()
+		snap_particles_node = null
+
+
+# updates position of snap particles
+func update_particles_pos():
+	if !snap_particles_node or !is_instance_valid(snap_particles_node):
+		return
+	
+	if !snap_area_other_area:
+		return
+	
+	# position between the two snap areas
+	var other_origin = snap_area_other_area.global_transform.origin
+	var midway = global_transform.origin.linear_interpolate(other_origin, 0.5)
+	
+	snap_particles_node.global_transform.origin = midway

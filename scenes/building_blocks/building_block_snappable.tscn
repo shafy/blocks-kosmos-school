@@ -110,6 +110,9 @@ shape = SubResource( 3 )
 [node name="BlockLabel1" parent="." instance=ExtResource( 10 )]
 transform = Transform( 0.4, 0, 0, 0, -1.31134e-08, 1, 0, -0.3, -4.37114e-08, 0.082, 0.009, 0.02 )
 text = "5 Ω"
+margin = 16
+billboard = false
+resize_mode = 1
 font_size_multiplier = 5.0
 font_color = Color( 0.14902, 0.14902, 0.14902, 1 )
 background_color = Color( 0, 0, 0, 0 )
@@ -119,6 +122,9 @@ v_align = 1
 [node name="BlockLabel2" parent="." instance=ExtResource( 10 )]
 transform = Transform( -0.4, 9.77524e-08, 5.30863e-14, 0, -4.88762e-08, 1, 1.30337e-07, 0.3, 1.62921e-07, -0.081969, 0.009, -0.0201225 )
 text = "5 Ω"
+margin = 16
+billboard = false
+resize_mode = 1
 font_size_multiplier = 5.0
 font_color = Color( 0.15, 0.15, 0.15, 1 )
 background_color = Color( 0, 0, 0, 0 )

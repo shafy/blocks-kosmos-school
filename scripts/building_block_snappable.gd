@@ -10,6 +10,8 @@ signal block_snapped_updated
 var moving_to_snap := false setget set_moving_to_snap, get_moving_to_snap
 var snapped := false setget set_snapped, get_snapped
 
+export(PackedScene) var snap_particles_scene
+
 
 # setter and getter functions
 func set_moving_to_snap(new_value):

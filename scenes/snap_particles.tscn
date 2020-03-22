@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_unshaded = true
+params_billboard_mode = 1
+albedo_color = Color( 0.95, 0.95, 0.5, 1 )
+
+[sub_resource type="QuadMesh" id=2]
+material = SubResource( 1 )
+size = Vector2( 0.005, 0.005 )
+
+[node name="SnapParticles" type="Spatial"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0, 0, 0 )
+
+[node name="CPUParticles" type="CPUParticles" parent="."]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0, 0 )
+amount = 20
+lifetime = 0.1
+speed_scale = 0.15
+mesh = SubResource( 2 )
+emission_shape = 1
+emission_sphere_radius = 0.02
+spread = 30.0
+gravity = Vector3( 0, 0, 0 )
