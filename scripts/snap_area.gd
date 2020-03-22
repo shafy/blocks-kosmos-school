@@ -91,16 +91,6 @@ func _process(delta):
 	# we have to do this check because it's possible the other area was deleted in the meantime
 	if !is_instance_valid(snap_area_other_area):
 		return
-	
-	if parent_block.get_moving_to_snap() and !move_to_snap and !moving_connection_added:
-		# this happens when the area overlaps with another while being moved to snap
-		# but the movement has originated from another area from the same block
-		# therefore, don't move but just create connection in schematic
-#		connection_id = schematic_add_blocks(parent_block, polarity, connection_side, other_area_parent_block, snap_area_other_area.polarity, snap_area_other_area.connection_side)
-#		snap_area_other_area.connection_id = connection_id
-#		moving_connection_added = true
-#		spawn_measure_point()
-		pass
 
 
 	if !snapping and initial_grab and !parent_block.is_grabbed:
@@ -192,8 +182,8 @@ func check_for_removal():
 		destroy_particles()
 	
 	# if distance is greater, remove
-	if snapped:
-		#snap_area_other_area.unsnap()
+	if is_master and snapped:
+		snap_area_other_area.unsnap()
 		unsnap()
 	else:
 		snap_area_other_area = null
@@ -251,7 +241,7 @@ func unsnap():
 	emit_signal("area_unsnapped")
 
 
-# unsnaps this and the other block's snap arae
+# unsnaps this and the other block's snap area
 func unsnap_both():
 	if snap_area_other_area:
 		snap_area_other_area.unsnap()
