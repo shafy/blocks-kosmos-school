@@ -13,6 +13,7 @@ signal challenge_stopped
 var all_challenges
 var current_challenge
 var current_challenge_index = null
+var confetti_particles
 
 onready var ammeter_controller = get_node(global_vars.AMMETER_CONTR_PATH)
 onready var voltmeter_controller = get_node(global_vars.VOLTMETER_CONTR_PATH)
@@ -23,6 +24,9 @@ onready var schematic := get_node(global_vars.SCHEMATIC_PATH)
 onready var challenge_started_sound = $AudioStreamPlayer3DStarted
 onready var objective_completed_sound = $AudioStreamPlayer3DObjective
 onready var challenge_completed_sound = $AudioStreamPlayer3DCompleted
+onready var main_node = get_node("/root/Main")
+
+export(PackedScene) var confetti_particles_scene
 
 
 func _ready():
@@ -64,6 +68,7 @@ func challenge_completed():
 	emit_signal("challenge_completed", current_challenge_index)
 	if challenge_completed_sound:
 		challenge_completed_sound.play()
+	show_confetti()
 
 
 func start_challenge(challenge_index : int):
@@ -76,7 +81,9 @@ func start_challenge(challenge_index : int):
 	setup_tablet()
 	emit_signal("challenge_started", current_challenge_index)
 	if challenge_started_sound:
-		challenge_started_sound.play()	
+		challenge_started_sound.play()
+	hide_confetti()
+
 
 func stop_challenge(challenge_index : int):
 	tablet.clear_tablet()
@@ -118,3 +125,25 @@ func clear_table():
 	var all_measure_points_children = all_measure_points.get_children()
 	for mp in all_measure_points_children:
 		mp.queue_free()
+
+
+func show_confetti():
+	if !confetti_particles_scene:
+		return
+	
+	confetti_particles = confetti_particles_scene.instance()
+	main_node.add_child(confetti_particles)
+	confetti_particles.global_transform.origin = Vector3(0.16, 0.69, -0.5)
+	var confetti_particles_children = confetti_particles.get_children()
+	for cf in confetti_particles_children:
+		if cf is CPUParticles:
+			cf.set_emitting(true)
+
+
+func hide_confetti():
+	if !confetti_particles or !is_instance_valid(confetti_particles):
+		return
+	
+	confetti_particles.queue_free()
+	confetti_particles = null
+	

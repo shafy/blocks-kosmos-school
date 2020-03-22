@@ -529,10 +529,6 @@ func get_blocks_between(conn_id_1, conn_id_2) -> Array:
 	var block_1_1_index
 	var block_2_1_index
 	for l in loops_array:
-		print("loop ", l)
-		print("block_1_1 ", block_1_1)
-		print("block_2_1 ", block_2_1)
-		
 		block_1_1_index = l.find(block_1_1)
 		block_2_1_index = l.find(block_2_1)
 		if block_1_1_index != -1 and block_2_1_index != -1:
