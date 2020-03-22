@@ -323,7 +323,7 @@ var oculus_mobile_settings_cache = {
 	"tracking_space" : ovrVrApiTypes.OvrTrackingSpace.VRAPI_TRACKING_SPACE_LOCAL_FLOOR,
 	"default_layer_color_scale" : Color(1.0, 1.0, 1.0, 1.0),
 	"extra_latency_mode" : ovrVrApiTypes.OvrExtraLatencyMode.VRAPI_EXTRA_LATENCY_MODE_ON,
-	"foveation_level" : FoveatedRenderingLevel.Off,
+	"foveation_level" : FoveatedRenderingLevel.Low,
 	"swap_interval" : 1,
 	"clock_levels_cpu" : 2,
 	"clock_levels_gpu" : 2,
