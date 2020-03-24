@@ -15,3 +15,5 @@ export_presets.cfg
 android_debug.apk
 
 .DS_STORE
+
+release/
