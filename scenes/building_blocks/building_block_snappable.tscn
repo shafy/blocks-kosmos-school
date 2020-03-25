@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scripts/delete_bubble.gd" type="Script" id=1]
 [ext_resource path="res://scenes/measure_point.tscn" type="PackedScene" id=2]
@@ -19,8 +19,14 @@ margin = 0.001
 extents = Vector3( 0.0999421, 0.0736806, 0.0317375 )
 
 [sub_resource type="BoxShape" id=2]
+resource_local_to_scene = true
 margin = 0.005
-extents = Vector3( 0.015, 0.009, 0.02 )
+extents = Vector3( 0.007, 0.007, 0.007 )
+
+[sub_resource type="BoxShape" id=4]
+resource_local_to_scene = true
+margin = 0.005
+extents = Vector3( 0.015, 0.009, 0.04 )
 
 [sub_resource type="BoxShape" id=3]
 extents = Vector3( 0.02, 0.02, 0.02 )
@@ -48,14 +54,14 @@ material/6 = null
 material/7 = null
 
 [node name="SnapArea1" type="Area" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.07, -0.06, 0.046 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.073, -0.06, 0.035 )
 script = ExtResource( 8 )
 
 [node name="CollisionShape" type="CollisionShape" parent="SnapArea1"]
 shape = SubResource( 2 )
 
 [node name="SnapArea2" type="Area" parent="."]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.115808, -0.06, 8.45833e-10 )
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.107, -0.06, 0 )
 script = ExtResource( 8 )
 location_on_block = 1
 
@@ -63,14 +69,14 @@ location_on_block = 1
 shape = SubResource( 2 )
 
 [node name="SnapArea3" type="Area" parent="."]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.07, -0.06, -0.0455882 )
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.073, -0.06, -0.035 )
 script = ExtResource( 8 )
 
 [node name="CollisionShape" type="CollisionShape" parent="SnapArea3"]
 shape = SubResource( 2 )
 
 [node name="SnapArea4" type="Area" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0705971, -0.06, 0.0460517 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.073, -0.06, 0.035 )
 script = ExtResource( 8 )
 connection_side = 1
 
@@ -78,7 +84,7 @@ connection_side = 1
 shape = SubResource( 2 )
 
 [node name="SnapArea5" type="Area" parent="."]
-transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.116, -0.06, 0 )
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.107, -0.06, 0 )
 script = ExtResource( 8 )
 connection_side = 1
 location_on_block = 1
@@ -87,12 +93,50 @@ location_on_block = 1
 shape = SubResource( 2 )
 
 [node name="SnapArea6" type="Area" parent="."]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.07, -0.06, -0.0455882 )
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.073, -0.06, -0.035 )
 script = ExtResource( 8 )
 connection_side = 1
 
 [node name="CollisionShape" type="CollisionShape" parent="SnapArea6"]
 shape = SubResource( 2 )
+
+[node name="HeldSnapAreas" type="Spatial" parent="."]
+
+[node name="HeldSnapArea1" type="Area" parent="HeldSnapAreas"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.073, -0.06, 0.07 )
+
+[node name="CollisionShape" type="CollisionShape" parent="HeldSnapAreas/HeldSnapArea1"]
+shape = SubResource( 4 )
+
+[node name="HeldSnapArea2" type="Area" parent="HeldSnapAreas"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.139779, -0.06, -3.87414e-09 )
+
+[node name="CollisionShape" type="CollisionShape" parent="HeldSnapAreas/HeldSnapArea2"]
+shape = SubResource( 4 )
+
+[node name="HeldSnapArea3" type="Area" parent="HeldSnapAreas"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.073, -0.06, -0.07 )
+
+[node name="CollisionShape" type="CollisionShape" parent="HeldSnapAreas/HeldSnapArea3"]
+shape = SubResource( 4 )
+
+[node name="HeldSnapArea4" type="Area" parent="HeldSnapAreas"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.073, -0.06, 0.07 )
+
+[node name="CollisionShape" type="CollisionShape" parent="HeldSnapAreas/HeldSnapArea4"]
+shape = SubResource( 4 )
+
+[node name="HeldSnapArea5" type="Area" parent="HeldSnapAreas"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -0.14, -0.06, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="HeldSnapAreas/HeldSnapArea5"]
+shape = SubResource( 4 )
+
+[node name="HeldSnapArea6" type="Area" parent="HeldSnapAreas"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.073, -0.06, -0.07 )
+
+[node name="CollisionShape" type="CollisionShape" parent="HeldSnapAreas/HeldSnapArea6"]
+shape = SubResource( 4 )
 
 [node name="MeasurePoint" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0 )
