@@ -58,6 +58,8 @@ func _process(delta):
 	if snapping:
 		vibrate_controller(false)
 		destroy_particles()
+		if magnet_hum_sound:
+			magnet_hum_sound.stop()
 		snapping = false
 		parent_block.snap_to_block(self, snap_area_other_area)
 

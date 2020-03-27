@@ -147,7 +147,7 @@ func snap_to_block(this_snap_area: Area, other_snap_area: Area):
 	var other_snap_area_extents = other_snap_area.get_node("CollisionShape").shape.extents
 
 	var move_by_vec = other_snap_area.global_transform.origin - this_snap_area.global_transform.origin
-	move_by_vec -= other_snap_area.global_transform.basis.z.normalized() * (this_snap_area_extents.z - 0.002)
+	move_by_vec -= other_snap_area.global_transform.basis.z.normalized() * (this_snap_area_extents.z - 0.001)
 	global_transform.origin += move_by_vec
 
 	# assign back
