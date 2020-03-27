@@ -41,7 +41,8 @@ func _ready():
 
 
 func _process(delta):
-#	check_for_removal()
+	check_for_removal()
+	
 	if !snap_area_other_area:
 		return
 	
@@ -117,9 +118,33 @@ func _on_Held_Snap_Area_area_entered(area):
 
 
 func _on_Held_Snap_Area_area_exited(area):
-	if !area.is_class("SnapArea"):
+	pass
+#	if !area.is_class("SnapArea"):
+#		return
+#
+#	vibrate_controller(false)
+#	destroy_particles()
+#	if magnet_hum_sound:
+#		magnet_hum_sound.stop()
+#
+#	snap_area_other_area = null
+#	other_area_parent_block = null
+#	overlapping = false
+#	parent_block.update_overlapping()
+
+
+func check_for_removal():
+	if !snap_area_other_area:
 		return
-		
+	
+	# we have to do this check because it's possible the other area was deleted in the meantime
+	if !is_instance_valid(snap_area_other_area):
+		return
+
+	
+	if other_area_distance() < 0.05:
+		return
+	
 	vibrate_controller(false)
 	destroy_particles()
 	if magnet_hum_sound:
@@ -133,7 +158,6 @@ func _on_Held_Snap_Area_area_exited(area):
 
 func other_area_distance() -> float:
 	return get_global_transform().origin.distance_to(snap_area_other_area.get_global_transform().origin)
-
 
 
 func vibrate_controller(vibrate : bool):
