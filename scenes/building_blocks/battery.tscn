@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/building_blocks/building_block_snappable.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/voltage_source.gd" type="Script" id=2]
@@ -19,8 +19,13 @@ margin = 0.001
 extents = Vector3( 0.105877, 0.0269744, 0.0317375 )
 
 [sub_resource type="BoxShape" id=2]
+margin = 0.002
+extents = Vector3( 0.007, 0.007, 0.007 )
+
+[sub_resource type="BoxShape" id=3]
+resource_local_to_scene = true
 margin = 0.005
-extents = Vector3( 0.015, 0.009, 0.02 )
+extents = Vector3( 0.015, 0.009, 0.04 )
 
 [node name="Battery" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -45,49 +50,85 @@ material/8 = ExtResource( 11 )
 material/9 = ExtResource( 10 )
 
 [node name="SnapArea1" parent="." index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.073, 0.005, 0.046 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.073, 0.005, 0.035 )
 polarity = 2
 
 [node name="CollisionShape" parent="SnapArea1" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea2" parent="." index="3"]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.12, 0.005, 0 )
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.107, 0.005, 0 )
 polarity = 2
 
 [node name="CollisionShape" parent="SnapArea2" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea3" parent="." index="4"]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.073, 0.005, -0.046 )
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.073, 0.005, -0.035 )
 polarity = 2
 
 [node name="CollisionShape" parent="SnapArea3" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea4" parent="." index="5"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0727146, 0.005, 0.0471112 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.073, 0.005, 0.035 )
 polarity = 1
 
 [node name="CollisionShape" parent="SnapArea4" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea5" parent="." index="6"]
-transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.120016, 0.005, 4.25186e-08 )
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.107, 0.005, 0 )
 polarity = 1
 
 [node name="CollisionShape" parent="SnapArea5" index="0"]
 shape = SubResource( 2 )
 
 [node name="SnapArea6" parent="." index="7"]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.073, 0.005, -0.046 )
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.073, 0.005, -0.035 )
 polarity = 1
 
 [node name="CollisionShape" parent="SnapArea6" index="0"]
 shape = SubResource( 2 )
 
-[node name="BlockLabel1" parent="." index="10"]
+[node name="HeldSnapArea1" parent="HeldSnapAreas" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.073, 0.005, 0.07 )
+
+[node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea1" index="0"]
+shape = SubResource( 3 )
+
+[node name="HeldSnapArea2" parent="HeldSnapAreas" index="1"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.139779, 0.005, -3.87414e-09 )
+
+[node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea2" index="0"]
+shape = SubResource( 3 )
+
+[node name="HeldSnapArea3" parent="HeldSnapAreas" index="2"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.073, 0.005, -0.07 )
+
+[node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea3" index="0"]
+shape = SubResource( 3 )
+
+[node name="HeldSnapArea4" parent="HeldSnapAreas" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.073, 0.005, 0.07 )
+
+[node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea4" index="0"]
+shape = SubResource( 3 )
+
+[node name="HeldSnapArea5" parent="HeldSnapAreas" index="4"]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.14, 0.005, 0 )
+
+[node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea5" index="0"]
+shape = SubResource( 3 )
+
+[node name="HeldSnapArea6" parent="HeldSnapAreas" index="5"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.073, 0.005, -0.07 )
+
+[node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea6" index="0"]
+shape = SubResource( 3 )
+
+[node name="BlockLabel1" parent="." index="11"]
 text = "9 V"
 
-[node name="BlockLabel2" parent="." index="11"]
+[node name="BlockLabel2" parent="." index="12"]
 text = "9 V"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scripts/delete_bubble.gd" type="Script" id=1]
 [ext_resource path="res://scenes/measure_point.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://scenes/text_label_2d.tscn" type="PackedScene" id=10]
 [ext_resource path="res://sounds/ElectricLightHum_short.wav" type="AudioStream" id=11]
 [ext_resource path="res://sounds/Magnet Click 1.wav" type="AudioStream" id=12]
+[ext_resource path="res://scripts/held_snap_area.gd" type="Script" id=13]
 
 [sub_resource type="BoxShape" id=1]
 resource_local_to_scene = true
@@ -104,36 +105,44 @@ shape = SubResource( 2 )
 
 [node name="HeldSnapArea1" type="Area" parent="HeldSnapAreas"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.073, -0.06, 0.07 )
+script = ExtResource( 13 )
 
 [node name="CollisionShape" type="CollisionShape" parent="HeldSnapAreas/HeldSnapArea1"]
 shape = SubResource( 4 )
 
 [node name="HeldSnapArea2" type="Area" parent="HeldSnapAreas"]
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.139779, -0.06, -3.87414e-09 )
+script = ExtResource( 13 )
+location_on_block = 1
 
 [node name="CollisionShape" type="CollisionShape" parent="HeldSnapAreas/HeldSnapArea2"]
 shape = SubResource( 4 )
 
 [node name="HeldSnapArea3" type="Area" parent="HeldSnapAreas"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.073, -0.06, -0.07 )
+transform = Transform( -1, 0, 3.25841e-07, 0, 1, 0, -3.25841e-07, 0, -1, 0.073, -0.06, -0.07 )
+script = ExtResource( 13 )
 
 [node name="CollisionShape" type="CollisionShape" parent="HeldSnapAreas/HeldSnapArea3"]
 shape = SubResource( 4 )
 
 [node name="HeldSnapArea4" type="Area" parent="HeldSnapAreas"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.073, -0.06, 0.07 )
+script = ExtResource( 13 )
 
 [node name="CollisionShape" type="CollisionShape" parent="HeldSnapAreas/HeldSnapArea4"]
 shape = SubResource( 4 )
 
 [node name="HeldSnapArea5" type="Area" parent="HeldSnapAreas"]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -0.14, -0.06, 0 )
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.14, -0.06, 0 )
+script = ExtResource( 13 )
+location_on_block = 1
 
 [node name="CollisionShape" type="CollisionShape" parent="HeldSnapAreas/HeldSnapArea5"]
 shape = SubResource( 4 )
 
 [node name="HeldSnapArea6" type="Area" parent="HeldSnapAreas"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.073, -0.06, -0.07 )
+transform = Transform( -1, 0, 3.25841e-07, 0, 1, 0, -3.25841e-07, 0, -1, -0.073, -0.06, -0.07 )
+script = ExtResource( 13 )
 
 [node name="CollisionShape" type="CollisionShape" parent="HeldSnapAreas/HeldSnapArea6"]
 shape = SubResource( 4 )

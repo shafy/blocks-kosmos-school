@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://materials/light_grey.tres" type="Material" id=1]
 [ext_resource path="res://scenes/building_blocks/building_block_snappable.tscn" type="PackedScene" id=2]
@@ -23,6 +23,11 @@ margin = 0.005
 extents = Vector3( 0.015, 0.009, 0.02 )
 
 [sub_resource type="BoxShape" id=3]
+resource_local_to_scene = true
+margin = 0.005
+extents = Vector3( 0.015, 0.009, 0.04 )
+
+[sub_resource type="BoxShape" id=4]
 margin = 0.001
 extents = Vector3( 0.0116968, 0.007766, 0.00807243 )
 
@@ -79,6 +84,42 @@ transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.073,
 [node name="CollisionShape" parent="SnapArea6" index="0"]
 shape = SubResource( 2 )
 
+[node name="HeldSnapArea1" parent="HeldSnapAreas" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.073, 0.005, 0.07 )
+
+[node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea1" index="0"]
+shape = SubResource( 3 )
+
+[node name="HeldSnapArea2" parent="HeldSnapAreas" index="1"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.139779, 0.005, -3.87414e-09 )
+
+[node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea2" index="0"]
+shape = SubResource( 3 )
+
+[node name="HeldSnapArea3" parent="HeldSnapAreas" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.073, 0.005, -0.07 )
+
+[node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea3" index="0"]
+shape = SubResource( 3 )
+
+[node name="HeldSnapArea4" parent="HeldSnapAreas" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.073, 0.005, 0.07 )
+
+[node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea4" index="0"]
+shape = SubResource( 3 )
+
+[node name="HeldSnapArea5" parent="HeldSnapAreas" index="4"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -0.14, 0.005, 0 )
+
+[node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea5" index="0"]
+shape = SubResource( 3 )
+
+[node name="HeldSnapArea6" parent="HeldSnapAreas" index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.073, 0.005, -0.07 )
+
+[node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea6" index="0"]
+shape = SubResource( 3 )
+
 [node name="RotatableHandle" type="Spatial" parent="." index="9"]
 transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.0253906, 0.0364989, 0 )
 
@@ -100,10 +141,10 @@ max_rotation_x_upper = 50.0
 
 [node name="CollisionShape" type="CollisionShape" parent="RotatableHandle/RotatableArea" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0721777, 7.41482e-05, 0 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
-[node name="BlockLabel1" parent="." index="11"]
+[node name="BlockLabel1" parent="." index="12"]
 visible = false
 
-[node name="BlockLabel2" parent="." index="12"]
+[node name="BlockLabel2" parent="." index="13"]
 visible = false
