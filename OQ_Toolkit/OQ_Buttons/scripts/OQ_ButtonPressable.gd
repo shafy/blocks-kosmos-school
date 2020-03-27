@@ -14,6 +14,7 @@ var button_half_length_vector
 var hand_pos: Vector3
 var prev_hand_pos: Vector3
 var dist := 0.0
+var total_dist := 0.0
 var lerp_weight: float
 var start_time := 0.0
 var speed := 2.0
@@ -63,12 +64,19 @@ func _process(delta):
 		
 		var hand_pos_change_z_component = hand_pos_change.slide(button_forward_vector_norm)
 		dist = hand_pos_change_z_component.length()
+		
+		if abs(dist) < 0.0005:
+			return
+		
 		var new_origin = Vector3(initial_pos_local.x, initial_pos_local.y, transform.origin.z - dist)
 		
 		# only keep pushing back until press_distance is reached
-		if initial_pos_local.z - new_origin.z < press_distance:
+		var total_dist = initial_pos_local.z - new_origin.z
+		if total_dist < press_distance:
 			transform.origin = new_origin
-		elif !triggering:
+		elif total_dist > press_distance and !triggering:
+			total_dist = initial_pos_local.z - press_distance
+			transform.origin = Vector3(initial_pos_local.x, initial_pos_local.y, initial_pos_local.z - total_dist)
 			# trigger button press
 			triggering = true
 			button_press(hand_area)
@@ -77,19 +85,21 @@ func _process(delta):
 
 	elif !at_default_pos:
 		# if not touching and not at default pos, bring back to default pos
-		lerp_weight = start_time / speed
-		var move_by = lerp(dist, 0, lerp_weight)
+		lerp_weight = start_time * speed
+#		var move_by = lerp(dist, 0, lerp_weight)
+		var move_by = lerp(total_dist, 0, lerp_weight)
 		
-		var new_origin = Vector3(initial_pos_local.x, initial_pos_local.y, initial_pos_local.z + move_by)
+		var new_origin = Vector3(initial_pos_local.x, initial_pos_local.y, initial_pos_local.z - move_by)
 		
 		transform.origin = new_origin
 		
 		start_time += delta
 		
-		if lerp_weight > 0:
+		if lerp_weight > 1:
 			start_time = 0.0
 			at_default_pos = true
 			triggering = false
+			transform.origin = initial_pos_local
 
 
 func _on_ButtonArea_area_entered(area):
