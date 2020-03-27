@@ -8,7 +8,7 @@
 [sub_resource type="BoxShape" id=1]
 resource_local_to_scene = true
 margin = 0.001
-extents = Vector3( 0.0193791, 0.0199192, 0.00566161 )
+extents = Vector3( 0.0333519, 0.0199192, 0.00566161 )
 
 [node name="KSButtonPressableWide" instance=ExtResource( 1 )]
 
