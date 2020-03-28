@@ -4,7 +4,7 @@ extends Spatial
 class_name MeasurePoint
 
 
-var connection_id : String setget set_connection_id, get_connection_id
+var connection_ids : Array setget set_connection_ids, get_connection_ids
 var parent_block : BuildingBlock
 
 onready var ammeter_controller := get_node(global_vars.AMMETER_CONTR_PATH)
@@ -17,12 +17,12 @@ enum MeasurePointType {CONNECTION, BLOCK}
 export (MeasurePointType) var measure_point_type = MeasurePointType.CONNECTION setget set_measure_point_type, get_measure_point_type
 
 
-func set_connection_id(new_value):
-	connection_id = new_value
+func set_connection_ids(new_value):
+	connection_ids = new_value
 
 
-func get_connection_id():
-	return connection_id
+func get_connection_ids():
+	return connection_ids
 
 
 func set_measure_point_type(new_value):
@@ -69,8 +69,14 @@ func _on_Voltmeter_Controller_voltmeter_unselected():
 		visible = false
 
 
-#func _on_Controller_System_controller_type_changed():
-#	visible = false
+func add_connection_id(new_id: String) -> void:
+	if !connection_ids.has(new_id):
+		connection_ids.append(new_id)
+
+
+func remove_connection_id(old_id: String) -> void:
+	if connection_ids.has(old_id):
+		connection_ids.erase(old_id)
 
 
 func get_current() -> float:

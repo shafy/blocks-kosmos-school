@@ -18,18 +18,13 @@ var snap_end_transform : Transform
 var interpolation_progress : float
 var moving_connection_added := false
 var is_master := false
-var measure_point : Node
 var start_double_check = false
 var double_check_timer = 0.0
 var snap_particles_node
-
 var snapped := false setget , get_snapped
 
 onready var parent_block := get_parent()
 onready var schematic := get_node(global_vars.SCHEMATIC_PATH) 
-onready var all_measure_points := get_node(global_vars.ALL_MEASURE_POINTS_PATH)
-onready var measure_point_scene = load(global_vars.MEASURE_POINT_FILE_PATH)
-
 
 enum Polarity {UNDEFINED, POSITIVE, NEGATIVE}
 export (Polarity) var polarity
@@ -86,7 +81,12 @@ func check_for_removal():
 
 func unsnap():
 	if is_master:
-		destroy_measure_point()
+		parent_block.destroy_measure_point(
+			connection_side,
+			connection_id,
+			other_area_parent_block,
+			snap_area_other_area.connection_side
+		)
 		schematic_remove_connection()
 	is_master = false
 	snapped = false
@@ -136,7 +136,12 @@ func double_check_snap() -> void:
 			overlapping_area.other_area_parent_block = get_parent()
 			is_master = true
 			setup_connection(overlapping_area)
-			spawn_measure_point()
+			parent_block.spawn_measure_point(
+				connection_side,
+				connection_id,
+				other_area_parent_block,
+				overlapping_area.connection_side
+			)
 			emit_signal("area_snapped")
 
 
@@ -172,24 +177,32 @@ func schematic_remove_connection():
 	schematic.loop_current_method()
 
 
-# creates a measure point on top of this connection
-func spawn_measure_point():
-	# instance scene and create node
-	measure_point = measure_point_scene.instance()
-	all_measure_points.add_child(measure_point)
-	
-	# place it
-	var move_by = Vector3(0, 0.15, 0)
-	var extents = get_node("CollisionShape").shape.extents
-	move_by -= global_transform.basis.z.normalized() * extents
-	measure_point.global_transform.origin = global_transform.origin + move_by
-	
-	# update connection_id
-	measure_point.set_measure_point_type(MeasurePoint.MeasurePointType.CONNECTION)
-	measure_point.set_connection_id(connection_id)
+# creates a measure point for voltage on top of this connection
+#func spawn_measure_point():
+#	# check if there's already a measure point
+#	var existing_mp
+#	if connection_side == ConnectionSide.A:
+#		existing_mp = parent_block.get_volt_measure_point_a()
+#	else:
+#		existing_mp = parent_block.get_volt_measure_point_b()
+#
+#	if !existing_mp:
+#		# instance scene and create node
+#		measure_point = measure_point_scene.instance()
+#		all_measure_points.add_child(measure_point)
+#
+#	# place it
+#	var move_by = Vector3(0, 0.15, 0)
+#	var extents = get_node("CollisionShape").shape.extents
+#	move_by -= global_transform.basis.z.normalized() * extents
+#	measure_point.global_transform.origin = global_transform.origin + move_by
+#
+#	# update connection_id
+#	measure_point.set_measure_point_type(MeasurePoint.MeasurePointType.CONNECTION)
+#	measure_point.set_connection_id(connection_id)
 
 
-func destroy_measure_point():
-	if measure_point:
-		measure_point.queue_free()
-		measure_point = null
+#func destroy_measure_point():
+#	if measure_point:
+#		measure_point.queue_free()
+#		measure_point = null

@@ -186,7 +186,12 @@ linear_damp = 0.1
 
 [node name="Lamp5O" parent="AllBuildingBlocks" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.337576, 0.680863, -0.594242 )
+collision_mask = 2
+mass = 0.1
 physics_material_override = SubResource( 4 )
+contacts_reported = 1
+contact_monitor = true
+linear_damp = 0.1
 
 [node name="AllMeasurePoints" type="Spatial" parent="."]
 script = ExtResource( 20 )

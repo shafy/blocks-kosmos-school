@@ -15,11 +15,15 @@ var snap_timer := 0.0
 var snap_start_transform : Transform
 var snap_end_transform : Transform
 var interpolation_progress : float
+var volt_measure_points : Dictionary
+
 
 onready var held_snap_areas = $HeldSnapAreas
 onready var held_snap_areas_children = held_snap_areas.get_children()
 onready var all_children = get_children()
 onready var snap_sound := $AudioStreamPlayer3DSnap
+onready var all_measure_points := get_node(global_vars.ALL_MEASURE_POINTS_PATH)
+onready var measure_point_scene = load(global_vars.MEASURE_POINT_FILE_PATH)
 
 export(PackedScene) var snap_particles_scene
 
@@ -189,3 +193,68 @@ func update_overlapping():
 				break
 	
 	overlapping = overlapping_status
+
+
+func spawn_measure_point(
+	connection_side : int,
+	connection_id : String,
+	other_block : BuildingBlockSnappable,
+	other_connection_side: int
+) -> void:
+	
+	# check if there's already a measure point in this block
+	if volt_measure_points.has(connection_side):
+		# if yes, add connection id
+		volt_measure_points[connection_side].add_connection_id(connection_id)
+		return
+	
+	# or the other block
+	if other_block.volt_measure_points.has(other_connection_side):
+		volt_measure_points[connection_side] = other_block.volt_measure_points[other_connection_side]
+		volt_measure_points[connection_side].add_connection_id(connection_id)
+		return
+	
+	# if not, create a new one
+	var current_mp = measure_point_scene.instance()
+	all_measure_points.add_child(current_mp)
+	volt_measure_points[connection_side] = current_mp
+	
+	# place it
+	var move_by = Vector3(0, 0.15, 0)
+	var extents = get_node("CollisionShape").shape.extents
+	move_by -= global_transform.basis.z.normalized() * extents
+	current_mp.global_transform.origin = global_transform.origin + move_by
+	
+	# update connection_id
+	current_mp.set_measure_point_type(MeasurePoint.MeasurePointType.CONNECTION)
+	current_mp.add_connection_id(connection_id)
+	
+	# add reference to other block, too
+	other_block.add_measure_point_ref(other_connection_side, current_mp)
+
+
+# called after the other block spawned the measure point
+func add_measure_point_ref(connection_side : int, measure_point: MeasurePoint) -> void:
+	volt_measure_points[connection_side] = measure_point
+
+
+func destroy_measure_point(
+	connection_side : int,
+	connection_id : String,
+	other_block : BuildingBlockSnappable,
+	other_connection_side: int
+):
+	
+	# destroy if one connection id, else remove connection id
+	if !volt_measure_points.has(connection_side):
+		print("Wanted to destroy measure point, but none found")
+		return
+	
+	var current_mp = volt_measure_points[connection_side]
+	
+	if current_mp.connection_ids.size() > 1:
+		current_mp.remove_connection_id(connection_id)
+	else:
+		current_mp.queue_free()
+		volt_measure_points.erase(connection_side)
+		other_block.volt_measure_points.erase(other_connection_side)
