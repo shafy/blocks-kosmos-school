@@ -70,11 +70,8 @@ func _process(delta):
 	elif !is_grabbed and !overlapping:
 		show_held_snap_areas(false)
 	
-	
 	if moving_to_snap:
-		overlapping = false
 		update_pos_to_snap(delta)
-		show_held_snap_areas(false)
 
 
 func _on_SnapArea_area_snapped():
@@ -161,6 +158,8 @@ func snap_to_block(this_snap_area: Area, other_snap_area: Area):
 	set_mode(RigidBody.MODE_KINEMATIC)
 #	move_to_snap = true
 	moving_to_snap = true
+	overlapping = false
+	show_held_snap_areas(false)
 
 
 # snaps to the other block over time, updating position and rotation
@@ -221,14 +220,9 @@ func spawn_measure_point(
 	var current_mp = measure_point_scene.instance()
 	all_measure_points.add_child(current_mp)
 	volt_measure_points[connection_side] = current_mp
-	
-	# place it
-#	var move_by = Vector3(snap_area_pos.x, 0.15, )
-#	var extents = get_node("CollisionShape").shape.extents
-#	move_by -= global_transform.basis.z.normalized() * extents
-#	current_mp.global_transform.origin = global_transform.origin + move_by
 
 	current_mp.global_transform.origin = snap_area_pos + Vector3(0, 0.15, 0)
+	current_mp.global_transform.basis = global_transform.basis
 			
 	# update connection_id
 	current_mp.set_measure_point_type(MeasurePoint.MeasurePointType.CONNECTION)

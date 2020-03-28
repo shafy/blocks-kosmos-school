@@ -31,13 +31,13 @@ func is_class(type):
 
 func _ready():
 	connect("area_entered", self, "_on_Held_Snap_Area_area_entered")
-	connect("area_exited", self, "_on_Held_Snap_Area_area_exited")
 	connect("visibility_changed", self, "_on_Held_Snap_Area_visibility_changed")
 	
 	if !is_visible_in_tree():
 		set_process(false)
 		set_physics_process(false)
 		set_monitoring(false)
+		set_monitorable(false)
 
 
 func _process(delta):
@@ -70,11 +70,12 @@ func _on_Held_Snap_Area_visibility_changed():
 		set_process(false)
 		set_physics_process(false)
 		set_monitoring(false)
-		pass
+		set_monitorable(false)
 	else:
 		set_process(true)
 		set_physics_process(true)
 		set_monitoring(true)
+		set_monitorable(true)
 
 
 func _on_Held_Snap_Area_area_entered(area):
@@ -117,22 +118,6 @@ func _on_Held_Snap_Area_area_entered(area):
 	spawn_particles()
 	if magnet_hum_sound:
 		magnet_hum_sound.play()
-
-
-func _on_Held_Snap_Area_area_exited(area):
-	pass
-#	if !area.is_class("SnapArea"):
-#		return
-#
-#	vibrate_controller(false)
-#	destroy_particles()
-#	if magnet_hum_sound:
-#		magnet_hum_sound.stop()
-#
-#	snap_area_other_area = null
-#	other_area_parent_block = null
-#	overlapping = false
-#	parent_block.update_overlapping()
 
 
 func check_for_removal():

@@ -10,17 +10,11 @@ signal area_unsnapped
 var snap_area_other_area : Area
 var other_area_parent_block
 var connection_id : String
-var snapping := false
 var snap_speed := 10.0
 var snap_timer := 0.0
-var snap_start_transform : Transform
-var snap_end_transform : Transform
-var interpolation_progress : float
-var moving_connection_added := false
 var is_master := false
 var start_double_check = false
 var double_check_timer = 0.0
-var snap_particles_node
 var snapped := false setget , get_snapped
 
 onready var parent_block := get_parent()
@@ -45,7 +39,9 @@ func is_class(type):
 
 func _process(delta):
 	check_for_removal()
-	
+
+
+func _physics_process(delta):
 	if start_double_check:
 		double_check_timer += delta
 		
@@ -93,7 +89,6 @@ func unsnap():
 	snap_area_other_area = null
 	other_area_parent_block = null
 	connection_id = ""
-	moving_connection_added = false
 	emit_signal("area_unsnapped")
 
 
@@ -123,11 +118,12 @@ func start_double_check_snap():
 
 func double_check_snap() -> void:
 	var overlapping_areas = get_overlapping_areas()
+	
 	for overlapping_area in overlapping_areas:
 		if !(overlapping_area as SnapArea):
 			return
 		
-		if !overlapping_area.get_snapped() or !overlapping_area.get_move_to_snap():
+		if !overlapping_area.get_snapped():
 			snapped = true
 			overlapping_area.snapped = true
 			snap_area_other_area = overlapping_area
