@@ -140,7 +140,8 @@ func double_check_snap() -> void:
 				connection_side,
 				connection_id,
 				other_area_parent_block,
-				overlapping_area.connection_side
+				overlapping_area.connection_side,
+				global_transform.origin
 			)
 			emit_signal("area_snapped")
 
@@ -175,34 +176,3 @@ func schematic_add_blocks(
 func schematic_remove_connection():
 	schematic.remove_connection(connection_id)
 	schematic.loop_current_method()
-
-
-# creates a measure point for voltage on top of this connection
-#func spawn_measure_point():
-#	# check if there's already a measure point
-#	var existing_mp
-#	if connection_side == ConnectionSide.A:
-#		existing_mp = parent_block.get_volt_measure_point_a()
-#	else:
-#		existing_mp = parent_block.get_volt_measure_point_b()
-#
-#	if !existing_mp:
-#		# instance scene and create node
-#		measure_point = measure_point_scene.instance()
-#		all_measure_points.add_child(measure_point)
-#
-#	# place it
-#	var move_by = Vector3(0, 0.15, 0)
-#	var extents = get_node("CollisionShape").shape.extents
-#	move_by -= global_transform.basis.z.normalized() * extents
-#	measure_point.global_transform.origin = global_transform.origin + move_by
-#
-#	# update connection_id
-#	measure_point.set_measure_point_type(MeasurePoint.MeasurePointType.CONNECTION)
-#	measure_point.set_connection_id(connection_id)
-
-
-#func destroy_measure_point():
-#	if measure_point:
-#		measure_point.queue_free()
-#		measure_point = null

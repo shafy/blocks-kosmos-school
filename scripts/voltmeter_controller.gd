@@ -32,7 +32,7 @@ func _on_right_ARVRController_button_pressed(button_number):
 		if !(area_parent is MeasurePoint):
 			continue
 		
-		handle_vm(area_parent.connection_id)
+		handle_vm(area_parent.connection_ids[0])
 
 
 # override parent

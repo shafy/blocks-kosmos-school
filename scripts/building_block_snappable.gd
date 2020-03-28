@@ -199,19 +199,22 @@ func spawn_measure_point(
 	connection_side : int,
 	connection_id : String,
 	other_block : BuildingBlockSnappable,
-	other_connection_side: int
+	other_connection_side: int,
+	snap_area_pos : Vector3
 ) -> void:
 	
 	# check if there's already a measure point in this block
 	if volt_measure_points.has(connection_side):
 		# if yes, add connection id
 		volt_measure_points[connection_side].add_connection_id(connection_id)
+		update_measure_point_pos(connection_side, snap_area_pos)
 		return
 	
 	# or the other block
 	if other_block.volt_measure_points.has(other_connection_side):
 		volt_measure_points[connection_side] = other_block.volt_measure_points[other_connection_side]
 		volt_measure_points[connection_side].add_connection_id(connection_id)
+		update_measure_point_pos(connection_side, snap_area_pos)
 		return
 	
 	# if not, create a new one
@@ -220,11 +223,13 @@ func spawn_measure_point(
 	volt_measure_points[connection_side] = current_mp
 	
 	# place it
-	var move_by = Vector3(0, 0.15, 0)
-	var extents = get_node("CollisionShape").shape.extents
-	move_by -= global_transform.basis.z.normalized() * extents
-	current_mp.global_transform.origin = global_transform.origin + move_by
-	
+#	var move_by = Vector3(snap_area_pos.x, 0.15, )
+#	var extents = get_node("CollisionShape").shape.extents
+#	move_by -= global_transform.basis.z.normalized() * extents
+#	current_mp.global_transform.origin = global_transform.origin + move_by
+
+	current_mp.global_transform.origin = snap_area_pos + Vector3(0, 0.15, 0)
+			
 	# update connection_id
 	current_mp.set_measure_point_type(MeasurePoint.MeasurePointType.CONNECTION)
 	current_mp.add_connection_id(connection_id)
@@ -247,7 +252,7 @@ func destroy_measure_point(
 	
 	# destroy if one connection id, else remove connection id
 	if !volt_measure_points.has(connection_side):
-		print("Wanted to destroy measure point, but none found")
+		print("Wanted to destroy Measure Point, but none found")
 		return
 	
 	var current_mp = volt_measure_points[connection_side]
@@ -258,3 +263,11 @@ func destroy_measure_point(
 		current_mp.queue_free()
 		volt_measure_points.erase(connection_side)
 		other_block.volt_measure_points.erase(other_connection_side)
+
+
+func update_measure_point_pos(connection_side : int, snap_area_pos : Vector3):
+	if !volt_measure_points.has(connection_side):
+		return
+	var old_pos = volt_measure_points[connection_side].global_transform.origin
+	var new_pos = lerp(old_pos, snap_area_pos + Vector3(0, 0.15, 0), 0.5)
+	volt_measure_points[connection_side].global_transform.origin = new_pos
