@@ -39,9 +39,7 @@ func is_class(type):
 
 func _process(delta):
 	check_for_removal()
-
-
-func _physics_process(delta):
+	
 	if start_double_check:
 		double_check_timer += delta
 		
@@ -121,7 +119,7 @@ func double_check_snap() -> void:
 	
 	for overlapping_area in overlapping_areas:
 		if !(overlapping_area as SnapArea):
-			return
+			continue
 		
 		if !overlapping_area.get_snapped():
 			snapped = true
