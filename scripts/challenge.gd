@@ -13,11 +13,16 @@ export var batteries_9v := -1
 export var switches := -1
 export var wires := -1
 
-onready var objectives = get_children() setget , get_objectives
+onready var objectives = get_node("Objectives").get_children() setget , get_objectives
+onready var hints = get_node("Hints").get_children() setget , get_hints
 
 
 func get_objectives():
 	return objectives
+
+
+func get_hints():
+	return hints
 
 
 # checks if objective is hit, if yes, updates it and returns bool
