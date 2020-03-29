@@ -1,7 +1,7 @@
 extends Node
 
 
-# logic for challenges
+# logic for challenges and hints
 class_name ChallengeSystem
 
 
@@ -26,6 +26,7 @@ onready var objective_completed_sound = $AudioStreamPlayer3DObjective
 onready var challenge_completed_sound = $AudioStreamPlayer3DCompleted
 onready var main_node = get_node("/root/Main")
 
+
 export(PackedScene) var confetti_particles_scene
 
 
@@ -35,7 +36,7 @@ func _ready():
 	voltmeter_controller.connect("volt_measured", self, "_on_Measure_Controller_volt_measured")
 	
 	all_challenges = get_children()
-
+	
 
 func _on_Measure_Controller_ampere_measured(measure_point):
 	if current_challenge:
@@ -78,11 +79,13 @@ func start_challenge(challenge_index : int):
 	current_challenge_index = challenge_index
 	current_challenge.reset_objectives()
 	
+	
 	setup_tablet()
 	emit_signal("challenge_started", current_challenge_index)
 	if challenge_started_sound:
 		challenge_started_sound.play()
 	hide_confetti()
+	
 
 
 func stop_challenge(challenge_index : int):
@@ -100,6 +103,14 @@ func challenge_objectives(challenge_index : int) -> Array:
 	return []
 
 
+# returns challenge hints for current challenge
+func challenge_hints():
+	if current_challenge:
+		return current_challenge.get_hints()
+	
+	return []
+	
+	
 # puts correct number of blöcks on tablet for the current challenge
 func setup_tablet():
 	var current_setup = {
@@ -111,6 +122,7 @@ func setup_tablet():
 		"Wires": current_challenge.wires
 	}
 	tablet.create_setup(current_setup)
+	
 
 
 # deletes all building blocks that have been spawned
