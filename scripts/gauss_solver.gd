@@ -40,7 +40,10 @@ func solve(Ab: Array) -> Array:
 		x.append(0)
 
 	for i in range(n-1, -1, -1):
-		x[i] = float(Ab[i][n])/float(Ab[i][i])
+		if float(Ab[i][i]) == 0:
+			x[i] = 0
+		else:
+			x[i] = float(Ab[i][n])/float(Ab[i][i])
 		for k in range(i-1, -1, -1):
 			Ab[k][n] -= float(Ab[k][i]) * x[i]
 	

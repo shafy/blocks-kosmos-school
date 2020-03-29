@@ -89,6 +89,9 @@ func _on_Held_Snap_Area_area_entered(area):
 	if !area.is_class("SnapArea"):
 		return
 	
+	if area.get_parent() == parent_block:
+		return
+	
 	if area.snapped:
 		return
 	
