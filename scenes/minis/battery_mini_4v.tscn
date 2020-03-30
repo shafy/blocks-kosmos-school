@@ -1,15 +1,15 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/minis/battery_mini.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/building_blocks/battery_3v.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/building_blocks/battery_4v.tscn" type="PackedScene" id=2]
 
 [sub_resource type="BoxShape" id=1]
 resource_local_to_scene = true
 margin = 0.001
 extents = Vector3( 0.0216642, 0.00614086, 0.00623607 )
 
-[node name="BatteryMini3V" instance=ExtResource( 1 )]
-label_name = "Battery 3 V"
+[node name="BatteryMini4V" instance=ExtResource( 1 )]
+label_name = "Battery 4 V"
 maxi_scene = ExtResource( 2 )
 
 [node name="CollisionShape" parent="." index="0"]

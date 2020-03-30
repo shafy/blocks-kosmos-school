@@ -11,10 +11,10 @@ var all_labels : Array
 onready var tablet_items = $Screens/Blocks/TabletItems
 onready var positions = $Screens/Blocks/Positions
 
-export (PackedScene) var lamp_5o
-export (PackedScene) var lamp_10o
-export (PackedScene) var battery_3v
-export (PackedScene) var battery_9v
+export (PackedScene) var lamp_1o
+export (PackedScene) var lamp_2o
+export (PackedScene) var battery_2v
+export (PackedScene) var battery_4v
 export (PackedScene) var switch
 export (PackedScene) var wire
 export (PackedScene) var text_label_2d_scene
@@ -83,14 +83,14 @@ func spawn_mini(mini_pos: int):
 	var current_item
 	
 	match mini_name:
-		"Lamps_5o":
-			current_item = lamp_5o.instance()
-		"Lamps_10o":
-			current_item = lamp_10o.instance()
-		"Batteries_3v":
-			current_item = battery_3v.instance()
-		"Batteries_9v":
-			current_item = battery_9v.instance()
+		"Lamps_1o":
+			current_item = lamp_1o.instance()
+		"Lamps_2o":
+			current_item = lamp_2o.instance()
+		"Batteries_2v":
+			current_item = battery_2v.instance()
+		"Batteries_4v":
+			current_item = battery_4v.instance()
 		"Switches":
 			current_item = switch.instance()
 		"Wires":

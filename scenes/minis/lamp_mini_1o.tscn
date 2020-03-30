@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/building_blocks/lamp_1o.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/minis/lamp_mini.tscn" type="PackedScene" id=2]
+
+[node name="LampMini1O" instance=ExtResource( 2 )]
+label_name = "Lamp 1 Ω"
+mesh_node_path = NodePath("../LampMini5O/MeshInstance")
+collision_shape_node_path = NodePath("../LampMini5O/CollisionShape")
+maxi_scene = ExtResource( 1 )

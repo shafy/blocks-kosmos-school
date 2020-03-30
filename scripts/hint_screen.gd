@@ -37,12 +37,12 @@ func set_defaults():
 	blocks_button_previous.visible = false
 	current_page = 1
 
-#func _on_Challenge_System_challenge_completed(_challenge_index):
-#	update_text_default()
-#
-#
-#func _on_Challenge_System_challenge_stopped(_challenge_index):
-#	update_text_default()
+func _on_Challenge_System_challenge_completed(_challenge_index):
+	set_defaults()
+
+
+func _on_Challenge_System_challenge_stopped(_challenge_index):
+	set_defaults()
 
 
 func next_page():

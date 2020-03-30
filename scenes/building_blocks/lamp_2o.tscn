@@ -1,13 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/building_blocks/lamp.tscn" type="PackedScene" id=1]
-[ext_resource path="res://materials/bright_lax.tres" type="Material" id=2]
-[ext_resource path="res://materials/lax.tres" type="Material" id=3]
 
 [sub_resource type="BoxShape" id=1]
 resource_local_to_scene = true
 margin = 0.001
-extents = Vector3( 0.106241, 0.0682009, 0.0317375 )
+extents = Vector3( 0.106, 0.068, 0.032 )
 
 [sub_resource type="BoxShape" id=2]
 resource_local_to_scene = true
@@ -19,15 +17,11 @@ resource_local_to_scene = true
 margin = 0.005
 extents = Vector3( 0.015, 0.009, 0.04 )
 
-[node name="Lamp5O" instance=ExtResource( 1 )]
-resistance = 5.0
+[node name="Lamp2O" instance=ExtResource( 1 )]
+resistance = 2.0
 
 [node name="CollisionShape" parent="." index="0"]
 shape = SubResource( 1 )
-
-[node name="MeshInstance" parent="." index="1"]
-material/2 = ExtResource( 2 )
-material/3 = ExtResource( 3 )
 
 [node name="CollisionShape" parent="SnapArea3" index="0"]
 shape = SubResource( 2 )
@@ -60,4 +54,8 @@ shape = SubResource( 3 )
 shape = SubResource( 3 )
 
 [node name="BlockLabel1" parent="." index="11"]
+text = "2 Ω"
 font_color = Color( 0.15, 0.15, 0.15, 1 )
+
+[node name="BlockLabel2" parent="." index="12"]
+text = "2 Ω"

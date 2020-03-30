@@ -6,10 +6,10 @@ class_name Challenge
 
 
 # -1 means infinite
-export var lamps_5o := -1
-export var lamps_10o := -1
-export var batteries_3v := -1
-export var batteries_9v := -1
+export var lamps_1o := -1
+export var lamps_2o := -1
+export var batteries_2v := -1
+export var batteries_4v := -1
 export var switches := -1
 export var wires := -1
 
