@@ -12,8 +12,8 @@ resource_local_to_scene = true
 margin = 0.005
 extents = Vector3( 0.015, 0.009, 0.04 )
 
-[node name="Battery3V" instance=ExtResource( 1 )]
-potential = 3.0
+[node name="Battery2V" instance=ExtResource( 1 )]
+potential = 2.0
 
 [node name="CollisionShape" parent="." index="0"]
 shape = SubResource( 1 )
@@ -37,7 +37,7 @@ shape = SubResource( 2 )
 shape = SubResource( 2 )
 
 [node name="BlockLabel1" parent="." index="11"]
-text = "3 V"
+text = "2 V"
 
 [node name="BlockLabel2" parent="." index="12"]
-text = "3 V"
+text = "2 V"

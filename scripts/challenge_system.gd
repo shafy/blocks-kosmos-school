@@ -114,10 +114,10 @@ func challenge_hints():
 # puts correct number of blöcks on tablet for the current challenge
 func setup_tablet():
 	var current_setup = {
-		"Lamps_5o": current_challenge.lamps_5o,
-		"Lamps_10o": current_challenge.lamps_10o,
-		"Batteries_3v": current_challenge.batteries_3v,
-		"Batteries_9v": current_challenge.batteries_9v,
+		"Lamps_1o": current_challenge.lamps_1o,
+		"Lamps_2o": current_challenge.lamps_2o,
+		"Batteries_2v": current_challenge.batteries_2v,
+		"Batteries_4v": current_challenge.batteries_4v,
 		"Switches": current_challenge.switches,
 		"Wires": current_challenge.wires
 	}
