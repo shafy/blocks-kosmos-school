@@ -109,7 +109,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.073, 0, 0.07 )
 shape = SubResource( 3 )
 
 [node name="HeldSnapArea5" parent="HeldSnapAreas" index="4"]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -0.144, 0, 0 )
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -0.144, 0, 0 )
 
 [node name="CollisionShape" parent="HeldSnapAreas/HeldSnapArea5" index="0"]
 shape = SubResource( 3 )

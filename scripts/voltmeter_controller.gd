@@ -29,16 +29,16 @@ func _on_right_ARVRController_button_pressed(button_number):
 	var areas = grab_area_right.get_overlapping_areas()
 	for area in areas:
 		var area_parent = area.get_parent()
-		if !(area_parent is MeasurePoint):
+		if !(area_parent is MeasurePoint) or area_parent.measure_point_type != MeasurePoint.MeasurePointType.CONNECTION:
 			continue
-		
-		handle_vm(area_parent.connection_ids[0])
+		if area_parent.connection_ids.size() > 0:
+			handle_vm(area_parent.connection_ids[0])
 
 
 # override parent
 func _on_Base_Controller_controller_selected():
 	._on_Base_Controller_controller_selected()
-	body_label.set_label_text("Touch first V-Block and press Trigger")
+	body_label.set_label_text("Touch first V-Box and press Trigger")
 	emit_signal("voltmeter_selected")
 
 
@@ -64,7 +64,7 @@ func handle_vm(conn_id : String):
 		vm_first_click = true
 		vm_second_click = false
 		vm_conn_id_1 = conn_id
-		body_label.set_label_text("Touch second V-Block and press Trigger")
+		body_label.set_label_text("Touch second V-Box and press Trigger")
 
 
 func calculate_pot_diff(blocks_array) -> float:

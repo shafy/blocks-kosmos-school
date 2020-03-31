@@ -12,6 +12,7 @@ onready var voltmeter_controller := get_node(global_vars.VOLTMETER_CONTR_PATH)
 onready var controller_system := get_node(global_vars.CONTROLLER_SYSTEM_PATH)
 onready var cube_ampere := $CubeAmpere
 onready var cube_volt := $CubeVolt
+onready var area := $Area
 
 enum MeasurePointType {CONNECTION, BLOCK}
 export (MeasurePointType) var measure_point_type = MeasurePointType.CONNECTION setget set_measure_point_type, get_measure_point_type
@@ -44,7 +45,6 @@ func _ready():
 	ammeter_controller.connect("ammeter_unselected", self, "_on_Ammeter_Controller_ammeter_unselected")
 	voltmeter_controller.connect("voltmeter_selected", self, "_on_Voltmeter_Controller_voltmeter_selected")
 	voltmeter_controller.connect("voltmeter_unselected", self, "_on_Voltmeter_Controller_voltmeter_unselected")
-#	controller_system.connect("controller_type_changed", self, "_on_Controller_System_controller_type_changed")
 	
 	update_cube_visibility()
 
@@ -52,21 +52,30 @@ func _ready():
 func _on_Ammeter_Controller_ammeter_selected():
 	if measure_point_type == MeasurePointType.BLOCK:
 		visible = true
+		update_monitoring(true)
 
 
 func _on_Ammeter_Controller_ammeter_unselected():
 	if measure_point_type == MeasurePointType.BLOCK:
 		visible = false
+		update_monitoring(false)
 
 
 func _on_Voltmeter_Controller_voltmeter_selected():
 	if measure_point_type == MeasurePointType.CONNECTION:
 		visible = true
+		update_monitoring(true)
 
 
 func _on_Voltmeter_Controller_voltmeter_unselected():
 	if measure_point_type == MeasurePointType.CONNECTION:
 		visible = false
+		update_monitoring(false)
+
+
+func update_monitoring(is_monitoring: bool) -> void:
+	area.set_monitoring(is_monitoring)
+	area.set_monitorable(is_monitoring)
 
 
 func add_connection_id(new_id: String) -> void:

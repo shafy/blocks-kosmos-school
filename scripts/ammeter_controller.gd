@@ -24,7 +24,7 @@ func _on_right_ARVRController_button_pressed(button_number):
 	var areas = grab_area_right.get_overlapping_areas()
 	for area in areas:
 		var area_parent = area.get_parent()
-		if !(area_parent is MeasurePoint):
+		if !(area_parent is MeasurePoint) or area_parent.measure_point_type != MeasurePoint.MeasurePointType.BLOCK:
 			continue
 		
 		body_label.set_label_text("%.1f A" % area_parent.get_current())
@@ -36,7 +36,7 @@ func _on_right_ARVRController_button_pressed(button_number):
 # override parent
 func _on_Base_Controller_controller_selected():
 	._on_Base_Controller_controller_selected()
-	body_label.set_label_text("Touch an A-Block and press Trigger")
+	body_label.set_label_text("Touch an A-Box and press Trigger")
 	emit_signal("ammeter_selected")
 
 
