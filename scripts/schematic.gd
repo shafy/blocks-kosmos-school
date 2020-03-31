@@ -502,7 +502,7 @@ func add_loop(new_loop: Array):
 				loop_unique = false
 
 
-# returns an array of blocks between two given connections
+# returns an array of blocks between two given connections (calld by Voltmeter)
 func get_blocks_between(conn_id_1, conn_id_2) -> Array:
 	var conn_array = []
 	
