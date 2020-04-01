@@ -14,6 +14,7 @@
 [ext_resource path="res://sounds/Plop.wav" type="AudioStream" id=12]
 
 [sub_resource type="BoxShape" id=1]
+margin = 0.001
 extents = Vector3( 0.020738, 0.0141017, 0.0109831 )
 
 [node name="LampMini" type="RigidBody"]
