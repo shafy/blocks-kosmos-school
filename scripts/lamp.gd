@@ -4,7 +4,7 @@ class_name Lamp
 
 var bulb_material : Material
 var power := 0.0
-var max_power := 8
+var max_power := 16
 var min_power_color_vector : Vector3
 
 export var max_power_color_vector : Vector3

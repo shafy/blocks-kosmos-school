@@ -6,11 +6,11 @@
 [ext_resource path="res://materials/medium_grey.tres" type="Material" id=4]
 [ext_resource path="res://materials/light_grey.tres" type="Material" id=5]
 [ext_resource path="res://materials/dark_lax.tres" type="Material" id=6]
-[ext_resource path="res://materials/grey_yellow.tres" type="Material" id=7]
+[ext_resource path="res://materials/dark_yellow.tres" type="Material" id=7]
 [ext_resource path="res://materials/dark_dark_lax.tres" type="Material" id=8]
 [ext_resource path="res://materials/dark_dark_grey.tres" type="Material" id=9]
 [ext_resource path="res://materials/dark_grey.tres" type="Material" id=10]
-[ext_resource path="res://materials/bright_yellow.tres" type="Material" id=11]
+[ext_resource path="res://materials/dark_grey_yellow.tres" type="Material" id=11]
 
 [sub_resource type="BoxShape" id=1]
 resource_local_to_scene = true
@@ -39,15 +39,15 @@ extents = Vector3( 0.015, 0.009, 0.04 )
 script = ExtResource( 1 )
 snap_particles_scene = ExtResource( 3 )
 resistance = 3.0
-max_power_color_vector = Vector3( 1, 1, 1 )
+max_power_color_vector = Vector3( 0.96, 0.98, 0.8 )
 
 [node name="CollisionShape" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0592674, 0 )
 shape = SubResource( 1 )
 
 [node name="MeshInstance" parent="." index="1"]
-material/0 = ExtResource( 7 )
-material/1 = ExtResource( 11 )
+material/0 = ExtResource( 11 )
+material/1 = ExtResource( 7 )
 material/2 = ExtResource( 6 )
 material/3 = ExtResource( 8 )
 material/4 = ExtResource( 4 )
