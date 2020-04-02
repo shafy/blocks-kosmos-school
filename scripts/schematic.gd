@@ -336,14 +336,21 @@ func calculate_element_attributes(loop_currents: Array):
 #				element.current = loop_currents[i]
 
 
+func clear_superpositions():
+	for block in all_blocks:
+		if block is Resistor or block is VoltageSource:
+			block.superposition = {"connections": [], "direction": ""}
+
 # loop through all loops and mark superpositions
 func find_superpositions():
+	clear_superpositions()
 	# resistors can share >2 mesh loops (i.e. superimposed) and we have to find those
 	for i in range(loops_array.size()):
 		var loop1 = loops_array[i]
 		for y in range(loop1.size()):
 			var element1 = loop1[y]
-			if element1 is Resistor or Ammeter:
+			if element1 is Resistor or VoltageSource:
+				
 				# compare to all loops with index greater
 				for ii in range(i+1, loops_array.size()):
 					# here we could optimize a bit and avoid checking loops that
