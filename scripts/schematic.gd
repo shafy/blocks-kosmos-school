@@ -198,7 +198,7 @@ func loop_current_method():
 	
 	# we need the fail_safe_count because the loop finding process (get_next_element()) is probablistic
 	var fail_safe_count = 0
-	while unique_elements != all_blocks.size() and fail_safe_count < 10:
+	while unique_elements != all_blocks.size() and fail_safe_count < 20:
 		fail_safe_count += 1
 		
 		var loop = []
@@ -311,7 +311,7 @@ func calculate_element_attributes(loop_currents: Array):
 	for i in range(loops_array.size()):
 		for k in range (loops_array[i].size()):
 			var element = loops_array[i][k]
-			if element is Resistor:
+			if element is Resistor or element is VoltageSource:
 				var loop_current = 0.0
 				if element.superposition["connections"].empty():
 					loop_current = loop_currents[i]
@@ -322,16 +322,18 @@ func calculate_element_attributes(loop_currents: Array):
 				
 				element.current = loop_current
 				
-				element.potential = element.resistance * loop_current
-				element.refresh()
+				if element is Resistor:
+					element.potential = element.resistance * loop_current
+					element.refresh()
 				
 #				print("element.name: ", element.name)
 #				print("element.resistance: ", element.resistance)
 #				print("element.current: ", element.current)
 #				print("element.potential: ", element.potential)
 #
-			if element is VoltageSource:
-				element.current = loop_currents[i]
+#			if element is VoltageSource:
+#				print("set battery current ", loop_currents[i])
+#				element.current = loop_currents[i]
 
 
 # loop through all loops and mark superpositions
