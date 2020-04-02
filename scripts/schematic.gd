@@ -219,8 +219,8 @@ func loop_current_method():
 
 			var next_next_element_dict = get_next_element(next_element, prev_element)
 			var next_next_element = next_next_element_dict["next_element"]
-			var next_next_element_connection_side = next_next_element_dict["connection_side"]
 			var next_next_element_conn_side_curr_el = next_next_element_dict["connection_side_current_element"]
+			var next_current_connection = next_next_element_dict["connection"]
 
 			if !next_next_element:
 				break
@@ -231,7 +231,6 @@ func loop_current_method():
 				if loop.find(next_element) > 0:
 					break
 				
-				# TODO: not sure if this makes sense
 				if next_element is Switch:
 					# if the switch is not closed, cancel the loop
 					if !next_element.is_closed:
@@ -240,25 +239,30 @@ func loop_current_method():
 				# 2a) if loop comes to starting point, finish this loop
 				# check if on negative side of voltage source (because we always start on the pos side)
 				if loop.find(next_element) == 0 and next_element_polarity == SnapArea.Polarity.NEGATIVE:
+					next_element.connection_direction = next_element_connection_side
+					if not next_element is VoltageSource:
+						next_element.positive_side = next_element_connection_side
 					add_loop(loop)
 					break
 					
 				# if it's a voltage source, save connection side (positive or negative)
 				if next_element is VoltageSource:
 					next_element.directional_polarity = next_element_polarity
-						
-				# if all good, append to loop
+					
+					
+				if not next_element is VoltageSource:
+					next_element.positive_side = next_element_connection_side
+				next_element.connection_direction = next_element_connection_side
 				loop.append(next_element)
 			
 			prev_element = next_element
 			next_element = next_next_element
-			
 			next_element_connection_side = next_next_element_dict["connection_side"]
 			next_element_polarity = next_next_element_dict["polarity"]
 		
-		print("unique_elements: ", unique_elements)
-		print("all_blocks.size(): ", all_blocks.size())
-		print("fail_safe_count: ", fail_safe_count)
+#		print("unique_elements: ", unique_elements)
+#		print("all_blocks.size(): ", all_blocks.size())
+#		print("fail_safe_count: ", fail_safe_count)
 	
 	# define elements that superimpose on each other
 	find_superpositions()
@@ -321,11 +325,11 @@ func calculate_element_attributes(loop_currents: Array):
 				element.potential = element.resistance * loop_current
 				element.refresh()
 				
-				print("element.name: ", element.name)
-				print("element.resistance: ", element.resistance)
-				print("element.current: ", element.current)
-				print("element.potential: ", element.potential)
-			
+#				print("element.name: ", element.name)
+#				print("element.resistance: ", element.resistance)
+#				print("element.current: ", element.current)
+#				print("element.potential: ", element.potential)
+#
 			if element is VoltageSource:
 				element.current = loop_currents[i]
 
@@ -371,6 +375,7 @@ func get_next_element(prev_block: BuildingBlock, prev_prev_block: BuildingBlock,
 	var connection_side = null
 	var connection_side_current_element = null
 	var next_element_block = null
+	var current_connection = null
 	for i in range(connections.size()):
 		if connections[i][0]["block"] == prev_block and connections[i][1]["block"] != prev_prev_block:
 			# if there's a forced polarity for voltage source, skip rest of iteration if no match
@@ -382,6 +387,7 @@ func get_next_element(prev_block: BuildingBlock, prev_prev_block: BuildingBlock,
 			polarity = connections[i][1]["polarity"]
 			connection_side = connections[i][1]["connection_side"]
 			connection_side_current_element = connections[i][0]["connection_side"]
+			current_connection = connections[i]
 			break
 		elif connections[i][1]["block"] == prev_block and connections[i][0]["block"] != prev_prev_block:
 			# if there's a forced polarity for voltage source, skip rest of iteration if no match
@@ -393,13 +399,15 @@ func get_next_element(prev_block: BuildingBlock, prev_prev_block: BuildingBlock,
 			polarity = connections[i][0]["polarity"]
 			connection_side = connections[i][0]["connection_side"]
 			connection_side_current_element = connections[i][1]["connection_side"]
+			current_connection = connections[i]
 			break
 	
 	return {
 		"next_element": next_element_block,
 		"polarity": polarity,
 		"connection_side": connection_side,
-		"connection_side_current_element": connection_side_current_element
+		"connection_side_current_element": connection_side_current_element,
+		"connection": current_connection
 	}
 	
 		
@@ -502,81 +510,80 @@ func add_loop(new_loop: Array):
 				loop_unique = false
 
 
-# returns an array of blocks between two given connections (calld by Voltmeter)
-func get_blocks_between(conn_id_1, conn_id_2) -> Array:
+func get_blocks_between(conn_ids_1 : Array, conn_ids_2: Array) -> Dictionary:
 	var conn_array = []
+	var fail_safe_count = 0
+	var running = true
+	var block_1_1_index
+	var block_1_2_index
 	
-	print("conn_id_1 ", conn_id_1)
-	print("conn_id_2 ", conn_id_2)
-	
-	# get blocks
-	var conn_1_index = find_connection_by_id(conn_id_1)
+	# get blocks (randomly take first connection id from conn_ids1, doesn't matter)
+	var conn_1_index = find_connection_by_id(conn_ids_1[0])
 	if conn_1_index == -1:
 		return conn_array
-	var conn_1 = connections[conn_1_index]
-	var block_1_1 = conn_1[0]["block"]
-	var block_1_2 = conn_1[1]["block"]
 	
-	var conn_2_index = find_connection_by_id(conn_id_2)
-	if conn_2_index == -1:
-		return conn_array
-	var conn_2 = connections[conn_2_index]
-	var block_2_1 = conn_2[0]["block"]
-	var block_2_2 = conn_2[1]["block"]
+	var starting_conn = connections[conn_1_index]
+	var block_1_1 = starting_conn[0]["block"]
+	var block_1_2 = starting_conn[1]["block"]
+
+	var current_element = block_1_1
+	var prev_prev_element = block_1_2
 	
-	# find loop that contains both blocks
-	var loop = []
-	var block_1_1_index
-	var block_2_1_index
-	for l in loops_array:
-		block_1_1_index = l.find(block_1_1)
-		block_2_1_index = l.find(block_2_1)
-		if block_1_1_index != -1 and block_2_1_index != -1:
-			loop = l
-			break
+	var current_connection_side = starting_conn[0]["connection_side"]
+	var current_polarity = starting_conn[0]["polarity"]
 	
-	if loop.empty():
-		return conn_array
-	
-	var start_block
-	# we need to find out which blocks to include in return array based on order
-	# for block 1
-	var next_index
-	if loop.size() - 1 == block_1_1_index:
-		next_index = 0
-	else:
-		next_index = block_1_1_index + 1
-	if loop[next_index] == block_1_2:
-		start_block = block_1_2
-	else:
-		start_block = block_1_1
-	
-	# for block 2
-	var end_block
-	if loop.size() - 1 == block_2_1_index:
-		next_index = 0
-	else:
-		next_index = block_2_1_index + 1
-	if loop[next_index] == block_2_2:
-		end_block = block_2_2
-	else:
-		end_block = block_2_1
-	
-	# now add all the blocks to conn_array, including start and end block
-	var running = true
-	var i = loop.find(start_block)
-	while running:
-		var curr_block = loop[i]
-		if curr_block == end_block:
-			running = false
-		else:
-			conn_array.append(loop[i])
-#			print("added block ", loop[i].name)
+
+	while running and fail_safe_count < 30:
 		
-		if loop.size() - 1 == i:
-			i = 0
-		else:
-			i += 1
+		var next_element_dict = get_next_element(current_element, prev_prev_element)
+		var next_element = next_element_dict["next_element"]
+		if !next_element:
+			# reset and start from the beginning
+			conn_array.clear()
+			current_element = block_1_1
+			prev_prev_element = block_1_2
+			fail_safe_count += 1
+			continue
+			
+		if current_connection_side != next_element_dict["connection_side_current_element"]:
+			
+			var next_connection = next_element_dict["connection"]
+			
+			# reset
+			current_element.invert_volt = false
+			
+			# need to see from which direction we came for this element
+			if current_element is VoltageSource:
+				if current_polarity == SnapArea.Polarity.NEGATIVE:
+					current_element.invert_volt = true
+			else:
+				if current_connection_side != current_element.positive_side:
+					current_element.invert_volt = true
+			
+			conn_array.append(current_element)
+			
+			# if same element as first, stop (not sure about this)
+			if conn_array.size() > 1 and current_element == conn_array[0]:
+				# reset and start from the beginning
+				conn_array.clear()
+				current_element = block_1_1
+				prev_prev_element = block_1_2
+				fail_safe_count += 1
+				continue
+			
+			# if second conn id found, stop
+			var next_connection_id = next_connection[2]
+			for conn_id_2 in conn_ids_2:
+				if next_connection_id == conn_id_2:
+					running = false
+					break
+		
+		prev_prev_element = current_element
+		current_element = next_element
+		current_connection_side = next_element_dict["connection_side"]
+		current_polarity = next_element_dict["polarity"]
+		
+		fail_safe_count += 1
 	
 	return conn_array
 

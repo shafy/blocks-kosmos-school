@@ -9,6 +9,9 @@ export var resistance := 0.0
 var current := 0.0
 var potential := 0.0
 var superposition := {"connections": [], "direction": ""}
+var connection_direction
+var invert_volt := false
+var positive_side
 
 
 func get_class():

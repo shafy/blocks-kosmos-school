@@ -10,7 +10,7 @@ signal voltmeter_unselected
 
 var vm_first_click := false
 var vm_second_click := false
-var vm_conn_id_1 : String
+var vm_conn_ids_1 : Array
 
 onready var body_label = $BodyLabel
 onready var schematic := get_node(global_vars.SCHEMATIC_PATH)
@@ -32,7 +32,7 @@ func _on_right_ARVRController_button_pressed(button_number):
 		if !(area_parent is MeasurePoint) or area_parent.measure_point_type != MeasurePoint.MeasurePointType.CONNECTION:
 			continue
 		if area_parent.connection_ids.size() > 0:
-			handle_vm(area_parent.connection_ids[0])
+			handle_vm(area_parent.connection_ids)
 
 
 # override parent
@@ -48,31 +48,31 @@ func _on_Base_Controller_controller_unselected():
 	emit_signal("voltmeter_unselected")
 
 
-func handle_vm(conn_id : String):
+func handle_vm(conn_ids : Array):
 	# second click
 	if vm_first_click and !vm_second_click:
-		var blocks_array = schematic.get_blocks_between(vm_conn_id_1, conn_id)
-		var pot_diff = calculate_pot_diff(blocks_array)
+#		var blocks_array = schematic.get_blocks_between(vm_conn_id_1, conn_id)
+		var blocks_between = schematic.get_blocks_between(vm_conn_ids_1, conn_ids)
+		var pot_diff = calculate_pot_diff(blocks_between)
 		body_label.set_label_text(str(pot_diff, " V"))
 		vm_second_click = false
 		vm_first_click = false
 		if measure_volt_sound:
 			measure_volt_sound.play()
-		emit_signal("volt_measured", pot_diff, blocks_array)
+		emit_signal("volt_measured", pot_diff, blocks_between)
 	elif !vm_first_click:
 		# first click
 		vm_first_click = true
 		vm_second_click = false
-		vm_conn_id_1 = conn_id
+		vm_conn_ids_1 = conn_ids
 		body_label.set_label_text("Touch second V-Box and press Trigger")
 
 
-func calculate_pot_diff(blocks_array) -> float:
+func calculate_pot_diff(blocks_between : Array) -> float:
 	var pot_diff = 0.0
-	for block in blocks_array:
-		print("block name ", block.name)
-		print("block potential ", block.potential)
-		if block is VoltageSource and block.directional_polarity == SnapArea.Polarity.POSITIVE:
+	for block in blocks_between:
+		
+		if block.invert_volt:
 			pot_diff += block.potential
 		else:
 			pot_diff -= block.potential

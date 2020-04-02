@@ -46,9 +46,9 @@ func _on_Measure_Controller_ampere_measured(measure_point):
 			objective_hit_update()
 
 
-func _on_Measure_Controller_volt_measured(volt, blocks_array):
+func _on_Measure_Controller_volt_measured(volt, blocks_between):
 	if current_challenge:
-		var obj_hit = current_challenge.objective_hit(volt, blocks_array, Objective.TargetType.VOLT)
+		var obj_hit = current_challenge.objective_hit(volt, blocks_between, Objective.TargetType.VOLT)
 		
 		if obj_hit:
 			objective_hit_update()
