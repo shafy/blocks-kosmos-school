@@ -77,6 +77,12 @@ confetti_particles_scene = ExtResource( 31 )
 
 [node name="Challenge1" type="Node" parent="ChallengeSystem"]
 script = ExtResource( 13 )
+lamps_1o = 0
+lamps_2o = 1
+batteries_2v = 0
+batteries_4v = 1
+switches = 0
+wires = 2
 
 [node name="Objectives" type="Node" parent="ChallengeSystem/Challenge1"]
 
@@ -98,7 +104,7 @@ target_value = 4.0
 [node name="Hint1" type="Node" parent="ChallengeSystem/Challenge1/Hints"]
 script = ExtResource( 21 )
 title = "Hints"
-description = "Press the Blöcks button in the top-right corner of the tablet (touch it with your right controller)"
+description = "Press the Blöcks button in the top-right corner of the tablet (touch it with your right controller)."
 
 [node name="Hint2" type="Node" parent="ChallengeSystem/Challenge1/Hints"]
 script = ExtResource( 21 )
@@ -108,17 +114,17 @@ description = "Grab the 4 V Battery (use the right middle finger to press the re
 [node name="Hint3" type="Node" parent="ChallengeSystem/Challenge1/Hints"]
 script = ExtResource( 21 )
 title = "fsd"
-description = "Grab a Wire (the yellow Blöck) and move it close to the already placed 4 V Battery until you can hear a humming sound and see the sparks between the connections. Let go of the Wire to snap it to the Battery"
+description = "Grab a Wire (the yellow Blöck) and move it close to the already placed 4 V Battery until you can hear a humming sound and see the sparks between the connections. Let go of the Wire to snap it to the Battery."
 
 [node name="Hint4" type="Node" parent="ChallengeSystem/Challenge1/Hints"]
 script = ExtResource( 21 )
 title = "fsd"
-description = "Grab the 2 Ω Lamp and connect it to the Wire or the 4 V Battery. Ω stands for \"ohm\" and measures the resistance"
+description = "Grab the 2 Ω Lamp and connect it to the Wire or the 4 V Battery. Ω stands for \"ohm\" and measures the resistance."
 
 [node name="Hint5" type="Node" parent="ChallengeSystem/Challenge1/Hints"]
 script = ExtResource( 21 )
 title = "fsd"
-description = "Grab another Wire and place it to close the circuit (depending on your layout, you might need more Wire Blöcks to close the circuit)"
+description = "Grab another Wire and place it to close the circuit (depending on your layout, you might need more Wire Blöcks to close the circuit)."
 
 [node name="Hint6" type="Node" parent="ChallengeSystem/Challenge1/Hints"]
 script = ExtResource( 21 )
@@ -128,7 +134,7 @@ description = "If you successfully closed the circuit, you should hear a humming
 [node name="Hint7" type="Node" parent="ChallengeSystem/Challenge1/Hints"]
 script = ExtResource( 21 )
 title = "fsd"
-description = "Your circuit should now contain one 4 V Battery, one 2 Ω Lamp and two or more Wires"
+description = "Your circuit should now contain one 4 V Battery, one 2 Ω Lamp and two or more Wires."
 
 [node name="Hint8" type="Node" parent="ChallengeSystem/Challenge1/Hints"]
 script = ExtResource( 21 )
@@ -172,37 +178,37 @@ target_value = 2.0
 [node name="Hint1" type="Node" parent="ChallengeSystem/Challenge2/Hints"]
 script = ExtResource( 21 )
 title = "asfi"
-description = "Place a 2 V Battery"
+description = "Place a 2 V Battery."
 
 [node name="Hint2" type="Node" parent="ChallengeSystem/Challenge2/Hints"]
 script = ExtResource( 21 )
 title = "sadf"
-description = "Place a Wire"
+description = "Place a Wire."
 
 [node name="Hint3" type="Node" parent="ChallengeSystem/Challenge2/Hints"]
 script = ExtResource( 21 )
 title = "sadf"
-description = "Grab a 1 Ω Lamp and connect it to the Wire or the 2 V Battery"
+description = "Grab a 1 Ω Lamp and connect it to the Wire or the 2 V Battery."
 
 [node name="Hint4" type="Node" parent="ChallengeSystem/Challenge2/Hints"]
 script = ExtResource( 21 )
 title = "sadf"
-description = "Grab another Wire and place it to close the circuit (depending on your layout, you might need more Wires to close the circuit)"
+description = "Grab another Wire and place it to close the circuit (depending on your layout, you might need more Wires to close the circuit)."
 
 [node name="Hint5" type="Node" parent="ChallengeSystem/Challenge2/Hints"]
 script = ExtResource( 21 )
 title = "sadf"
-description = "Your closed circuit should now contain one 2 V Battery Blöck, one 1 Ω lamp and 2 or more Wires"
+description = "Your closed circuit should now contain one 2 V Battery Blöck, one 1 Ω lamp and 2 or more Wires."
 
 [node name="Hint6" type="Node" parent="ChallengeSystem/Challenge2/Hints"]
 script = ExtResource( 21 )
 title = "sadf"
-description = "Measure the amperes of your circuit (you can measure anywhere)"
+description = "Measure the amperes of your circuit (you can measure anywhere)."
 
 [node name="Hint7" type="Node" parent="ChallengeSystem/Challenge2/Hints"]
 script = ExtResource( 21 )
 title = "sadf"
-description = "Measure the volts of your circuit (measure for example over the Battery, if you get -2 V, try measuring the same V-boxes in the opposite order)"
+description = "Measure the volts of your circuit (measure for example over the Battery, if you get -2 V, try measuring the same V-boxes in the opposite order)."
 
 [node name="Challenge3" type="Node" parent="ChallengeSystem"]
 script = ExtResource( 13 )
@@ -235,42 +241,42 @@ target_value = 1.0
 [node name="Hint1" type="Node" parent="ChallengeSystem/Challenge3/Hints"]
 script = ExtResource( 21 )
 title = "asdig"
-description = "Place a 2 V Battery"
+description = "Place a 2 V Battery."
 
 [node name="Hint2" type="Node" parent="ChallengeSystem/Challenge3/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Grab a 2 Ω Lamp and connect it to the Battery"
+description = "Grab a 2 Ω Lamp and connect it to the Battery."
 
 [node name="Hint3" type="Node" parent="ChallengeSystem/Challenge3/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Grab another 2 Ω Lamp and connect it to the other side of the Battery"
+description = "Grab another 2 Ω Lamp and connect it to the other side of the Battery."
 
 [node name="Hint4" type="Node" parent="ChallengeSystem/Challenge3/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Take a Wire and place it to close the circuit (depending on your layout, you might need more or less Wires to close the circuit)"
+description = "Take a Wire and place it to close the circuit (depending on your layout, you might need more or less Wires to close the circuit)."
 
 [node name="Hint5" type="Node" parent="ChallengeSystem/Challenge3/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Your closed circuit should now contain one 2 V Battery Blöck, two 2 Ω lamps and one or more Wires"
+description = "Your closed circuit should now contain one 2 V Battery Blöck, two 2 Ω lamps and one or more Wires."
 
 [node name="Hint6" type="Node" parent="ChallengeSystem/Challenge3/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Measure the amperes of your circuit (you can measure anywhere)"
+description = "Measure the amperes of your circuit (you can measure anywhere)."
 
 [node name="Hint7" type="Node" parent="ChallengeSystem/Challenge3/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Measure the volts around the Battery, you should get 2 V"
+description = "Measure the volts around the Battery, you should get 2 V."
 
 [node name="Hint8" type="Node" parent="ChallengeSystem/Challenge3/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Measure the volts around one of your lamps, you should get 1 V"
+description = "Measure the volts around one of your lamps, you should get 1 V."
 
 [node name="Hint9" type="Node" parent="ChallengeSystem/Challenge3/Hints"]
 script = ExtResource( 21 )
@@ -282,6 +288,7 @@ The total current (I) of a series circuit is equal to the sum of all voltage sou
 [node name="Challenge4" type="Node" parent="ChallengeSystem"]
 script = ExtResource( 13 )
 lamps_2o = 0
+batteries_4v = 0
 
 [node name="Objectives" type="Node" parent="ChallengeSystem/Challenge4"]
 
@@ -310,47 +317,47 @@ target_value = 2.0
 [node name="Hint1" type="Node" parent="ChallengeSystem/Challenge4/Hints"]
 script = ExtResource( 21 )
 title = "asdig"
-description = "Place a 2 V Battery"
+description = "Place a 2 V Battery."
 
 [node name="Hint2" type="Node" parent="ChallengeSystem/Challenge4/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Take another 2 V Battery and attach it to the last one"
+description = "Take another 2 V Battery and attach it to the last one."
 
 [node name="Hint3" type="Node" parent="ChallengeSystem/Challenge4/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Grab a 1 Ω Lamp and connect it to one Battery"
+description = "Grab a 1 Ω Lamp and connect it to one Battery."
 
 [node name="Hint4" type="Node" parent="ChallengeSystem/Challenge4/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Grab another 1 Ω Lamp and connect it to the last Lamp"
+description = "Grab another 1 Ω Lamp and connect it to the last Lamp."
 
 [node name="Hint5" type="Node" parent="ChallengeSystem/Challenge4/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Repeat the last step until you have four 1 Ω Lamps connected after each other"
+description = "Repeat the last step until you have four 1 Ω Lamps connected after each other."
 
 [node name="Hint6" type="Node" parent="ChallengeSystem/Challenge4/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Now you either have a closed circuit - consisting of two 2 V Batteries and four 1 Ω Lamps - or you still need to place several Wire Blöcks back to the second Battery to close your circuit"
+description = "Now you either have a closed circuit - consisting of two 2 V Batteries and four 1 Ω Lamps - or you still need to place several Wire Blöcks back to the second Battery to close your circuit."
 
 [node name="Hint7" type="Node" parent="ChallengeSystem/Challenge4/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Measure the amperes of your circuit (you can measure anywhere)"
+description = "Measure the amperes of your circuit (you can measure anywhere)."
 
 [node name="Hint8" type="Node" parent="ChallengeSystem/Challenge4/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Measure the volts around both Batteries, you should get 4 V"
+description = "Measure the volts around both Batteries, you should get 4 V."
 
 [node name="Hint9" type="Node" parent="ChallengeSystem/Challenge4/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Measure the volts around one Battery, you should get 2 V"
+description = "Measure the volts around one Battery, you should get 2 V."
 
 [node name="Challenge5" type="Node" parent="ChallengeSystem"]
 script = ExtResource( 13 )
@@ -373,7 +380,7 @@ target_value = 2.0
 [node name="Objective3" type="Node" parent="ChallengeSystem/Challenge5/Objectives"]
 script = ExtResource( 16 )
 title = "1 ampere"
-description = "Place a switch to switch between a parallel and a series circuit. Measure 1 ampere with the switch open"
+description = "Place a Switch to switch between a parallel and a series circuit. Measure 1 ampere with the Switch open"
 target_value = 1.0
 
 [node name="Hints" type="Node" parent="ChallengeSystem/Challenge5"]
@@ -381,57 +388,57 @@ target_value = 1.0
 [node name="Hint1" type="Node" parent="ChallengeSystem/Challenge5/Hints"]
 script = ExtResource( 21 )
 title = "asdig"
-description = "Place a 2 V Battery"
+description = "Place a 2 V Battery."
 
 [node name="Hint2" type="Node" parent="ChallengeSystem/Challenge5/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Take a Wire and connect it to the Battery"
+description = "Take a Wire and connect it to the Battery."
 
 [node name="Hint3" type="Node" parent="ChallengeSystem/Challenge5/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Take another Wire and attach it to the other end of the Battery"
+description = "Take another Wire and attach it to the other end of the Battery."
 
 [node name="Hint4" type="Node" parent="ChallengeSystem/Challenge5/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Grab a 2 Ω Lamp and place it to close the circuit"
+description = "Grab a 2 Ω Lamp and place it to close the circuit."
 
 [node name="Hint5" type="Node" parent="ChallengeSystem/Challenge5/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Take a Switch and attach it on the other side of the Lamp to start the parallel circuit"
+description = "Take a Switch and attach it on the other side of the Lamp to start the parallel circuit."
 
 [node name="Hint6" type="Node" parent="ChallengeSystem/Challenge5/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Grab another 2 Ω Lamp and place it after the Switch"
+description = "Grab another 2 Ω Lamp and place it after the Switch."
 
 [node name="Hint7" type="Node" parent="ChallengeSystem/Challenge5/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Take a Wire and place it to close the parallel circuit (depending on your layout, you might need more or less Wires)"
+description = "Take a Wire and place it to close the parallel circuit (depending on your layout, you might need more or less Wires)."
 
 [node name="Hint8" type="Node" parent="ChallengeSystem/Challenge5/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Your parallel circuit should now contain one 2 V Battery Blöck, two 2 Ω lamps in parallel, one switch, and three or more Wires"
+description = "Your parallel circuit should now contain one 2 V Battery, two 2 Ω lamps in parallel, one switch, and three or more Wires."
 
 [node name="Hint9" type="Node" parent="ChallengeSystem/Challenge5/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Measure the amperes of your circuit with the Switch closed (you can measure anywhere), you should get 2 A"
+description = "Measure the amperes of your circuit with the Switch closed (you can measure anywhere), you should get 2 A."
 
 [node name="Hint10" type="Node" parent="ChallengeSystem/Challenge5/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Measure the volts around the Battery, you should get 2 V"
+description = "Measure the volts around the Battery, you should get 2 V."
 
 [node name="Hint11" type="Node" parent="ChallengeSystem/Challenge5/Hints"]
 script = ExtResource( 21 )
 title = "gs"
-description = "Open the Switch and measure the amperes again, you should get 1 A"
+description = "Open the Switch and measure the amperes again, you should get 1 A."
 
 [node name="Hint12" type="Node" parent="ChallengeSystem/Challenge5/Hints"]
 script = ExtResource( 21 )

@@ -4,7 +4,7 @@ extends Spatial
 # logic for challenge screen
 class_name ChallengeScreen
 
-var BODY_STANDARD_TEXT = "Reach the following objectives to complete this challenge:"
+var BODY_STANDARD_TEXT = "Build a circuit and reach the following objectives to complete this challenge:"
 
 export var challenge_index : int
 
