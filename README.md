@@ -7,7 +7,7 @@ Each Challenge has objectives that require you to measure a certain current (Amp
 
 
 ## 👩‍💻 Alpha Version
-Blöcks is in early and active development, and this is an alpha version. It currently contains 3 Challenges and 6 Blocks (batteries, lamps, a switch and a wire). We're shipping updates multiple times each month, and the full release is planned for summer. Please don't hesitate reaching out to us with feedback or any bugs you might encounter.
+Blöcks is in early and active development, and this is an alpha version. It currently contains 5 Challenges and 6 Blocks (batteries, lamps, a switch and a wire). We're shipping updates multiple times each month, and the full release is planned for summer. Please don't hesitate reaching out to us with feedback or any bugs you might encounter.
 
 
 ## 🎉 Installation
