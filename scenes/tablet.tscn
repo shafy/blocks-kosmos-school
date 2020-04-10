@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://scripts/button_challenge.gd" type="Script" id=1]
 [ext_resource path="res://scenes/minis/wire_mini.tscn" type="PackedScene" id=2]
@@ -23,6 +23,49 @@
 [ext_resource path="res://scripts/hints_button_next.gd" type="Script" id=21]
 [ext_resource path="res://scripts/hints_button_previous.gd" type="Script" id=22]
 [ext_resource path="res://scenes/ks_button_pressable_small.tscn" type="PackedScene" id=23]
+[ext_resource path="res://scripts/challenge_select_button.gd" type="Script" id=24]
+[ext_resource path="res://images/icon_tick.png" type="Texture" id=25]
+[ext_resource path="res://images/icon_challenges_v5.png" type="Texture" id=26]
+[ext_resource path="res://materials/light_grey.tres" type="Material" id=27]
+[ext_resource path="res://materials/light_light_grey.tres" type="Material" id=28]
+[ext_resource path="res://images/icon_blocks.png" type="Texture" id=29]
+[ext_resource path="res://images/icon_arrow_right.png" type="Texture" id=30]
+[ext_resource path="res://images/icon_hints.png" type="Texture" id=31]
+[ext_resource path="res://images/icon_arrow_left.png" type="Texture" id=32]
+[ext_resource path="res://materials/green_1.tres" type="Material" id=33]
+[ext_resource path="res://materials/green_2.tres" type="Material" id=34]
+
+[sub_resource type="QuadMesh" id=1]
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_transparent = true
+flags_unshaded = true
+albedo_texture = ExtResource( 25 )
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
+flags_unshaded = true
+albedo_texture = ExtResource( 32 )
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_transparent = true
+flags_unshaded = true
+albedo_texture = ExtResource( 30 )
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_transparent = true
+flags_unshaded = true
+albedo_texture = ExtResource( 29 )
+
+[sub_resource type="SpatialMaterial" id=6]
+flags_transparent = true
+flags_unshaded = true
+albedo_texture = ExtResource( 26 )
+
+[sub_resource type="SpatialMaterial" id=7]
+flags_transparent = true
+flags_unshaded = true
+albedo_texture = ExtResource( 31 )
 
 [node name="Tablet" type="Spatial"]
 script = ExtResource( 5 )
@@ -83,8 +126,16 @@ v_align = 1
 
 [node name="ChallengeButton1" parent="Screens/ChallengesOverview" instance=ExtResource( 19 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, -0.121, 0.0201332, 0.003 )
-script = ExtResource( 10 )
+script = ExtResource( 24 )
 navigate_to = "Challenge1"
+challenge_finished_material_0 = ExtResource( 33 )
+challenge_finished_material_1 = ExtResource( 34 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Screens/ChallengesOverview/ChallengeButton1"]
+transform = Transform( 0.02, 0, 1.65436e-24, 0, 0.02, 0, 0, 0, 0.02, 0.023, -0.011, 0.005 )
+visible = false
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
 
 [node name="Buttonlabel" parent="Screens/ChallengesOverview/ChallengeButton1" instance=ExtResource( 9 )]
 transform = Transform( 0.6, -4.47035e-08, 3.8743e-07, 8.9407e-08, 0.3, 9.93411e-08, -2.32458e-07, -2.98023e-08, 1, -8.2992e-05, 3.57628e-07, 0.00500011 )
@@ -96,8 +147,17 @@ v_align = 1
 
 [node name="ChallengeButton2" parent="Screens/ChallengesOverview" instance=ExtResource( 19 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, -0.0316499, 0.0201335, 0.00300011 )
-script = ExtResource( 10 )
+script = ExtResource( 24 )
 navigate_to = "Challenge2"
+challenge_index = 1
+challenge_finished_material_0 = ExtResource( 28 )
+challenge_finished_material_1 = ExtResource( 27 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Screens/ChallengesOverview/ChallengeButton2"]
+transform = Transform( 0.02, 0, 3.30872e-24, 0, 0.02, 0, 0, 0, 0.02, 0.023, -0.011, 0.005 )
+visible = false
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
 
 [node name="Buttonlabel" parent="Screens/ChallengesOverview/ChallengeButton2" instance=ExtResource( 9 )]
 transform = Transform( 0.6, -4.47035e-08, 3.8743e-07, 8.9407e-08, 0.3, 9.93411e-08, -2.32458e-07, -2.98023e-08, 1, 0, 0, 0.005 )
@@ -109,8 +169,17 @@ v_align = 1
 
 [node name="ChallengeButton3" parent="Screens/ChallengesOverview" instance=ExtResource( 19 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, 0.057, 0.0201332, 0.003 )
-script = ExtResource( 10 )
+script = ExtResource( 24 )
 navigate_to = "Challenge3"
+challenge_index = 2
+challenge_finished_material_0 = ExtResource( 28 )
+challenge_finished_material_1 = ExtResource( 27 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Screens/ChallengesOverview/ChallengeButton3"]
+transform = Transform( 0.02, 0, 4.96308e-24, 0, 0.02, 0, 0, 0, 0.02, 0.023, -0.011, 0.005 )
+visible = false
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
 
 [node name="Buttonlabel" parent="Screens/ChallengesOverview/ChallengeButton3" instance=ExtResource( 9 )]
 transform = Transform( 0.6, -4.47035e-08, 3.8743e-07, 8.9407e-08, 0.3, 9.93411e-08, -2.32458e-07, -2.98023e-08, 1, 0, 0, 0.005 )
@@ -122,8 +191,17 @@ v_align = 1
 
 [node name="ChallengeButton4" parent="Screens/ChallengesOverview" instance=ExtResource( 19 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, -0.121, -0.0359819, 0.003 )
-script = ExtResource( 10 )
+script = ExtResource( 24 )
 navigate_to = "Challenge4"
+challenge_index = 3
+challenge_finished_material_0 = ExtResource( 28 )
+challenge_finished_material_1 = ExtResource( 27 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Screens/ChallengesOverview/ChallengeButton4"]
+transform = Transform( 0.02, 0, 6.61744e-24, 0, 0.02, 0, 0, 0, 0.02, 0.023, -0.011, 0.005 )
+visible = false
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
 
 [node name="Buttonlabel" parent="Screens/ChallengesOverview/ChallengeButton4" instance=ExtResource( 9 )]
 transform = Transform( 0.6, -4.47035e-08, 3.8743e-07, 8.9407e-08, 0.3, 9.93411e-08, -2.32458e-07, -2.98023e-08, 1, -8.2992e-05, 3.57628e-07, 0.00500011 )
@@ -135,8 +213,17 @@ v_align = 1
 
 [node name="ChallengeButton5" parent="Screens/ChallengesOverview" instance=ExtResource( 19 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, -0.032, -0.0358668, 0.003 )
-script = ExtResource( 10 )
+script = ExtResource( 24 )
 navigate_to = "Challenge5"
+challenge_index = 4
+challenge_finished_material_0 = ExtResource( 28 )
+challenge_finished_material_1 = ExtResource( 27 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="Screens/ChallengesOverview/ChallengeButton5"]
+transform = Transform( 0.02, 0, 8.27181e-24, 0, 0.02, 0, 0, 0, 0.02, 0.023, -0.011, 0.005 )
+visible = false
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
 
 [node name="Buttonlabel" parent="Screens/ChallengesOverview/ChallengeButton5" instance=ExtResource( 9 )]
 transform = Transform( 0.6, -4.47035e-08, 3.8743e-07, 8.9407e-08, 0.3, 9.93411e-08, -2.32458e-07, -2.98023e-08, 1, 0, 0, 0.005 )
@@ -346,7 +433,6 @@ h_align = 1
 v_align = 1
 
 [node name="Hints" type="Spatial" parent="Screens"]
-visible = false
 script = ExtResource( 20 )
 
 [node name="TitleLabel" parent="Screens/Hints" instance=ExtResource( 9 )]
@@ -367,25 +453,19 @@ background_color = Color( 0.1, 0.1, 0.1, 1 )
 transform = Transform( 1, 2.98024e-08, -8.8818e-16, 0, 1, -1.19209e-07, 0, 0, 1, -0.139, -0.085, 0.003 )
 script = ExtResource( 22 )
 
-[node name="Buttonlabel" parent="Screens/Hints/BlocksButtonPrevious" instance=ExtResource( 9 )]
-transform = Transform( 0.3, -4.54486e-08, 1.19209e-07, 5.21541e-08, 0.3, 1.49009e-08, -1.19209e-07, 2.98023e-08, 0.999999, 0, 0, 0.008 )
-text = "Previous"
-font_size_multiplier = 2.0
-background_color = Color( 0, 0, 0, 0 )
-h_align = 1
-v_align = 1
+[node name="MeshInstance3" type="MeshInstance" parent="Screens/Hints/BlocksButtonPrevious"]
+transform = Transform( 0.035, 0, 0, 0, 0.035, 0, 0, 0, 0.035, 0, 0, 0.005 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 3 )
 
 [node name="BlocksButtonNext" parent="Screens/Hints" instance=ExtResource( 23 )]
 transform = Transform( 1, 2.98024e-08, -8.8818e-16, 0, 1, -1.19209e-07, 0, 0, 1, 0.0768719, -0.085, 0.003 )
 script = ExtResource( 21 )
 
-[node name="Buttonlabel" parent="Screens/Hints/BlocksButtonNext" instance=ExtResource( 9 )]
-transform = Transform( 0.3, -4.54486e-08, 1.19209e-07, 5.21541e-08, 0.3, 1.49009e-08, -1.19209e-07, 2.98023e-08, 0.999999, 0, 0, 0.008 )
-text = "Next"
-font_size_multiplier = 2.0
-background_color = Color( 0, 0, 0, 0 )
-h_align = 1
-v_align = 1
+[node name="MeshInstance3" type="MeshInstance" parent="Screens/Hints/BlocksButtonNext"]
+transform = Transform( 0.035, 0, 1.32349e-23, 0, 0.035, 0, 0, 0, 0.035, 0, 0, 0.005 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 4 )
 
 [node name="Navigation" type="Spatial" parent="."]
 
@@ -394,36 +474,27 @@ transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, 0.14, 0.0
 script = ExtResource( 10 )
 navigate_to = "Blocks"
 
-[node name="Buttonlabel" parent="Navigation/BlocksButton" instance=ExtResource( 9 )]
-transform = Transform( 0.3, -4.09782e-08, 1.19209e-07, 5.21541e-08, 0.3, -4.47036e-08, -1.19209e-07, 2.98023e-08, 0.999999, 0, 0, 0.00488424 )
-text = "Blöcks"
-font_size_multiplier = 2.0
-background_color = Color( 0, 0, 0, 0 )
-h_align = 1
-v_align = 1
+[node name="MeshInstance3" type="MeshInstance" parent="Navigation/BlocksButton"]
+transform = Transform( 0.035, 5.21542e-10, -8.60268e-23, 0, 0.035, -2.08615e-09, 0, 0, 0.035, 0, 0, 0.005 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 5 )
 
 [node name="ChallengesButton" parent="Navigation" instance=ExtResource( 12 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, 0.14, 0.0368088, 0.003 )
 script = ExtResource( 10 )
 navigate_to = "ChallengesOverview"
 
-[node name="Buttonlabel" parent="Navigation/ChallengesButton" instance=ExtResource( 9 )]
-transform = Transform( 0.3, -3.72529e-08, 3.27826e-07, 4.84288e-08, 0.3, -2.98024e-08, -1.19209e-07, -1.49011e-09, 1, 1.49012e-08, -1.19209e-07, 0.00499997 )
-text = "Challenges"
-font_size_multiplier = 2.0
-background_color = Color( 0, 0, 0, 0 )
-h_align = 1
-v_align = 1
+[node name="MeshInstance3" type="MeshInstance" parent="Navigation/ChallengesButton"]
+transform = Transform( 0.035, 5.21542e-10, -8.27181e-23, 0, 0.035, -2.08615e-09, 0, 0, 0.035, 0, 0, 0.005 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 6 )
 
 [node name="HintsButton" parent="Navigation" instance=ExtResource( 12 )]
 transform = Transform( 1, 1.49012e-08, 0, 0, 1, -5.96046e-08, 0, 0, 1, 0.14, -0.007, 0.003 )
 script = ExtResource( 10 )
 navigate_to = "Hints"
 
-[node name="Buttonlabel" parent="Navigation/HintsButton" instance=ExtResource( 9 )]
-transform = Transform( 0.3, -4.09782e-08, 1.19209e-07, 5.21541e-08, 0.3, -4.47036e-08, -1.19209e-07, 2.98023e-08, 0.999999, 0, 0, 0.00488424 )
-text = "Hints"
-font_size_multiplier = 2.0
-background_color = Color( 0, 0, 0, 0 )
-h_align = 1
-v_align = 1
+[node name="MeshInstance3" type="MeshInstance" parent="Navigation/HintsButton"]
+transform = Transform( 0.035, 5.21542e-10, -7.94093e-23, 0, 0.035, -2.08615e-09, 0, 0, 0.035, 0, 0, 0.005 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 7 )
