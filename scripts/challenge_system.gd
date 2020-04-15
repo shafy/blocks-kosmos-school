@@ -14,6 +14,7 @@ var all_challenges
 var current_challenge
 var current_challenge_index = null
 var confetti_particles
+var challenges_done: Dictionary
 
 onready var ammeter_controller = get_node(global_vars.AMMETER_CONTR_PATH)
 onready var voltmeter_controller = get_node(global_vars.VOLTMETER_CONTR_PATH)
@@ -36,6 +37,11 @@ func _ready():
 	
 	all_challenges = get_children()
 	
+	# load challenge status from file
+	for i in range(all_challenges.size()):
+		var challenge_name = str("challenge_", i+1)
+		challenges_done[challenge_name] = save_system.get(challenge_name)	
+
 
 func _on_Measure_Controller_ampere_measured(measure_point):
 	if current_challenge:
@@ -65,10 +71,20 @@ func objective_hit_update():
 
 func challenge_completed():
 	emit_signal("challenge_completed", current_challenge_index)
+	
+	var save_challenge = str("challenge_", current_challenge_index+1)
+	save_system.save(save_challenge, true)
+	challenges_done[save_challenge] = true
+	
 	current_challenge = null
 	if challenge_completed_sound:
 		challenge_completed_sound.play()
 	show_confetti()
+
+
+func challenge_done(button_challenge_index):
+	var load_challenge = str("challenge_", button_challenge_index+1)
+	return challenges_done[load_challenge]
 
 
 func start_challenge(challenge_index : int):
