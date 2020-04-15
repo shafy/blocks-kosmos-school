@@ -28,12 +28,14 @@ func write_to_file(new_content : Dictionary) -> void:
 	save_file.close()
 
 
+# this function is called to save
 func save(key : String, value):
 	var content = read_from_file()
 	content[key] = value
 	write_to_file(content)
 
 
+# this function is called to get saved data
 func get(key : String):
 	var content = read_from_file()
 	if content.has(key):
