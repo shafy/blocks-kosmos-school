@@ -17,8 +17,8 @@ onready var blocks_button_previous = $BlocksButtonPrevious
 func _ready():
 # warning-ignore:return_value_discarded
 	connect("visibility_changed", self, "_on_Hint_Screen_visibility_changed")
-#	challenge_system.connect("challenge_completed", self, "_on_Challenge_System_challenge_completed")
-#	challenge_system.connect("challenge_stopped", self, "_on_Challenge_System_challenge_stopped")
+	challenge_system.connect("challenge_completed", self, "_on_Challenge_System_challenge_completed")
+	challenge_system.connect("challenge_stopped", self, "_on_Challenge_System_challenge_stopped")
 	set_defaults()
 
 
