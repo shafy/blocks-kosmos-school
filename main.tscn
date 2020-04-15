@@ -44,15 +44,15 @@ data = PoolByteArray( 0, 0, 255, 255, 0, 0, 2, 0, 0, 0, 254, 255, 1, 0, 2, 0, 25
 format = 1
 stereo = true
 
-[sub_resource type="BoxShape" id=5]
+[sub_resource type="BoxShape" id=4]
 margin = 0.001
 extents = Vector3( 5, 0.11, 5 )
 
-[sub_resource type="ShaderMaterial" id=6]
+[sub_resource type="ShaderMaterial" id=5]
 shader = ExtResource( 17 )
 shader_param/color = Vector3( 1, 1, 1 )
 
-[sub_resource type="ShaderMaterial" id=7]
+[sub_resource type="ShaderMaterial" id=6]
 shader = ExtResource( 17 )
 shader_param/color = Vector3( 0.95, 0.95, 0.95 )
 
@@ -500,15 +500,15 @@ mode = 1
 
 [node name="CollisionShape" type="CollisionShape" parent="Table"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0871522, 0 )
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="TableMesh" type="MeshInstance" parent="Table"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.145994, 0 )
 use_in_baked_light = true
 mesh = ExtResource( 30 )
 material/0 = ExtResource( 22 )
-material/1 = SubResource( 6 )
-material/2 = SubResource( 7 )
+material/1 = SubResource( 5 )
+material/2 = SubResource( 6 )
 material/3 = ExtResource( 29 )
 
 [node name="SpaceText" type="Spatial" parent="."]

@@ -26,7 +26,6 @@ onready var objective_completed_sound = $AudioStreamPlayer3DObjective
 onready var challenge_completed_sound = $AudioStreamPlayer3DCompleted
 onready var main_node = get_node("/root/Main")
 
-
 export(PackedScene) var confetti_particles_scene
 
 
@@ -65,8 +64,8 @@ func objective_hit_update():
 
 
 func challenge_completed():
-	current_challenge = null
 	emit_signal("challenge_completed", current_challenge_index)
+	current_challenge = null
 	if challenge_completed_sound:
 		challenge_completed_sound.play()
 	show_confetti()
