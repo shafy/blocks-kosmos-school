@@ -10,14 +10,15 @@ export var challenge_index : int
 
 onready var challenge_system = get_node(global_vars.CHALLENGE_SYSTEM_PATH)
 onready var objectives = challenge_system.challenge_objectives(challenge_index)
+onready var challenges_done = challenge_system.challenges_done
 onready var title_label = $TitleLabel
 onready var body_label = $BodyLabel
 onready var description_label = $DescriptionLabel
-onready var challenges_done = challenge_system.challenges_done
 
 
 func _ready():
 	challenge_system.connect("objective_hit", self, "_on_Challenge_System_objective_hit")
+	challenge_system.connect("objectives_resetted", self, "_on_Challenge_System_objectives_resetted")
 	challenge_system.connect("challenge_completed", self, "_on_Challenge_System_challenge_completed")
 	challenge_system.connect("challenge_started", self, "_on_Challenge_System_challenge_started")
 	challenge_system.connect("challenge_stopped", self, "_on_Challenge_System_challenge_stopped")
@@ -49,6 +50,13 @@ func _on_Challenge_System_challenge_started(new_challenge_index):
 	body_label.set_label_text(new_text)
 	
 	# reset text
+	update_text()
+
+
+func _on_Challenge_System_objectives_resetted(new_challenge_index):
+	if new_challenge_index != challenge_index:
+		return
+		
 	update_text()
 
 
