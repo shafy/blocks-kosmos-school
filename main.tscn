@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/controller_grab.tscn" type="PackedScene" id=2]
@@ -8,8 +8,10 @@
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/Feature_ControllerModel_Right.tscn" type="PackedScene" id=6]
 [ext_resource path="res://OQ_Toolkit/OQ_ARVRController/Feature_ControllerModel_Left.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scripts/main.gd" type="Script" id=8]
+[ext_resource path="res://materials/dark_lax.tres" type="Material" id=9]
 [ext_resource path="res://scripts/controller_system.gd" type="Script" id=10]
 [ext_resource path="res://scripts/schematic.gd" type="Script" id=11]
+[ext_resource path="res://materials/dark_dark_lax.tres" type="Material" id=12]
 [ext_resource path="res://scripts/challenge.gd" type="Script" id=13]
 [ext_resource path="res://scripts/object_remover_system.gd" type="Script" id=14]
 [ext_resource path="res://scripts/challenge_system.gd" type="Script" id=15]
@@ -28,6 +30,7 @@
 [ext_resource path="res://materials/black.tres" type="Material" id=29]
 [ext_resource path="res://meshes/blocks_platform_3.mesh" type="ArrayMesh" id=30]
 [ext_resource path="res://scenes/confetti_particles.tscn" type="PackedScene" id=31]
+[ext_resource path="res://meshes/big_screen001.mesh" type="ArrayMesh" id=33]
 
 [sub_resource type="ProceduralSky" id=1]
 sky_top_color = Color( 0.972549, 0.792157, 0.670588, 1 )
@@ -515,10 +518,47 @@ material/3 = ExtResource( 29 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79502, -3.22103 )
 
 [node name="SpaceLabel" parent="SpaceText" instance=ExtResource( 18 )]
-transform = Transform( 21.2217, 0, 0, 0, 8.12099, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 19, 0, 0, 0, 8.7, 0, 0, 0, 1, 0, 0, 0 )
 text = "Welcome to Blöcks, friend.
 Press X to open your tablet."
+margin = 16
+billboard = false
+resize_mode = 1
 font_size_multiplier = 45.0
+font_color = Color( 1, 1, 1, 1 )
 background_color = Color( 0.75, 0.45, 0.45, 1 )
 h_align = 1
 v_align = 1
+
+[node name="SpaceLabelObjectives" parent="SpaceText" instance=ExtResource( 18 )]
+transform = Transform( 19, 0, 0, 0, 7, 0, 0, 0, 1, 0, -0.106453, 0 )
+visible = false
+text = "Welcome to Blöcks, friend.
+Press X to open your tablet."
+margin = 16
+billboard = false
+resize_mode = 1
+font_size_multiplier = 35.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0.74902, 0.45098, 0.45098, 0 )
+h_align = 0
+v_align = 1
+
+[node name="SpaceLabelTitle" parent="SpaceText" instance=ExtResource( 18 )]
+transform = Transform( 19, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0.370304, 0 )
+visible = false
+text = "Challenge 1"
+margin = 16
+billboard = false
+resize_mode = 1
+font_size_multiplier = 45.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0.74902, 0.45098, 0.45098, 0 )
+h_align = 0
+v_align = 1
+
+[node name="big_screen" type="MeshInstance" parent="SpaceText"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+mesh = ExtResource( 33 )
+material/0 = ExtResource( 9 )
+material/1 = ExtResource( 12 )
