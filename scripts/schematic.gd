@@ -5,6 +5,8 @@ extends Node
 class_name Schematic
 
 
+signal circuit_calculated(reset_objectives)
+
 var all_blocks = []
 var connections = []
 var loops_array = []
@@ -165,7 +167,7 @@ func block_has_connection(current_block : BuildingBlock) -> bool:
 	return false
 
 
-func loop_current_method():
+func loop_current_method(reset_objectives = true):
 	# we're doing circuit analysis using the loop current method (https://en.wikipedia.org/wiki/Mesh_analysis)
 	# also on KA: https://www.khanacademy.org/science/electrical-engineering/ee-circuit-analysis-topic/ee-dc-circuit-analysis/a/ee-loop-current-method
 	
@@ -293,6 +295,8 @@ func loop_current_method():
 	if !loop_current_solutions.empty():
 		if circuit_sound:
 			circuit_sound.play()
+	
+	emit_signal("circuit_calculated", reset_objectives)
 
 
 # resets block attributes

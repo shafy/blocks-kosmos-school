@@ -9,6 +9,7 @@ signal objective_hit
 signal challenge_completed
 signal challenge_started
 signal challenge_stopped
+signal objectives_resetted
 
 var all_challenges
 var current_challenge
@@ -34,6 +35,7 @@ func _ready():
 	# connect signals
 	ammeter_controller.connect("ampere_measured", self, "_on_Measure_Controller_ampere_measured")
 	voltmeter_controller.connect("volt_measured", self, "_on_Measure_Controller_volt_measured")
+	schematic.connect("circuit_calculated", self, "_on_Schematic_circuit_calculated")
 	
 	all_challenges = get_children()
 	
@@ -57,6 +59,12 @@ func _on_Measure_Controller_volt_measured(volt, blocks_between):
 		
 		if obj_hit:
 			objective_hit_update()
+
+
+func _on_Schematic_circuit_calculated(reset_objectives):
+	if reset_objectives == true:
+		current_challenge.reset_objectives()
+		emit_signal("objectives_resetted", current_challenge_index)
 
 
 func objective_hit_update():
