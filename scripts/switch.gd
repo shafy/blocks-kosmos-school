@@ -15,8 +15,8 @@ func _process(delta):
 			is_closed = false
 			# TODO: case for when there are more than 1 circuits
 			if get_snapped():
-				schematic.loop_current_method()
+				schematic.loop_current_method(false)
 		elif rot_x <= 12.0 and !is_closed:
 			is_closed = true
 			if get_snapped():
-				schematic.loop_current_method()
+				schematic.loop_current_method(false)
