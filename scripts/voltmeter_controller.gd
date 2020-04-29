@@ -70,8 +70,11 @@ func handle_vm(conn_ids : Array):
 
 func calculate_pot_diff(blocks_between : Array) -> float:
 	var pot_diff = 0.0
+	print(blocks_between)
 	for block in blocks_between:
 		
+		print(block.name)
+		print(block.invert_volt)
 		if block.invert_volt:
 			pot_diff += block.potential
 		else:

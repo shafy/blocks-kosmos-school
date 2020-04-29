@@ -35,11 +35,7 @@ script = ExtResource( 3 )
 [node name="TitleLabel" parent="AmmeterController" instance=ExtResource( 2 )]
 transform = Transform( 0.6, 0, 0, 0, 0.172534, 0.707109, 0, -0.172535, 0.707105, 0.009, 0.071, -0.067 )
 text = "Amperemeter"
-margin = 16
-billboard = false
-resize_mode = 1
 font_size_multiplier = 3.0
-font_color = Color( 1, 1, 1, 1 )
 background_color = Color( 0.1, 0.1, 0.1, 1 )
 h_align = 1
 v_align = 1
@@ -47,11 +43,7 @@ v_align = 1
 [node name="BodyLabel" parent="AmmeterController" instance=ExtResource( 2 )]
 transform = Transform( 0.6, 0, 0, 0, 0.212131, 0.707109, 0, -0.212133, 0.707105, 0.009, 0.049, -0.045 )
 text = "5.0 A"
-margin = 16
-billboard = false
-resize_mode = 1
 font_size_multiplier = 2.5
-font_color = Color( 1, 1, 1, 1 )
 background_color = Color( 0.101961, 0.101961, 0.101961, 1 )
 h_align = 1
 v_align = 1
@@ -75,11 +67,7 @@ script = ExtResource( 5 )
 [node name="TitleLabel" parent="VoltmeterController" instance=ExtResource( 2 )]
 transform = Transform( 0.6, 0, 0, 0, 0.172534, 0.707109, 0, -0.172535, 0.707105, 0.009, 0.0711159, -0.0671159 )
 text = "Voltmeter"
-margin = 16
-billboard = false
-resize_mode = 1
 font_size_multiplier = 3.0
-font_color = Color( 1, 1, 1, 1 )
 background_color = Color( 0.101961, 0.101961, 0.101961, 1 )
 h_align = 1
 v_align = 1
@@ -87,11 +75,7 @@ v_align = 1
 [node name="BodyLabel" parent="VoltmeterController" instance=ExtResource( 2 )]
 transform = Transform( 0.6, 0, 0, 0, 0.212131, 0.707109, 0, -0.212133, 0.707105, 0.009, 0.0492072, -0.0452073 )
 text = "3.0 V"
-margin = 16
-billboard = false
-resize_mode = 1
 font_size_multiplier = 2.5
-font_color = Color( 1, 1, 1, 1 )
 background_color = Color( 0.101961, 0.101961, 0.101961, 1 )
 h_align = 1
 v_align = 1
