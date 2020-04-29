@@ -388,6 +388,7 @@ func get_next_element(prev_block: BuildingBlock, prev_prev_block: BuildingBlock,
 	for i in range(connections.size()):
 		if connections[i][0]["block"] == prev_block and connections[i][1]["block"] != prev_prev_block:
 			# if there's a forced polarity for voltage source, skip rest of iteration if no match
+			
 			if force_polarity != SnapArea.Polarity.UNDEFINED and prev_block is VoltageSource:
 				if connections[i][0]["polarity"] != force_polarity:
 					continue
@@ -521,79 +522,83 @@ func add_loop(new_loop: Array):
 
 func get_blocks_between(conn_ids_1 : Array, conn_ids_2: Array) -> Dictionary:
 	var conn_array = []
-	var fail_safe_count = 0
-	var running = true
-	var block_1_1_index
-	var block_1_2_index
+	var connection_id_number = 0
 	
 	# get blocks (randomly take first connection id from conn_ids1, doesn't matter)
-	var conn_1_index = find_connection_by_id(conn_ids_1[0])
-	if conn_1_index == -1:
-		return conn_array
-	
-	var starting_conn = connections[conn_1_index]
-	var block_1_1 = starting_conn[0]["block"]
-	var block_1_2 = starting_conn[1]["block"]
-
-	var current_element = block_1_1
-	var prev_prev_element = block_1_2
-	
-	var current_connection_side = starting_conn[0]["connection_side"]
-	var current_polarity = starting_conn[0]["polarity"]
-	
-
-	while running and fail_safe_count < 30:
+	while connection_id_number <= conn_ids_1.size()-1 and conn_array.empty():
+		var fail_safe_count = 0
+		var running = true
+#		var block_1_1_index
+#		var block_1_2_index
+		var conn_1_index = find_connection_by_id(conn_ids_1[connection_id_number])
 		
-		var next_element_dict = get_next_element(current_element, prev_prev_element)
-		var next_element = next_element_dict["next_element"]
-		if !next_element:
-			# reset and start from the beginning
-			conn_array.clear()
-			current_element = block_1_1
-			prev_prev_element = block_1_2
-			fail_safe_count += 1
-			continue
+		connection_id_number += 1
+		
+		if conn_1_index == -1:
+			return conn_array
+		
+		var starting_conn = connections[conn_1_index]
+		var block_1_1 = starting_conn[0]["block"]
+		var block_1_2 = starting_conn[1]["block"]
+		var current_element = block_1_1
+		var prev_prev_element = block_1_2
+		var current_connection_side = starting_conn[0]["connection_side"]
+		var current_polarity = starting_conn[0]["polarity"]
+	
+		while running and fail_safe_count < 30:
 			
-		if current_connection_side != next_element_dict["connection_side_current_element"]:
-			
-			var next_connection = next_element_dict["connection"]
-			
-			# reset
-			current_element.invert_volt = false
-			
-			# need to see from which direction we came for this element
-			if current_element is VoltageSource:
-				if current_polarity == SnapArea.Polarity.NEGATIVE:
-					current_element.invert_volt = true
-			else:
-				if current_connection_side != current_element.positive_side:
-					current_element.invert_volt = true
-			
-			conn_array.append(current_element)
-			
-			# if same element as first, stop (not sure about this)
-			if conn_array.size() > 1 and current_element == conn_array[0]:
+			var next_element_dict = get_next_element(current_element, prev_prev_element)
+			var next_element = next_element_dict["next_element"]
+			if !next_element:
 				# reset and start from the beginning
 				conn_array.clear()
 				current_element = block_1_1
 				prev_prev_element = block_1_2
+				current_connection_side = starting_conn[0]["connection_side"]
+				current_polarity = starting_conn[0]["polarity"]
 				fail_safe_count += 1
 				continue
 			
-			# if second conn id found, stop
-			var next_connection_id = next_connection[2]
-			for conn_id_2 in conn_ids_2:
-				if next_connection_id == conn_id_2:
-					running = false
-					break
+			if current_connection_side != next_element_dict["connection_side_current_element"]:
+				
+				var next_connection = next_element_dict["connection"]
+				
+				# reset
+				current_element.invert_volt = false
+				
+				# need to see from which direction we came for this element
+				if current_element is VoltageSource:
+					if current_polarity == SnapArea.Polarity.NEGATIVE:
+						current_element.invert_volt = true
+				else:
+					if current_connection_side != current_element.positive_side:
+						current_element.invert_volt = true
+				
+				conn_array.append(current_element)
+				
+				# if same element as first, stop (not sure about this)
+				if conn_array.size() > 1 and current_element == conn_array[0]:
+					# reset and start from the beginning
+					conn_array.clear()
+					current_element = block_1_1
+					prev_prev_element = block_1_2
+					fail_safe_count += 1
+					continue
+				
+				# if second conn id found, stop
+				var next_connection_id = next_connection[2]
+				for conn_id_2 in conn_ids_2:
+					if next_connection_id == conn_id_2:
+						running = false
+						break
+			
+			prev_prev_element = current_element
+			current_element = next_element
+			current_connection_side = next_element_dict["connection_side"]
+			current_polarity = next_element_dict["polarity"]
+			
+			fail_safe_count += 1
 		
-		prev_prev_element = current_element
-		current_element = next_element
-		current_connection_side = next_element_dict["connection_side"]
-		current_polarity = next_element_dict["polarity"]
-		
-		fail_safe_count += 1
-	
 	return conn_array
 
 
