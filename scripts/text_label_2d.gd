@@ -72,6 +72,11 @@ func set_background_color(new_value):
 
 
 func _ready():
+	connect("visibility_changed", self, "_on_Text_Label_2D_visibility_changed")
+	
+	if !is_visible_in_tree():
+		set_process(false)
+		
 	ui_mesh = mesh_instance.mesh;
 	
 	set_alignment()
@@ -134,6 +139,14 @@ func _process(delta):
 	if text != prev_text:
 		resize()
 
+
+func _on_Text_Label_2D_visibility_changed():
+	# make sure we can't interact with this button if invisible
+	if !is_visible_in_tree():
+		set_process(false)
+	else:
+		set_process(true)
+#		set_physics_process(true)
 
 func resize():
 	match resize_mode:

@@ -4,9 +4,9 @@ extends Spatial
 # logic for challenge screen
 class_name ChallengeScreen
 
-var BODY_STANDARD_TEXT = "Build a circuit and reach the following objectives to complete this challenge:"
-var SIGN_STANDARD_TEXT = "Choose a challenge"
-var SIGN_SUCESS_TEXT = "Congratulations, move on to the next challenge..."
+var BODY_STANDARD_TEXT = "Build a circuit and reach the following objectives to complete this Challenge:"
+var SIGN_STANDARD_TEXT = "Choose a Challenge"
+var SIGN_SUCESS_TEXT = "Congratulations! On to the next Challenge!"
 
 export var challenge_index : int
 

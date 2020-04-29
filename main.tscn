@@ -521,11 +521,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79502, -3.22103 )
 transform = Transform( 19, 0, 0, 0, 8.7, 0, 0, 0, 1, 0, 0, 0 )
 text = "Welcome to Blöcks, friend.
 Press X to open your tablet."
-margin = 16
-billboard = false
-resize_mode = 1
 font_size_multiplier = 45.0
-font_color = Color( 1, 1, 1, 1 )
 background_color = Color( 0.75, 0.45, 0.45, 1 )
 h_align = 1
 v_align = 1
@@ -535,26 +531,16 @@ transform = Transform( 19, 0, 0, 0, 7, 0, 0, 0, 1, 0, -0.106453, 0 )
 visible = false
 text = "Welcome to Blöcks, friend.
 Press X to open your tablet."
-margin = 16
-billboard = false
-resize_mode = 1
 font_size_multiplier = 35.0
-font_color = Color( 1, 1, 1, 1 )
 background_color = Color( 0.74902, 0.45098, 0.45098, 0 )
-h_align = 0
 v_align = 1
 
 [node name="SpaceLabelTitle" parent="SpaceText" instance=ExtResource( 18 )]
 transform = Transform( 19, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0.370304, 0 )
 visible = false
 text = "Challenge 1"
-margin = 16
-billboard = false
-resize_mode = 1
 font_size_multiplier = 45.0
-font_color = Color( 1, 1, 1, 1 )
 background_color = Color( 0.74902, 0.45098, 0.45098, 0 )
-h_align = 0
 v_align = 1
 
 [node name="big_screen" type="MeshInstance" parent="SpaceText"]
